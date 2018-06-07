@@ -48,6 +48,7 @@ int main(void)
         uint16_t xx, yy;
 
         //initBall(&b, 10, 20, 1, 1);
+        //this is new
 
         init_usb_uart( 115200 ); // Initialize USB serial at 9600 baud
         init_spi_lcd(); // Init spi lcd
