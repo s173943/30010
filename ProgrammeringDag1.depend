@@ -465,10 +465,10 @@
 	"stm32f30x_conf.h"
 	<stdio.h>
 
-1528459997 source:c:\users\ander\documents\github\30010\src\ansi.c
+1528466053 source:c:\users\ander\documents\github\30010\src\ansi.c
 	"ansi.h"
 
-1528454125 c:\users\ander\documents\github\30010\inc\ansi.h
+1528465142 c:\users\ander\documents\github\30010\inc\ansi.h
 	"stm32f30x_conf.h"
 	<string.h>
 	"trigonometri.h"
@@ -493,10 +493,10 @@
 
 1528291786 c:\users\ander\documents\github\30010\inc\charset.h
 
-1528462984 source:c:\users\ander\documents\github\30010\src\lcd.c
+1528463208 source:c:\users\ander\documents\github\30010\src\lcd.c
 	"lcd.h"
 
-1528463024 c:\users\ander\documents\github\30010\inc\lcd.h
+1528463517 c:\users\ander\documents\github\30010\inc\lcd.h
 	"stm32f30x_conf.h"
 	<stdio.h>
 	<string.h>
@@ -525,7 +525,7 @@
 1528454125 source:c:\users\ander\documents\github\30010\src\trigonometri.c
 	"trigonometri.h"
 
-1528462716 source:c:\users\ander\documents\github\30010\src\main.c
+1528466053 source:c:\users\ander\documents\github\30010\src\main.c
 	"stm32f30x_conf.h"
 	"30010_io.h"
 	"ansi.h"

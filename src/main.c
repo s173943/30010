@@ -38,6 +38,18 @@ char * getInput() {
     return line;
 }
 
+void simpleMapToArray(uint8_t playingField[128][32]){
+    uint8_t i;
+    for (i = 0; i <= 100; i++) {
+        playingField[i][0] = 1;
+        playingField[i][31] = 1;
+    }
+    for (i = 2; i <= 10; i++) {
+        playingField[0][i] = 2;
+        playingField[100][31-i] = 2;
+    }
+}
+
 int main(void)
     {
         uint8_t xsize = 32, ysize = 6, x, oldx, oldsec, i;
@@ -48,16 +60,20 @@ int main(void)
         uint16_t xx, yy;
         uint8_t playingField[128][32];
 
+
         init_usb_uart( 115200 ); // Initialize USB serial at 9600 baud
         init_spi_lcd(); // Init spi lcd
 
+        clrscr();
+        showCursor(0);
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
 
-        for (i = 0; i <= 31; i++) {
-            playingField[i][i] = 1;
-        }
+        simpleMapToArray(playingField);
 
         convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
+
+        drawWindowFromArray(playingField);
 
         //initBall(&b, 10, 20, 1, 1);
         //this is new

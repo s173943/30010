@@ -231,3 +231,23 @@ void window(uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2, char name[], uint8_t
     //Bottom right corner
     printf("%c", drcChar);
 }
+
+void drawWindowFromArray(uint8_t playingField[128][32]) {
+    // Takes a 128x32 array and outputs characters to the UART
+    // depending on the value in the array
+    uint8_t i, j;
+    for (i = 0; i <= 127; i++) {
+        for (j = 0; j <= 31; j++) {
+            gotoxy(i+1,j+1);
+            if (playingField[i][j] == 1) {
+                printf("%c", 196);
+            } else if (playingField[i][j] == 2) {
+                printf("%c", 179);
+            }
+        }
+    }
+}
+
+void drawChangeInArray() {
+    //
+}
