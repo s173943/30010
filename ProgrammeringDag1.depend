@@ -465,24 +465,24 @@
 	"stm32f30x_conf.h"
 	<stdio.h>
 
-1528291926 source:c:\users\ander\documents\github\30010\src\ansi.c
+1528459997 source:c:\users\ander\documents\github\30010\src\ansi.c
 	"ansi.h"
 
-1528453178 c:\users\ander\documents\github\30010\inc\ansi.h
+1528454125 c:\users\ander\documents\github\30010\inc\ansi.h
 	"stm32f30x_conf.h"
 	<string.h>
 	"trigonometri.h"
 	<stdio.h>
 	<stdlib.h>
 
-1528453165 c:\users\ander\documents\github\30010\inc\trigonometri.h
+1528454125 c:\users\ander\documents\github\30010\inc\trigonometri.h
 	"stm32f30x_conf.h"
 	<stdio.h>
 
 1528122374 source:c:\users\ander\documents\github\30010\src\ball.c
 	"ball.h"
 
-1528453202 c:\users\ander\documents\github\30010\inc\ball.h
+1528454125 c:\users\ander\documents\github\30010\inc\ball.h
 	"stm32f30x_conf.h"
 	"string.h"
 	"trigonometri.h"
@@ -493,10 +493,10 @@
 
 1528291786 c:\users\ander\documents\github\30010\inc\charset.h
 
-1528368449 source:c:\users\ander\documents\github\30010\src\lcd.c
+1528462984 source:c:\users\ander\documents\github\30010\src\lcd.c
 	"lcd.h"
 
-1528294897 c:\users\ander\documents\github\30010\inc\lcd.h
+1528463024 c:\users\ander\documents\github\30010\inc\lcd.h
 	"stm32f30x_conf.h"
 	<stdio.h>
 	<string.h>
@@ -514,14 +514,26 @@
 1527759739 source:c:\users\ander\documents\github\30010\src\system_stm32f30x.c
 	"stm32f30x.h"
 
-1528295009 source:c:\users\ander\documents\github\30010\src\timer.c
+1528454289 source:c:\users\ander\documents\github\30010\src\timer.c
 	"timer.h"
 
-1528294313 c:\users\ander\documents\github\30010\inc\timer.h
+1528454289 c:\users\ander\documents\github\30010\inc\timer.h
 	"stm32f30x_conf.h"
 	"lcd.h"
 	<stdio.h>
 
-1528453191 source:c:\users\ander\documents\github\30010\src\trigonometri.c
+1528454125 source:c:\users\ander\documents\github\30010\src\trigonometri.c
 	"trigonometri.h"
+
+1528462716 source:c:\users\ander\documents\github\30010\src\main.c
+	"stm32f30x_conf.h"
+	"30010_io.h"
+	"ansi.h"
+	"trigonometri.h"
+	"ball.h"
+	"pin_io.h"
+	"timer.h"
+	<stdio.h>
+	<stdlib.h>
+	"charset.h"
 

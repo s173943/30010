@@ -23,13 +23,10 @@ void reset_Buffer() {
     memset(lcdArray, 0x00, 512);
 }
 
-void lcd_update()
-{
-    if (updateLCD == 1)
-    {
+void lcd_update() {
+    if (updateLCD == 1) {
         updateCount++;
-        if (updateCount == 5)
-        {
+        if (updateCount == 5) {
             leftScrollingText(scrolling);
             updateCount = 0;
         }
@@ -70,7 +67,22 @@ void leftScrollingText(uint8_t lineNumber) {
         lcdArray[511] = temp[3];
 }
 
-void setScrolling(uint8_t x)
-{
+void setScrolling(uint8_t x) {
     scrolling = x;
+}
+
+void convertArrayToBuffer(uint8_t a[128][32]) {
+    // takes a big array (128x32) and sets the correct bits in
+    // the 512x8 bit buffer, updates the buffer, but does not push!
+    int i, j, h;
+    memset(lcdArray, 0x00, 512);
+    for (i = 0; i <= 3; i++) {
+        for (j = 0; j <= 127; j++) {
+            for (h = 0; h <= 7; h++) {
+                if (a[j][h+(i*8)] != 0x00) {
+                    lcdArray[j+(128*i)] |= (0x01 << (h));
+                }
+            }
+        }
+    }
 }

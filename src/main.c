@@ -40,19 +40,30 @@ char * getInput() {
 
 int main(void)
     {
-        uint8_t xsize = 32, ysize = 6, x, oldx, oldsec;
+        uint8_t xsize = 32, ysize = 6, x, oldx, oldsec, i;
         uint32_t a;
         struct ball_t b;
         char * input;
         char str1[12];
         uint16_t xx, yy;
-
-        //initBall(&b, 10, 20, 1, 1);
-        //this is new
+        uint8_t playingField[128][32];
 
         init_usb_uart( 115200 ); // Initialize USB serial at 9600 baud
         init_spi_lcd(); // Init spi lcd
 
+        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+
+        for (i = 0; i <= 31; i++) {
+            playingField[i][i] = 1;
+        }
+
+        convertArrayToBuffer(playingField);
+
+        //initBall(&b, 10, 20, 1, 1);
+        //this is new
+
+
+        /*
         setupLCD();
 
         resetTimer();
@@ -77,7 +88,7 @@ int main(void)
         gotoxy(22, 4);
         printf("-:--:--.--");
         gotoxy(22, 5);
-        printf("-:--:--.--");
+        printf("-:--:--.--");*/
 
         /*window(52, 12, 65, 14, "", 5);
         gotoxy(53,13);
@@ -85,7 +96,7 @@ int main(void)
 
         drawBall(&b, 59, 13);*/
 
-        configJoy();
+        /*configJoy();
         configLed();
         configTimer();
 
@@ -97,9 +108,10 @@ int main(void)
 
         oldsec = stopWatch.seconds;
         TIM2->CR1 |= 0x0001;
-        setScrolling(0x0C);
+        setScrolling(0x0C);*/
 
         while (1) {
+            /*
             if (updateLCD == 1)
             {
                 gotoxy(1,1);
@@ -115,7 +127,7 @@ int main(void)
                 lcd_write_string(str1,0x0000,0x0001);
 
                 lcd_update();
-            }
+            }*/
             /*
             gotoxy(40, 1);
             printf("Input here:                 ");

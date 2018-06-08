@@ -1,11 +1,11 @@
+#ifndef LCD_H
+#define LCD_H
+
 #include "stm32f30x_conf.h"
 #include <stdio.h>
 #include <string.h>
 #include "charset.h"
 #include "30010_io.h"
-
-#ifndef LCD_H
-#define LCD_H
 
 uint8_t updateLCD;
 uint8_t updateCount;
@@ -18,9 +18,7 @@ void lcd_update();
 void reset_Buffer();
 void leftScrollingText(uint8_t lineNumber);
 void setScrolling(uint8_t x);
-
-
-
+void convertArrayToBuffer(uint8_t a[128][32]);
 
 #endif //LCD_H
 
