@@ -18,14 +18,14 @@ void resetTimer() {
     stopWatch.hours = 0;
     stopWatch.minutes = 0;
     stopWatch.seconds = 0;
-    stopWatch.hseconds = 0;
+    stopWatch.dseconds = 0;
 }
 
 void TIM2_IRQHandler(void) {
-    stopWatch.hseconds++;
+    stopWatch.dseconds++;
 
-    if (stopWatch.hseconds == 100) {
-        stopWatch.hseconds = 0;
+    if (stopWatch.dseconds == 100) {
+        stopWatch.dseconds = 0;
         stopWatch.seconds++;
     }
     if (stopWatch.seconds == 60) {
@@ -36,7 +36,7 @@ void TIM2_IRQHandler(void) {
         stopWatch.minutes = 0;
         stopWatch.hours++;
     }
-    if (stopWatch.hseconds == 0 || (stopWatch.hseconds & updateSpeed) == updateSpeed) {
+    if (stopWatch.dseconds == 0 || (stopWatch.dseconds & updateSpeed) == updateSpeed) {
         updateLCD = 1;
     }
     TIM2->SR &= ~0x0001;

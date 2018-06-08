@@ -142,11 +142,11 @@ int main(void)
                 //setLed(0, 1, 0);
             } else if (strcmp(input, "split1") == 0) { // 4
                 gotoxy(22, 4);
-                printf("%01d:%02d:%02d.%02d", stopWatch.hours, stopWatch.minutes, stopWatch.seconds, stopWatch.hseconds);
+                printf("%01d:%02d:%02d.%02d", stopWatch.hours, stopWatch.minutes, stopWatch.seconds, stopWatch.dseconds);
                 //setLed(0, 0, 1);
             } else if (strcmp(input, "split2") == 0) { // 8
                 gotoxy(22, 5);
-                printf("%01d:%02d:%02d.%02d", stopWatch.hours, stopWatch.minutes, stopWatch.seconds, stopWatch.hseconds);
+                printf("%01d:%02d:%02d.%02d", stopWatch.hours, stopWatch.minutes, stopWatch.seconds, stopWatch.dseconds);
                 //setLed(1, 1, 1);
             } else if (strcmp(input, "stop") == 0) { // 16
                 TIM2->CR1 &= ~(0x0001);

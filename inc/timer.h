@@ -10,7 +10,7 @@ extern uint8_t updateLCD;
 #define updateSpeed 0x000a
 
 struct timer_t {
-    uint8_t hours, minutes, seconds, hseconds;
+    uint8_t hours, minutes, seconds, dseconds;
 };
 
 volatile struct timer_t stopWatch;
