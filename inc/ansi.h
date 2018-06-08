@@ -1,6 +1,6 @@
 #include "stm32f30x_conf.h"
 #include <string.h>
-#include "lut_trig.h"
+#include "trigonometri.h"
 #include <stdio.h>
 #include <stdlib.h>
 

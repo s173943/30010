@@ -5,8 +5,8 @@
 //
 // =====================================================================
 
-#ifndef LUT_TRIG_H
-#define LUT_TRIG_H
+#ifndef _TRIGONOMETRI_H_
+#define _TRIGONOMETRI_H_
 
 #include "stm32f30x_conf.h"
 #include <stdio.h>
@@ -31,4 +31,4 @@ int32_t sinus(int32_t n);
 int32_t cosinus(int32_t n);
 void rotate(struct vector_t *v, int32_t angle);
 
-#endif	// LUT_TRIG_H
+#endif	// _TRIGONOMETRI_H_

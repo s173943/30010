@@ -3,7 +3,7 @@
 
 #include "stm32f30x_conf.h"
 #include "string.h"
-#include "lut_trig.h"
+#include "trigonometri.h"
 #include "ansi.h"
 
 struct ball_t {
