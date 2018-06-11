@@ -13,6 +13,7 @@
 
 // === LUT SIZES ===
 #define SIN_SIZE 512
+
 #define FIX14_SHIFT 14
 
 #define FIX14_MULT(a, b) ( (a)*(b) >> FIX14_SHIFT )

@@ -19,6 +19,7 @@ void reset_Buffer();
 void leftScrollingText(uint8_t lineNumber);
 void setScrolling(uint8_t x);
 void convertArrayToBuffer(uint8_t a[128][32]);
+void player(uint16_t xx,uint16_t yy,uint8_t a[128][32]);
 
 #endif //LCD_H
 
