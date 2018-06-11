@@ -139,6 +139,12 @@ void setLed(uint8_t b, uint8_t g, uint8_t r) {
     }
 }
 
+void configSpeaker() {
+    // The speaker is located at PB10.
+    GPIOB->MODER &= ~(0x00000003 << (10 * 2));
+    GPIOB->MODER |= (0x00000002 << (10 * 2));
+}
+
 uint16_t readADC1() {
     pinSetup(0, 'A', 0, 0);
 
