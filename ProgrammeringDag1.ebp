@@ -94,6 +94,7 @@
 		<Unit filename="inc\ball.h" />
 		<Unit filename="inc\charset.h" />
 		<Unit filename="inc\lcd.h" />
+		<Unit filename="inc\menu.h" />
 		<Unit filename="inc\pin_io.h" />
 		<Unit filename="inc\stm32f30x.h" />
 		<Unit filename="inc\stm32f30x_conf.h" />
@@ -205,6 +206,9 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src\main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src\menu.c">
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="src\pin_io.c">
