@@ -78,6 +78,7 @@ int main(void){
 
         simpleMapToArray(playingField);
         ugandanKnuckles(playingField, 10, 3);
+        sanik(playingField, 50, 3);
 
         while (1) {
             if (updateLCD == 1){
