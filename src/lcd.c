@@ -90,8 +90,8 @@ void convertArrayToBuffer(uint8_t a[128][32]) {
 void updatePlayer(uint8_t a[128][32]){
     uint8_t i;
     uint16_t xx, yy;
-    xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(PLAYERMAX));
-    yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),(PLAYERMAX));
+    xx = FIX14_MULT(FIX14_DIV(readADC1(),4096),(PLAYERMAX));
+    yy = FIX14_MULT(FIX14_DIV(readADC2(),4096),(PLAYERMAX));
 
     // Remove everything in the player line.
     for (i = 1; i < 31; i++) {
