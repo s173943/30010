@@ -7,6 +7,7 @@
 *.obj
 *.elf
 *.elay
+*.depend
 
 # Linker output
 *.ilk
