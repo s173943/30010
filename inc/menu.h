@@ -7,4 +7,9 @@
 #include "charset.h"
 #include "30010_io.h"
 
+#define BLOCK 219
+
+void menu1();
+void ugandanKnuckles(uint8_t a[128][32], uint8_t x, uint8_t y);
+
 #endif

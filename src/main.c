@@ -77,6 +77,7 @@ int main(void){
         setScrolling(0x00); // No scrolling text on LCD
 
         simpleMapToArray(playingField);
+        ugandanKnuckles(playingField, 10, 3);
 
         while (1) {
             if (updateLCD == 1){
