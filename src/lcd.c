@@ -87,7 +87,7 @@ void convertArrayToBuffer(uint8_t a[128][32]) {
     }
 }
 
-void player(uint16_t xx, uint16_t yy,uint8_t a[128][32]){
+void player(uint16_t xx, uint16_t yy, uint8_t a[128][32]){
 
     uint8_t i;
     //player 1 init
@@ -101,17 +101,16 @@ void player(uint16_t xx, uint16_t yy,uint8_t a[128][32]){
         a[100][i]=2;
     }
 
+
     convertArrayToBuffer(a);
     lcd_push_buffer(*a);
+
 
     for (i = xx; i < 8+xx; i++) {
         a[0][i]=a[0][i+xx+7];
     }
 
-
     for (i = yy; i < 8+yy; i++) {
         a[100][i]=a[100][i+yy+7];
     }
-
-
 }

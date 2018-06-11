@@ -22,12 +22,10 @@
 #include <stdlib.h>
 #include "charset.h"
 
-/* defined in trigonmetri.c
+
 #define FIX14_SHIFT 14
 #define FIX14_MULT(a, b) ( (a)*(b) >> FIX14_SHIFT )
 #define FIX14_DIV(a, b) ( ((a) << FIX14_SHIFT) / b )
-*/
-
 
 extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;
@@ -52,10 +50,10 @@ void simpleMapToArray(uint8_t playingField[128][32],uint16_t x,uint16_t y){
         playingField[i][31] = 1;
     }
 
-    for (i = x; i <= 8+x; i++) {
+    for (i = x; i < 8+x; i++) {
         playingField[0][x] = 2;
     }
-    for (i = y; i <= 8+y; i++){
+    for (i = y; i < 8+y; i++){
         playingField[100][y] = 2;
     }
 }
@@ -72,12 +70,11 @@ int main(void){
 
         uint16_t xtest;
 
-        xx = FIX14_MULT(FIX14_DIV(readADC1(),4086),(22));
-        yy = FIX14_MULT(FIX14_DIV(readADC1(),4088),(22));
+        xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
+        yy = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
 
         init_usb_uart( 115200 ); // Initialize USB serial at 9600 baud
         init_spi_lcd(); // Init spi lcd
-        setupLCD();
 
         clrscr();
         showCursor(0);
@@ -95,17 +92,14 @@ int main(void){
 
         drawWindowFromArray(playingField);
 
-
+        setupLCD();
 
         while (1) {
 
             if (updateLCD == 1){
 
-                gotoxy(1,1);
-                xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(24));
-                printf("%d", xx);
-
-                yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),24);
+                xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
+                yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),(23));
 
                 player(xx,yy,playingField);
 
