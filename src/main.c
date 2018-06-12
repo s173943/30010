@@ -25,11 +25,11 @@
 extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;
 
+/*
 void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, int8_t y2){
     uint8_t i;
     for(i = y1; i <= y2; i++){
         playingField[x1][i] = 124;
-
         playingField[x2][i] = 124;
     }
     for(i = x1; i <= x2; i++){
@@ -37,6 +37,7 @@ void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, 
         playingField[i][y2] = 95;
     }
 }
+*/
 
 char * getInput() {
     char * line = malloc(32 * sizeof (char));
@@ -68,7 +69,6 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 }
 
 int main(void){
-<<<<<<< HEAD
 
         uint8_t xsize = 32, ysize = 6, x, oldx, oldsec, i;
         uint32_t a;
@@ -76,21 +76,20 @@ int main(void){
         char * input;
         char str1[12];
         uint16_t xx, yy;
-        uint8_t playingField[128][32];
+        uint8_t playingField[128][32], oldPlayingField[128][32];
         uint8_t testCount = 0;
 
         uint16_t xtest;
 
         xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
         yy = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
-=======
+
         //uint8_t xsize = 32, ysize = 6, x, oldx, oldsec, i;
         //uint32_t a;
         //struct ball_t b;
         //char * input;
         //char str1[12];
-        uint8_t playingField[128][32], oldPlayingField[128][32];
->>>>>>> c3ac497818d5d1f458596ad996f7d0d75cb32eb9
+
 
         init_usb_uart( 115200 ); // Initialize USB serial at 9600 baud
         init_spi_lcd(); // Init spi lcd
@@ -110,6 +109,8 @@ int main(void){
         ugandanKnuckles(playingField, 10, 3);
         sanik(playingField, 50, 3);
 
+        //convertArrayToBuffer(playingField);
+        //lcd_push_buffer(lcdArray);
 
 
 
@@ -117,13 +118,17 @@ int main(void){
 
         while (1) {
             if (updateLCD == 1){
-<<<<<<< HEAD
+
 
                 xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
                 yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),(23));
 
-                //player(xx,yy,playingField);
-                menuSquare(playingField, 10, 5, 20, 20);
+                //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+
+                //lcd_push_buffer(playingField);
+                //menuSquare(playingField, 10, 5, 20, 20);
+                //convertArrayToBuffer(playingField);
+                //lcd_push_buffer(playingField);
                 lcd_update();
                 //testCount++;
             }
@@ -139,13 +144,12 @@ int main(void){
                 testCount = 0;
             }
             */
-=======
                 updatePlayer(playingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
                 copyArray(*playingField, *oldPlayingField);
-            }
->>>>>>> c3ac497818d5d1f458596ad996f7d0d75cb32eb9
         }
 }
+
+
