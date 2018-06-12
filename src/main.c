@@ -85,6 +85,7 @@ int main(void){
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
                 copyArray(*playingField, *oldPlayingField);
+                updateLCD = 0;
             }
         }
 }
