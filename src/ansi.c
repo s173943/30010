@@ -238,16 +238,26 @@ void drawWindowFromArray(uint8_t playingField[128][32]) {
     uint8_t i, j;
     for (i = 0; i <= 127; i++) {
         for (j = 0; j <= 31; j++) {
-            gotoxy(i+1,j+1);
-            if (playingField[i][j] == 1) {
-                printf("%c", 196);
-            } else if (playingField[i][j] == 2) {
-                printf("%c", 179);
+            if (playingField[i][j] != 0) {
+                gotoxy(i+1,j+1);
+                printf("%c", playingField[i][j]);
             }
         }
     }
 }
 
-void drawChangeInArray() {
-    //
+void drawChangeInArray(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32]) {
+    uint8_t i, j;
+    for (i = 0; i <= 127; i++) {
+        for (j = 0; j <= 31; j++) {
+            if (playingField[i][j] != oldPlayingField[i][j]) {
+                gotoxy(i+1,j+1);
+                if (playingField[i][j] == 0) {
+                    printf("%c", 32);
+                } else {
+                    printf("%c", playingField[i][j]);
+                }
+            }
+        }
+    }
 }

@@ -6,6 +6,13 @@
 #include <string.h>
 #include "charset.h"
 #include "30010_io.h"
+#include "trigonometri.h"
+#include "pin_io.h"
+
+#define FIX14_SHIFT 14
+#define FIX14_MULT(a, b) ( (a)*(b) >> FIX14_SHIFT )
+#define FIX14_DIV(a, b) ( ((a) << FIX14_SHIFT) / b )
+#define PLAYERMAX 23
 
 uint8_t updateLCD;
 uint8_t updateCount;
@@ -19,7 +26,7 @@ void reset_Buffer();
 void leftScrollingText(uint8_t lineNumber);
 void setScrolling(uint8_t x);
 void convertArrayToBuffer(uint8_t a[128][32]);
-void player(uint16_t xx,uint16_t yy,uint8_t a[128][32]);
+void updatePlayer(uint8_t a[128][32]);
 
 #endif //LCD_H
 

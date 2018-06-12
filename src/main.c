@@ -22,11 +22,6 @@
 #include <stdlib.h>
 #include "charset.h"
 
-
-#define FIX14_SHIFT 14
-#define FIX14_MULT(a, b) ( (a)*(b) >> FIX14_SHIFT )
-#define FIX14_DIV(a, b) ( ((a) << FIX14_SHIFT) / b )
-
 extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;
 
@@ -56,22 +51,24 @@ char * getInput() {
     return line;
 }
 
-void simpleMapToArray(uint8_t playingField[128][32],uint16_t x,uint16_t y){
+void simpleMapToArray(uint8_t playingField[128][32]){
+    // 196 Horizontal line, 179 Vertical line.
     uint8_t i;
     for (i = 0; i <= 100; i++) {
-        playingField[i][0] = 1;
-        playingField[i][31] = 1;
+        playingField[i][0] = 196;
+        playingField[i][31] = 196;
     }
+}
 
-    for (i = x; i < 8+x; i++) {
-        playingField[0][x] = 2;
-    }
-    for (i = y; i < 8+y; i++){
-        playingField[100][y] = 2;
+void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
+    uint16_t i;
+    for (i = 0; i < 4096; i++) { // 128 * 32 = 4096
+        oldPlayingField[i] = playingField[i];
     }
 }
 
 int main(void){
+<<<<<<< HEAD
 
         uint8_t xsize = 32, ysize = 6, x, oldx, oldsec, i;
         uint32_t a;
@@ -86,27 +83,32 @@ int main(void){
 
         xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
         yy = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
+=======
+        //uint8_t xsize = 32, ysize = 6, x, oldx, oldsec, i;
+        //uint32_t a;
+        //struct ball_t b;
+        //char * input;
+        //char str1[12];
+        uint8_t playingField[128][32], oldPlayingField[128][32];
+>>>>>>> c3ac497818d5d1f458596ad996f7d0d75cb32eb9
 
         init_usb_uart( 115200 ); // Initialize USB serial at 9600 baud
         init_spi_lcd(); // Init spi lcd
+        setupLCD();
 
-        clrscr();
+        clrscr(); // Clear putty terminal
         showCursor(0);
-        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset playing field (to 0)
+        memset(oldPlayingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset old playing field (to 0)
 
         configTimer();
 
-        TIM2->CR1 |= 0x0001;
-        setScrolling(0x00);
+        TIM2->CR1 |= 0x0001; // Start timer
+        setScrolling(0x00); // No scrolling text on LCD
 
-        simpleMapToArray(playingField,xx,yy);
-
-        convertArrayToBuffer(playingField);
-        lcd_push_buffer(lcdArray);
-
-        drawWindowFromArray(playingField);
-
-        setupLCD();
+        simpleMapToArray(playingField);
+        ugandanKnuckles(playingField, 10, 3);
+        sanik(playingField, 50, 3);
 
 
 
@@ -114,8 +116,8 @@ int main(void){
 
 
         while (1) {
-
             if (updateLCD == 1){
+<<<<<<< HEAD
 
                 xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
                 yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),(23));
@@ -137,5 +139,13 @@ int main(void){
                 testCount = 0;
             }
             */
+=======
+                updatePlayer(playingField);
+                drawChangeInArray(playingField, oldPlayingField);
+                convertArrayToBuffer(playingField);
+                lcd_push_buffer(lcdArray);
+                copyArray(*playingField, *oldPlayingField);
+            }
+>>>>>>> c3ac497818d5d1f458596ad996f7d0d75cb32eb9
         }
 }

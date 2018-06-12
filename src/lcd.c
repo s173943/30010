@@ -74,7 +74,7 @@ void setScrolling(uint8_t x) {
 void convertArrayToBuffer(uint8_t a[128][32]) {
     // takes a big array (128x32) and sets the correct bits in
     // the 512x8 bit buffer, updates the buffer, but does not push!
-    int i, j, h;
+    uint8_t i, j, h;
     memset(lcdArray, 0x00, 512);
     for (i = 0; i <= 3; i++) {
         for (j = 0; j <= 127; j++) {
@@ -87,30 +87,25 @@ void convertArrayToBuffer(uint8_t a[128][32]) {
     }
 }
 
-void player(uint16_t xx, uint16_t yy, uint8_t a[128][32]){
-
+void updatePlayer(uint8_t a[128][32]){
     uint8_t i;
-    //player 1 init
+    uint16_t xx, yy;
+    xx = FIX14_MULT(FIX14_DIV(readADC1(),4096),(PLAYERMAX));
+    yy = FIX14_MULT(FIX14_DIV(readADC2(),4096),(PLAYERMAX));
 
-    for (i = xx; i < 8+xx; i++) {
-        a[0][i]=2;
+    // Remove everything in the player line.
+    for (i = 1; i < 31; i++) {
+        a[0][i] = 0;
+        a[100][i] = 0;
     }
 
-    //player 2 init
-    for (i = yy; i < 8+yy; i++) {
-        a[100][i]=2;
+    //player 1 replace
+    for (i = (xx+1); i < (xx+9); i++) {
+        a[0][i]=179;
     }
 
-
-    convertArrayToBuffer(a);
-    lcd_push_buffer(*a);
-
-
-    for (i = xx; i < 8+xx; i++) {
-        a[0][i]=a[0][i+xx+7];
-    }
-
-    for (i = yy; i < 8+yy; i++) {
-        a[100][i]=a[100][i+yy+7];
+    //player 2 replace
+    for (i = (yy+1); i < (yy+9); i++) {
+        a[100][i]=179;
     }
 }
