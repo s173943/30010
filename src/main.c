@@ -30,6 +30,19 @@
 extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;
 
+void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, int8_t y2){
+    uint8_t i;
+    for(i = y1; i <= y2; i++){
+        playingField[x1][i] = 124;
+
+        playingField[x2][i] = 124;
+    }
+    for(i = x1; i <= x2; i++){
+        playingField[i][y1] = 95;
+        playingField[i][y2] = 95;
+    }
+}
+
 char * getInput() {
     char * line = malloc(32 * sizeof (char));
     uint8_t x;
@@ -67,6 +80,7 @@ int main(void){
         char str1[12];
         uint16_t xx, yy;
         uint8_t playingField[128][32];
+        uint8_t testCount = 0;
 
         uint16_t xtest;
 
@@ -94,6 +108,11 @@ int main(void){
 
         setupLCD();
 
+
+
+
+
+
         while (1) {
 
             if (updateLCD == 1){
@@ -101,10 +120,22 @@ int main(void){
                 xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
                 yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),(23));
 
-                player(xx,yy,playingField);
-
+                //player(xx,yy,playingField);
+                menuSquare(playingField, 10, 5, 20, 20);
                 lcd_update();
+                //testCount++;
             }
+            /*
+            if(testCount == 1){
+                memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
 
+                lcd_push_buffer(playingField);
+                menuSquare(playingField, 10, 5, 20, 20);
+                convertArrayToBuffer(playingField);
+                lcd_push_buffer(playingField);
+
+                testCount = 0;
+            }
+            */
         }
 }
