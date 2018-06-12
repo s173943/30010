@@ -10,6 +10,9 @@
 #define BLOCK 219
 
 void menu1();
+
+void help(uint8_t a[128][32], uint8_t x, uint8_t y);
+void mode(uint8_t a[128][32], uint8_t x, uint8_t y);
 void level(uint8_t a[128][32], uint8_t x, uint8_t y);
 void play(uint8_t a[128][32], uint8_t x, uint8_t y);
 void level_medium(uint8_t a[128][32], uint8_t x, uint8_t y);
