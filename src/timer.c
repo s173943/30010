@@ -15,9 +15,10 @@ void configTimer2(){
 void configTimer3() {
     RCC->APB1ENR |= RCC_APB1Periph_TIM3;
     TIM3->CR1 = 0x0000;
-    TIM3->ARR = 0x0009C3FF; // 100 Hz
+    TIM3->ARR &= ~(0x0000FFFF);
+    TIM3->ARR |= 0x0000F9FF; // 1000 Hz. As it is 16 bits.
     TIM3->PSC = 0x0000; // Prescale = 0
-    TIM3->DIER |= 0x0001;
+    TIM3->DIER |= 0x0001 ;
     NVIC_SetPriority(TIM3_IRQn, 0);
     NVIC_EnableIRQ(TIM3_IRQn);
 }

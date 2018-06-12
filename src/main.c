@@ -72,9 +72,8 @@ int main(void){
         memset(oldPlayingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset old playing field (to 0)
 
         configTimer3();
-
+        configTimer2();
         TIM3->CR1 |= 0x0001; // Start timer
-        setScrolling(0x00); // No scrolling text on LCD
 
         simpleMapToArray(playingField);
 
