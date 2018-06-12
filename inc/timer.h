@@ -15,11 +15,11 @@ struct timer_t {
 
 volatile struct timer_t stopWatch;
 
-void configTimer3();
+void configTimer1();
 void configTimer2();
 void resetTimer2();
-void resetTimer3();
-void TIM3_IRQHandler(void);
+void resetTimer1();
+void TIM1_UP_TIM16_IRQHandler(void);
 
 #endif /* _TIMER_H_ */
 

@@ -71,9 +71,10 @@ int main(void){
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset playing field (to 0)
         memset(oldPlayingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset old playing field (to 0)
 
-        configTimer3();
+        configTimer1();
         configTimer2();
-        TIM3->CR1 |= 0x0001; // Start timer
+
+        TIM1->CR1 |= 0x0001; // Start timer
 
         simpleMapToArray(playingField);
 

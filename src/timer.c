@@ -5,29 +5,28 @@
 void configTimer2(){
     RCC->APB1ENR |= RCC_APB1Periph_TIM2;
     TIM2->CR1 = 0x0000;
-    TIM2->ARR = 0x0009C3FF; // 100 Hz
-    TIM2->PSC = 0x0000; // Prescale = 0
+    TIM2->ARR = 0x0000F9FF; // 100 Hz
+    TIM2->PSC = 0x0009; // Prescale = 9
     TIM2->DIER |= 0x0001;
-    NVIC_SetPriority(TIM2_IRQn, 1);
+    NVIC_SetPriority(TIM2_IRQn, 2);
     NVIC_EnableIRQ(TIM2_IRQn);
 }
 
-void configTimer3() {
-    RCC->APB1ENR |= RCC_APB1Periph_TIM3;
-    TIM3->CR1 = 0x0000;
-    TIM3->ARR &= ~(0x0000FFFF);
-    TIM3->ARR |= 0x0000F9FF; // 1000 Hz. As it is 16 bits.
-    TIM3->PSC = 0x0000; // Prescale = 0
-    TIM3->DIER |= 0x0001 ;
-    NVIC_SetPriority(TIM3_IRQn, 0);
-    NVIC_EnableIRQ(TIM3_IRQn);
+void configTimer1() {
+    RCC->APB2ENR |= RCC_APB2Periph_TIM1;
+    TIM1->CR1 = 0x0000;
+    TIM1->ARR = 0x0000F9FF; // 100 Hz.
+    TIM1->PSC = 0x0009; // Prescale = 9
+    TIM1->DIER |= 0x0001;
+    NVIC_SetPriority(TIM1_UP_TIM16_IRQn, 1);
+    NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
 }
 
 void resetTimer2() {
     //
 }
 
-void resetTimer3() {
+void resetTimer1() {
     TIM3->CR1 = 0x0000;
     TIM3->CNT = 0x00000000;
     stopWatch.hours = 0;
@@ -36,7 +35,7 @@ void resetTimer3() {
     stopWatch.dseconds = 0;
 }
 
-void TIM3_IRQHandler(void) {
+void TIM1_UP_TIM16_IRQHandler(void) {
     stopWatch.dseconds++;
 
     if (stopWatch.dseconds == 100) {
@@ -54,5 +53,5 @@ void TIM3_IRQHandler(void) {
     if (stopWatch.dseconds == 0 || (stopWatch.dseconds & updateSpeed) == updateSpeed) {
         updateLCD = 1;
     }
-    TIM3->SR &= ~0x0001;
+    TIM1->SR &= ~0x0001;
 }
