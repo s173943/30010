@@ -25,8 +25,8 @@
 extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;
 
-/*
-void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, int8_t y2){
+
+void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, int8_t y2,int8_t val, int8_t *selector){
     uint8_t i;
     for(i = y1; i <= y2; i++){
         playingField[x1][i] = 124;
@@ -36,8 +36,11 @@ void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, 
         playingField[i][y1] = 95;
         playingField[i][y2] = 95;
     }
+    if (val == *selector){
+        //blink
+    }
 }
-*/
+
 
 char * getInput() {
     char * line = malloc(32 * sizeof (char));
@@ -82,7 +85,7 @@ int main(void){
         uint16_t xtest;
 
         xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
-        yy = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
+        yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),(23));
 
         //uint8_t xsize = 32, ysize = 6, x, oldx, oldsec, i;
         //uint32_t a;
@@ -149,7 +152,6 @@ int main(void){
                 testCount = 0;
             }
             */
-
         }
 }
 
