@@ -6,7 +6,7 @@ void menu1(){
 }
 
 void level(uint8_t a[128][32], uint8_t x, uint8_t y){
-    	a[x+0][y+0] = BLOCK;
+        a[x+0][y+0] = BLOCK;
 	a[x+0][y+1] = BLOCK;
 	a[x+0][y+2] = BLOCK;
 	a[x+0][y+3] = BLOCK;

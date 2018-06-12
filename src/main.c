@@ -106,8 +106,8 @@ int main(void){
         setScrolling(0x00); // No scrolling text on LCD
 
         simpleMapToArray(playingField);
-        ugandanKnuckles(playingField, 10, 3);
-        sanik(playingField, 50, 3);
+        level_hard(playingField, 10, 3);
+        level_easy(playingField, 50, 3);
 
         //convertArrayToBuffer(playingField);
         //lcd_push_buffer(lcdArray);
