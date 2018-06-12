@@ -140,9 +140,16 @@ void setLed(uint8_t b, uint8_t g, uint8_t r) {
 }
 
 void configSpeaker() {
-    // The speaker is located at PB10.
+    // The speaker is located at PB10. TIM2 CH3
     GPIOB->MODER &= ~(0x00000003 << (10 * 2));
-    GPIOB->MODER |= (0x00000002 << (10 * 2));
+    GPIOB->MODER |= (0x00000002 << (10 * 2)); // Alternate function
+    GPIOB->PUPDR &= ~(0x00000003 << (10 * 2));
+    GPIOB->PUPDR |= (0x00000000 << (10 * 2)); // No pull
+    GPIOB->OSPEEDR &= ~(0x00000003 << (10 * 2));
+    GPIOB->OSPEEDR |=  (0x00000002 << (10 * 2)); // Medium speed (?)
+    GPIOB->OTYPER &= ~(0x0001 << (10));
+    GPIOB->OTYPER |=  (0x0000 << (10)); // Push/pull output register
+
 }
 
 uint16_t readADC1() {

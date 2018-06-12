@@ -62,7 +62,7 @@ int main(void){
         //char str1[12];
         uint8_t playingField[128][32], oldPlayingField[128][32];
 
-        init_usb_uart( 115200 ); // Initialize USB serial at 9600 baud
+        init_usb_uart( 115200 ); // Initialize USB serial at 115200 baud
         init_spi_lcd(); // Init spi lcd
         setupLCD();
 
@@ -71,9 +71,9 @@ int main(void){
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset playing field (to 0)
         memset(oldPlayingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset old playing field (to 0)
 
-        configTimer();
+        configTimer3();
 
-        TIM2->CR1 |= 0x0001; // Start timer
+        TIM3->CR1 |= 0x0001; // Start timer
         setScrolling(0x00); // No scrolling text on LCD
 
         simpleMapToArray(playingField);
@@ -85,6 +85,7 @@ int main(void){
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
                 copyArray(*playingField, *oldPlayingField);
+                updateLCD = 0;
             }
         }
 }
