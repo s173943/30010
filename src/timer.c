@@ -5,11 +5,21 @@
 void configTimer2(){
     RCC->APB1ENR |= RCC_APB1Periph_TIM2;
     TIM2->CR1 = 0x0000;
-    TIM2->ARR = 0x0000F9FF; // 100 Hz
-    TIM2->PSC = 0x0009; // Prescale = 9
-    TIM2->DIER |= 0x0001;
-    NVIC_SetPriority(TIM2_IRQn, 2);
-    NVIC_EnableIRQ(TIM2_IRQn);
+    TIM2->ARR = 0x0000F9FF; // 10000 Hz
+    //TIM2->PSC = 0x0009; // Prescale = 9
+    //TIM2->DIER |= 0x0001;
+    //NVIC_SetPriority(TIM2_IRQn, 2);
+    //NVIC_EnableIRQ(TIM2_IRQn);
+    /*
+    GPIOB->MODER &= ~(0x00000003 << (10 * 2));
+    GPIOB->MODER |= (0x00000002 << (10 * 2));
+    GPIOB->PUPDR &= ~(0x00000003 << (10 * 2));
+    GPIOB->PUPDR |= (0x00000000 << (10 * 2));
+    TIM2->CCMR2= 0x00000060;
+    TIM2->CCR3 = 64000;
+    TIM2->EGR = 0x0009;
+    TIM2->CCER = 0x00000100;
+    */
 }
 
 void configTimer1() {
