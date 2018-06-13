@@ -100,12 +100,12 @@ void updatePlayer(uint8_t a[128][32]){
     }
 
     //player 1 replace
-    for (i = (xx+1); i < (xx+9); i++) {
+    for (i = (xx+1); i < (xx+11); i++) {
         a[0][i]=179;
     }
 
     //player 2 replace
-    for (i = (yy+1); i < (yy+9); i++) {
+    for (i = (yy+1); i < (yy+11); i++) {
         a[100][i]=179;
     }
 }

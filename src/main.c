@@ -79,7 +79,8 @@ int main(void){
         while (1) {
             if (updateLCD == 1){
                 updatePlayer(playingField);
-                updatePosition(&b, 1, 1, 100, 32);
+                removeBallFromArray(&b, playingField);
+                updatePosition(&b, 1, 1, 99, 31, playingField);
                 ballToArray(&b, playingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
