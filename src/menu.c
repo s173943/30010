@@ -1,9 +1,306 @@
 #include "menu.h"
 #include "ansi.h"
+#include "lcd.h"
+#include "timer.h"
+extern uint8_t updateLCD;
 
-void menu1(){
+void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],int8_t *menuSettings, uint16_t *testCount){
+    uint8_t x, oldx, menuTrack = 0;
+    //*testCount=0;
+    int8_t selector = 1;
 
+    while(((*menuSettings >> 0) & 1) == 0){
+        //if(updateLCD == 1){
+         //   *testCount = *testCount + 1;
+        //}
+        x=readJoystick();
+        gotoxy(1,1);
+        printf("test1");
+        if (menuTrack == 0){
+            gotoxy(1,2);
+            printf("test2");
+            //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+            startMenu(playingField, selector, testCount, &menuTrack);
+            drawChangeInArray(playingField, oldPlayingField);
+            convertArrayToBuffer(playingField);
+            lcd_push_buffer(lcdArray);
+            copyArray(*playingField, *oldPlayingField);
+
+            if (x!=oldx){
+                blinkSelect(4,&selector);
+                if((readJoystick()>>4)&1){
+                    switch(selector){
+                        case 1:
+                            *menuSettings |= (0x0001 << 0);
+                            //*startGame = 1;
+                            memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+                            //simpleMapToArray(playingField);
+
+                            break;
+                        case 2:
+                            memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+                            selector = 1;
+                            menuTrack = 2;
+                            break;
+                        case 3:
+                            memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+                            selector = 1;
+                            menuTrack = 3;
+                            break;
+                        case 4:
+                            memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+                            selector = 1;
+                            menuTrack = 4;
+                            break;
+                    }
+                }
+                oldx = x;
+            }
+        }
+        else if (menuTrack == 2){
+            levelMenu(playingField, selector, testCount, &menuTrack);
+            drawChangeInArray(playingField, oldPlayingField);
+            convertArrayToBuffer(playingField);
+            lcd_push_buffer(lcdArray);
+            copyArray(*playingField, *oldPlayingField);
+            if (x!=oldx){
+                blinkSelect(3,&selector);
+                if((readJoystick()>>4)&1){
+                    switch(selector){
+                        case 1:
+                            memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+                            *menuSettings |= (0x0001 << 2);
+                            //*difficulty = 1;
+                            menuTrack = 0;
+                            selector = 1;
+                            break;
+                        case 2:
+                            memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+                            *menuSettings |= (0x0001 << 3);
+                            //*difficulty = 2;
+                            menuTrack = 0;
+                            selector = 1;
+                            break;
+                        case 3:
+                            memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+                            *menuSettings |= (0x0001 << 4);
+                            //*difficulty = 3;
+                            menuTrack = 0;
+                            selector = 1;
+                            break;
+                    }
+                }
+
+                oldx = x;
+            }
+        }
+        else if (menuTrack == 3){
+            //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+            modeMenu(playingField, selector, testCount, &menuTrack);
+            drawChangeInArray(playingField, oldPlayingField);
+            convertArrayToBuffer(playingField);
+            lcd_push_buffer(lcdArray);
+            copyArray(*playingField, *oldPlayingField);
+
+            if (x!=oldx){
+                blinkSelect(2,&selector);
+                if((readJoystick()>>4)&1){
+                    switch(selector){
+                        case 1:
+                            *menuSettings |= (0x0001 << 1);
+                            //*playerMode = 1;
+                            menuTrack = 0;
+                            selector = 1;
+                            break;
+                        case 2:
+                            *menuSettings |= (0x0000 << 1);
+                            //*playerMode = 2;
+                            menuTrack = 0;
+                            selector = 1;
+                            break;
+                    }
+                }
+                oldx = x;
+            }
+        }
+        else if (menuTrack == 4){
+            //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+            helpMenu(playingField, selector, testCount, &menuTrack);
+            drawChangeInArray(playingField, oldPlayingField);
+            convertArrayToBuffer(playingField);
+            lcd_push_buffer(lcdArray);
+            copyArray(*playingField, *oldPlayingField);
+            if (x!=oldx){
+                blinkSelect(1,&selector);
+                if((readJoystick()>>4)&1){
+                    switch(selector){
+                        case 1:
+                            menuTrack = 0;
+                            selector = 1;
+                            break;
+                    }
+                }
+                oldx = x;
+            }
+        }
+        gotoxy(1,3);
+        printf("test3");
+        *testCount = *testCount +1;
+        lcd_update();
+    }
 }
+
+void helpMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack){
+    menuSquare(playingField, 3,2, 40,29, 1, selector, testCount);
+    level_easy(playingField,5,4);
+}
+
+void levelMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack){
+    menuSquare(playingField, 3,2, 40,29, 1, selector, testCount);
+    level_easy(playingField,5,4);
+
+    menuSquare(playingField, 44,2, 81,29, 2, selector, testCount);
+    level_medium(playingField,46,4);
+
+    menuSquare(playingField, 85,2, 122,29, 3, selector, testCount);
+    level_medium(playingField,87,4);
+}
+
+void modeMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack){
+    menuSquare(playingField, 3,2, 28,29, 1, selector, testCount);
+    sanik(playingField,6,5);
+
+    menuSquare(playingField, 32,2, 90,29, 2,selector, testCount);
+    sanik(playingField, 35,5);
+    ugandanKnuckles(playingField,59,4);
+}
+
+
+void startMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack){
+
+    menuSquare(playingField, 3,2, 29,13, 1, selector, testCount); //play
+    play(playingField, 5,4);
+
+    menuSquare(playingField, 33,2, 65,13, 2, selector, testCount); //level
+    level(playingField, 35,4);
+
+    menuSquare(playingField, 3,17, 29,28, 3, selector, testCount); //mode
+    mode(playingField, 5,19);
+
+    menuSquare(playingField, 33,17, 59,28, 4, selector, testCount); //mode
+    help(playingField,35,19);
+
+    logo(playingField,74,2);
+
+    convertArrayToBuffer(playingField);
+    lcd_push_buffer(lcdArray);
+
+/*
+    if((readJoystick()>>4&1)){
+        switch(selector){
+            case 1: //play
+                *menuTrack = 1;
+                break;
+            case 2: //mode
+                *menuTrack = 2;
+                break;
+            case 3: //level
+                *menuTrack = 3;
+                break;
+            case 4: //mode
+                *menuTrack = 4;
+                break;
+        }
+    }
+*/
+}
+
+void blinkSelect(int8_t maxWindows, int8_t * selector){
+    //uint8_t x,oldx;
+
+
+        if((readJoystick()>>3)&1){
+            *selector = *selector + 1;
+            if (*selector >= maxWindows+1){
+                *selector = 1;
+            }
+        }
+        else if((readJoystick()>>2)&1){
+            *selector = *selector - 1;
+            if (*selector <= 0){
+                *selector = maxWindows;
+            }
+        }
+        if(maxWindows == 4){
+            if((readJoystick() >> 0) & 1){
+                if (*selector+2 == 5){
+                    *selector = 1;
+                }
+                else if(*selector+2 == 6){
+                    *selector = 2;
+                }
+                else{
+                    *selector = *selector + 2;
+                }
+            }
+
+
+            if((readJoystick() >> 1) & 1){
+                if (*selector-2 == -1){
+                    *selector = 3;
+                }
+                else if(*selector-2 == 0){
+                    *selector = 4;
+                }
+                else{
+                    *selector = *selector -2;
+                }
+            }
+        }
+}
+
+
+void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, int8_t y2, int8_t val, int8_t selector, uint16_t *testCount){
+    uint8_t i;
+    if (val == selector){
+        if(*testCount == 20){
+            for(i = y1; i <= y2; i++){
+                playingField[x1][i] = 0;
+                playingField[x2][i] = 0;
+            }
+            for(i = x1; i <= x2; i++){
+                playingField[i][y1] = 0;
+                playingField[i][y2] = 0;
+            }
+
+        }
+        else if(*testCount == 40){
+            for(i = y1; i <= y2; i++){
+                playingField[x1][i] = 179;
+                playingField[x2][i] = 179;
+            }
+            for(i = x1; i <= x2; i++){
+                playingField[i][y1] = 95;
+                playingField[i][y2] = 95;
+            }
+        }
+        else if (*testCount == 60){
+            *testCount = 0;
+        }
+    }
+
+    else{
+        for(i = y1; i <= y2; i++){
+            playingField[x1][i] = 179;
+            playingField[x2][i] = 179;
+        }
+        for(i = x1; i <= x2; i++){
+            playingField[i][y1] = 95;
+            playingField[i][y2] = 95;
+        }
+    }
+}
+
 
 void help(uint8_t a[128][32], uint8_t x, uint8_t y){
     a[x+0][y+0] = BLOCK;
@@ -158,7 +455,7 @@ void mode(uint8_t a[128][32], uint8_t x, uint8_t y){
 }
 
 void level(uint8_t a[128][32], uint8_t x, uint8_t y){
-        a[x+0][y+0] = BLOCK;
+    a[x+0][y+0] = BLOCK;
 	a[x+0][y+1] = BLOCK;
 	a[x+0][y+2] = BLOCK;
 	a[x+0][y+3] = BLOCK;
@@ -166,56 +463,45 @@ void level(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+0][y+5] = BLOCK;
 	a[x+0][y+6] = BLOCK;
 	a[x+0][y+7] = BLOCK;
-	a[x+1][y+1] = BLOCK;
-	a[x+2][y+2] = BLOCK;
-	a[x+2][y+3] = BLOCK;
-	a[x+3][y+1] = BLOCK;
-	a[x+4][y+0] = BLOCK;
-	a[x+4][y+1] = BLOCK;
-	a[x+4][y+2] = BLOCK;
-	a[x+4][y+3] = BLOCK;
-	a[x+4][y+4] = BLOCK;
-	a[x+4][y+5] = BLOCK;
-	a[x+4][y+6] = BLOCK;
+	a[x+1][y+7] = BLOCK;
+	a[x+2][y+7] = BLOCK;
+	a[x+3][y+7] = BLOCK;
 	a[x+4][y+7] = BLOCK;
+	a[x+6][y+0] = BLOCK;
 	a[x+6][y+1] = BLOCK;
 	a[x+6][y+2] = BLOCK;
 	a[x+6][y+3] = BLOCK;
 	a[x+6][y+4] = BLOCK;
 	a[x+6][y+5] = BLOCK;
 	a[x+6][y+6] = BLOCK;
+	a[x+6][y+7] = BLOCK;
 	a[x+7][y+0] = BLOCK;
+	a[x+7][y+3] = BLOCK;
 	a[x+7][y+7] = BLOCK;
 	a[x+8][y+0] = BLOCK;
+	a[x+8][y+3] = BLOCK;
 	a[x+8][y+7] = BLOCK;
 	a[x+9][y+0] = BLOCK;
+	a[x+9][y+3] = BLOCK;
 	a[x+9][y+7] = BLOCK;
-	a[x+10][y+1] = BLOCK;
-	a[x+10][y+2] = BLOCK;
+	a[x+10][y+0] = BLOCK;
 	a[x+10][y+3] = BLOCK;
-	a[x+10][y+4] = BLOCK;
-	a[x+10][y+5] = BLOCK;
-	a[x+10][y+6] = BLOCK;
+	a[x+10][y+7] = BLOCK;
 	a[x+12][y+0] = BLOCK;
 	a[x+12][y+1] = BLOCK;
 	a[x+12][y+2] = BLOCK;
 	a[x+12][y+3] = BLOCK;
 	a[x+12][y+4] = BLOCK;
-	a[x+12][y+5] = BLOCK;
-	a[x+12][y+6] = BLOCK;
-	a[x+12][y+7] = BLOCK;
-	a[x+13][y+0] = BLOCK;
-	a[x+13][y+7] = BLOCK;
-	a[x+14][y+0] = BLOCK;
+	a[x+13][y+5] = BLOCK;
+	a[x+13][y+6] = BLOCK;
 	a[x+14][y+7] = BLOCK;
-	a[x+15][y+0] = BLOCK;
-	a[x+15][y+7] = BLOCK;
+	a[x+15][y+5] = BLOCK;
+	a[x+15][y+6] = BLOCK;
+	a[x+16][y+0] = BLOCK;
 	a[x+16][y+1] = BLOCK;
 	a[x+16][y+2] = BLOCK;
 	a[x+16][y+3] = BLOCK;
 	a[x+16][y+4] = BLOCK;
-	a[x+16][y+5] = BLOCK;
-	a[x+16][y+6] = BLOCK;
 	a[x+18][y+0] = BLOCK;
 	a[x+18][y+1] = BLOCK;
 	a[x+18][y+2] = BLOCK;
@@ -236,6 +522,18 @@ void level(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+22][y+0] = BLOCK;
 	a[x+22][y+3] = BLOCK;
 	a[x+22][y+7] = BLOCK;
+	a[x+24][y+0] = BLOCK;
+	a[x+24][y+1] = BLOCK;
+	a[x+24][y+2] = BLOCK;
+	a[x+24][y+3] = BLOCK;
+	a[x+24][y+4] = BLOCK;
+	a[x+24][y+5] = BLOCK;
+	a[x+24][y+6] = BLOCK;
+	a[x+24][y+7] = BLOCK;
+	a[x+25][y+7] = BLOCK;
+	a[x+26][y+7] = BLOCK;
+	a[x+27][y+7] = BLOCK;
+	a[x+28][y+7] = BLOCK;
 
 }
 
@@ -1996,4 +2294,286 @@ void sanik(uint8_t a[128][32], uint8_t x, uint8_t y) {
     a[x+7][y+yoffset] = BLOCK;
     a[x+8][y+yoffset] = BLOCK;
     a[x+9][y+yoffset] = BLOCK;
+}
+
+void logo(uint8_t a[128][32], uint8_t x, uint8_t y){
+		a[x+0][y+2] = BLOCK;
+	a[x+0][y+3] = BLOCK;
+	a[x+0][y+4] = BLOCK;
+	a[x+1][y+1] = BLOCK;
+	a[x+1][y+5] = BLOCK;
+	a[x+2][y+0] = BLOCK;
+	a[x+2][y+6] = BLOCK;
+	a[x+3][y+0] = BLOCK;
+	a[x+3][y+7] = BLOCK;
+	a[x+3][y+15] = BLOCK;
+	a[x+3][y+25] = BLOCK;
+	a[x+4][y+0] = BLOCK;
+	a[x+4][y+8] = BLOCK;
+	a[x+4][y+14] = BLOCK;
+	a[x+4][y+15] = BLOCK;
+	a[x+4][y+25] = BLOCK;
+	a[x+5][y+1] = BLOCK;
+	a[x+5][y+9] = BLOCK;
+	a[x+5][y+13] = BLOCK;
+	a[x+5][y+14] = BLOCK;
+	a[x+5][y+15] = BLOCK;
+	a[x+5][y+25] = BLOCK;
+	a[x+6][y+2] = BLOCK;
+	a[x+6][y+12] = BLOCK;
+	a[x+6][y+15] = BLOCK;
+	a[x+6][y+25] = BLOCK;
+	a[x+7][y+1] = BLOCK;
+	a[x+7][y+9] = BLOCK;
+	a[x+7][y+11] = BLOCK;
+	a[x+7][y+15] = BLOCK;
+	a[x+7][y+25] = BLOCK;
+	a[x+8][y+0] = BLOCK;
+	a[x+8][y+8] = BLOCK;
+	a[x+8][y+10] = BLOCK;
+	a[x+8][y+11] = BLOCK;
+	a[x+8][y+15] = BLOCK;
+	a[x+8][y+25] = BLOCK;
+	a[x+9][y+0] = BLOCK;
+	a[x+9][y+7] = BLOCK;
+	a[x+9][y+9] = BLOCK;
+	a[x+9][y+11] = BLOCK;
+	a[x+9][y+15] = BLOCK;
+	a[x+9][y+24] = BLOCK;
+	a[x+9][y+25] = BLOCK;
+	a[x+10][y+0] = BLOCK;
+	a[x+10][y+6] = BLOCK;
+	a[x+10][y+8] = BLOCK;
+	a[x+10][y+11] = BLOCK;
+	a[x+10][y+12] = BLOCK;
+	a[x+10][y+13] = BLOCK;
+	a[x+10][y+14] = BLOCK;
+	a[x+10][y+15] = BLOCK;
+	a[x+10][y+23] = BLOCK;
+	a[x+10][y+25] = BLOCK;
+	a[x+11][y+1] = BLOCK;
+	a[x+11][y+5] = BLOCK;
+	a[x+11][y+7] = BLOCK;
+	a[x+11][y+8] = BLOCK;
+	a[x+11][y+11] = BLOCK;
+	a[x+11][y+15] = BLOCK;
+	a[x+11][y+22] = BLOCK;
+	a[x+11][y+25] = BLOCK;
+	a[x+12][y+2] = BLOCK;
+	a[x+12][y+3] = BLOCK;
+	a[x+12][y+4] = BLOCK;
+	a[x+12][y+6] = BLOCK;
+	a[x+12][y+8] = BLOCK;
+	a[x+12][y+9] = BLOCK;
+	a[x+12][y+10] = BLOCK;
+	a[x+12][y+11] = BLOCK;
+	a[x+12][y+15] = BLOCK;
+	a[x+12][y+21] = BLOCK;
+	a[x+12][y+25] = BLOCK;
+	a[x+13][y+5] = BLOCK;
+	a[x+13][y+8] = BLOCK;
+	a[x+13][y+11] = BLOCK;
+	a[x+13][y+15] = BLOCK;
+	a[x+13][y+19] = BLOCK;
+	a[x+14][y+5] = BLOCK;
+	a[x+14][y+6] = BLOCK;
+	a[x+14][y+7] = BLOCK;
+	a[x+14][y+8] = BLOCK;
+	a[x+14][y+11] = BLOCK;
+	a[x+14][y+15] = BLOCK;
+	a[x+14][y+18] = BLOCK;
+	a[x+14][y+20] = BLOCK;
+	a[x+15][y+2] = BLOCK;
+	a[x+15][y+3] = BLOCK;
+	a[x+15][y+5] = BLOCK;
+	a[x+15][y+8] = BLOCK;
+	a[x+15][y+11] = BLOCK;
+	a[x+15][y+12] = BLOCK;
+	a[x+15][y+13] = BLOCK;
+	a[x+15][y+14] = BLOCK;
+	a[x+15][y+15] = BLOCK;
+	a[x+15][y+19] = BLOCK;
+	a[x+16][y+1] = BLOCK;
+	a[x+16][y+4] = BLOCK;
+	a[x+16][y+5] = BLOCK;
+	a[x+16][y+8] = BLOCK;
+	a[x+16][y+11] = BLOCK;
+	a[x+16][y+15] = BLOCK;
+	a[x+17][y+1] = BLOCK;
+	a[x+17][y+3] = BLOCK;
+	a[x+17][y+4] = BLOCK;
+	a[x+17][y+5] = BLOCK;
+	a[x+17][y+8] = BLOCK;
+	a[x+17][y+9] = BLOCK;
+	a[x+17][y+10] = BLOCK;
+	a[x+17][y+11] = BLOCK;
+	a[x+17][y+15] = BLOCK;
+	a[x+18][y+5] = BLOCK;
+	a[x+18][y+8] = BLOCK;
+	a[x+18][y+11] = BLOCK;
+	a[x+18][y+15] = BLOCK;
+	a[x+19][y+2] = BLOCK;
+	a[x+19][y+3] = BLOCK;
+	a[x+19][y+4] = BLOCK;
+	a[x+19][y+5] = BLOCK;
+	a[x+19][y+6] = BLOCK;
+	a[x+19][y+7] = BLOCK;
+	a[x+19][y+8] = BLOCK;
+	a[x+19][y+11] = BLOCK;
+	a[x+19][y+15] = BLOCK;
+	a[x+20][y+1] = BLOCK;
+	a[x+20][y+5] = BLOCK;
+	a[x+20][y+8] = BLOCK;
+	a[x+20][y+11] = BLOCK;
+	a[x+20][y+12] = BLOCK;
+	a[x+20][y+13] = BLOCK;
+	a[x+20][y+14] = BLOCK;
+	a[x+20][y+15] = BLOCK;
+	a[x+21][y+1] = BLOCK;
+	a[x+21][y+5] = BLOCK;
+	a[x+21][y+8] = BLOCK;
+	a[x+21][y+11] = BLOCK;
+	a[x+21][y+15] = BLOCK;
+	a[x+22][y+5] = BLOCK;
+	a[x+22][y+8] = BLOCK;
+	a[x+22][y+9] = BLOCK;
+	a[x+22][y+10] = BLOCK;
+	a[x+22][y+11] = BLOCK;
+	a[x+22][y+15] = BLOCK;
+	a[x+23][y+2] = BLOCK;
+	a[x+23][y+3] = BLOCK;
+	a[x+23][y+5] = BLOCK;
+	a[x+23][y+8] = BLOCK;
+	a[x+23][y+11] = BLOCK;
+	a[x+23][y+15] = BLOCK;
+	a[x+24][y+1] = BLOCK;
+	a[x+24][y+4] = BLOCK;
+	a[x+24][y+5] = BLOCK;
+	a[x+24][y+6] = BLOCK;
+	a[x+24][y+7] = BLOCK;
+	a[x+24][y+8] = BLOCK;
+	a[x+24][y+11] = BLOCK;
+	a[x+24][y+15] = BLOCK;
+	a[x+24][y+22] = BLOCK;
+	a[x+25][y+1] = BLOCK;
+	a[x+25][y+4] = BLOCK;
+	a[x+25][y+5] = BLOCK;
+	a[x+25][y+8] = BLOCK;
+	a[x+25][y+11] = BLOCK;
+	a[x+25][y+12] = BLOCK;
+	a[x+25][y+13] = BLOCK;
+	a[x+25][y+14] = BLOCK;
+	a[x+25][y+15] = BLOCK;
+	a[x+25][y+21] = BLOCK;
+	a[x+25][y+23] = BLOCK;
+	a[x+26][y+2] = BLOCK;
+	a[x+26][y+3] = BLOCK;
+	a[x+26][y+5] = BLOCK;
+	a[x+26][y+8] = BLOCK;
+	a[x+26][y+11] = BLOCK;
+	a[x+26][y+15] = BLOCK;
+	a[x+26][y+22] = BLOCK;
+	a[x+27][y+5] = BLOCK;
+	a[x+27][y+8] = BLOCK;
+	a[x+27][y+9] = BLOCK;
+	a[x+27][y+10] = BLOCK;
+	a[x+27][y+11] = BLOCK;
+	a[x+27][y+15] = BLOCK;
+	a[x+27][y+20] = BLOCK;
+	a[x+28][y+1] = BLOCK;
+	a[x+28][y+2] = BLOCK;
+	a[x+28][y+3] = BLOCK;
+	a[x+28][y+5] = BLOCK;
+	a[x+28][y+8] = BLOCK;
+	a[x+28][y+11] = BLOCK;
+	a[x+28][y+15] = BLOCK;
+	a[x+28][y+19] = BLOCK;
+	a[x+29][y+4] = BLOCK;
+	a[x+29][y+5] = BLOCK;
+	a[x+29][y+6] = BLOCK;
+	a[x+29][y+7] = BLOCK;
+	a[x+29][y+8] = BLOCK;
+	a[x+29][y+11] = BLOCK;
+	a[x+29][y+15] = BLOCK;
+	a[x+29][y+18] = BLOCK;
+	a[x+30][y+1] = BLOCK;
+	a[x+30][y+2] = BLOCK;
+	a[x+30][y+3] = BLOCK;
+	a[x+30][y+5] = BLOCK;
+	a[x+30][y+8] = BLOCK;
+	a[x+30][y+11] = BLOCK;
+	a[x+30][y+12] = BLOCK;
+	a[x+30][y+13] = BLOCK;
+	a[x+30][y+14] = BLOCK;
+	a[x+30][y+15] = BLOCK;
+	a[x+31][y+5] = BLOCK;
+	a[x+31][y+8] = BLOCK;
+	a[x+31][y+11] = BLOCK;
+	a[x+31][y+14] = BLOCK;
+	a[x+31][y+17] = BLOCK;
+	a[x+32][y+1] = BLOCK;
+	a[x+32][y+2] = BLOCK;
+	a[x+32][y+3] = BLOCK;
+	a[x+32][y+4] = BLOCK;
+	a[x+32][y+5] = BLOCK;
+	a[x+32][y+8] = BLOCK;
+	a[x+32][y+9] = BLOCK;
+	a[x+32][y+10] = BLOCK;
+	a[x+32][y+11] = BLOCK;
+	a[x+32][y+13] = BLOCK;
+	a[x+32][y+16] = BLOCK;
+	a[x+32][y+17] = BLOCK;
+	a[x+33][y+1] = BLOCK;
+	a[x+33][y+3] = BLOCK;
+	a[x+33][y+5] = BLOCK;
+	a[x+33][y+8] = BLOCK;
+	a[x+33][y+11] = BLOCK;
+	a[x+33][y+12] = BLOCK;
+	a[x+33][y+15] = BLOCK;
+	a[x+33][y+17] = BLOCK;
+	a[x+34][y+1] = BLOCK;
+	a[x+34][y+2] = BLOCK;
+	a[x+34][y+3] = BLOCK;
+	a[x+34][y+5] = BLOCK;
+	a[x+34][y+6] = BLOCK;
+	a[x+34][y+7] = BLOCK;
+	a[x+34][y+8] = BLOCK;
+	a[x+34][y+10] = BLOCK;
+	a[x+34][y+11] = BLOCK;
+	a[x+34][y+14] = BLOCK;
+	a[x+34][y+15] = BLOCK;
+	a[x+34][y+17] = BLOCK;
+	a[x+35][y+5] = BLOCK;
+	a[x+35][y+8] = BLOCK;
+	a[x+35][y+9] = BLOCK;
+	a[x+35][y+10] = BLOCK;
+	a[x+35][y+13] = BLOCK;
+	a[x+35][y+15] = BLOCK;
+	a[x+35][y+17] = BLOCK;
+	a[x+36][y+5] = BLOCK;
+	a[x+36][y+6] = BLOCK;
+	a[x+36][y+7] = BLOCK;
+	a[x+36][y+8] = BLOCK;
+	a[x+36][y+9] = BLOCK;
+	a[x+36][y+12] = BLOCK;
+	a[x+36][y+13] = BLOCK;
+	a[x+36][y+14] = BLOCK;
+	a[x+36][y+15] = BLOCK;
+	a[x+36][y+16] = BLOCK;
+	a[x+36][y+17] = BLOCK;
+	a[x+37][y+1] = BLOCK;
+	a[x+38][y+1] = BLOCK;
+	a[x+38][y+2] = BLOCK;
+	a[x+38][y+3] = BLOCK;
+	a[x+38][y+4] = BLOCK;
+	a[x+38][y+5] = BLOCK;
+	a[x+40][y+1] = BLOCK;
+	a[x+40][y+3] = BLOCK;
+	a[x+40][y+5] = BLOCK;
+	a[x+41][y+1] = BLOCK;
+	a[x+41][y+3] = BLOCK;
+	a[x+41][y+5] = BLOCK;
+	a[x+42][y+2] = BLOCK;
+	a[x+42][y+4] = BLOCK;
+
 }
