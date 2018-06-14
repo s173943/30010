@@ -121,8 +121,6 @@ int main(void){
 
         while (1) {
             if (updateLCD == 1){
-
-
                 xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
                 yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),(23));
 
@@ -132,7 +130,7 @@ int main(void){
                 //menuSquare(playingField, 10, 5, 20, 20);
                 //convertArrayToBuffer(playingField);
                 //lcd_push_buffer(playingField);
-                  updatePlayer(playingField);
+                updatePlayer(playingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);

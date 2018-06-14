@@ -1997,4 +1997,3 @@ void sanik(uint8_t a[128][32], uint8_t x, uint8_t y) {
     a[x+8][y+yoffset] = BLOCK;
     a[x+9][y+yoffset] = BLOCK;
 }
-
