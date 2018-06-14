@@ -2,6 +2,8 @@
 #include "ansi.h"
 #include "lcd.h"
 #include "timer.h"
+#include "ball.h"
+
 extern uint8_t updateLCD;
 
 void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],int8_t *menuSettings, uint16_t *testCount){
@@ -27,6 +29,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                             *menuSettings |= (0x0001 << 0);
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             simpleMapToArray(playingField);
+                            lvl1(10, 10, playingField);
                             break;
                         // Level
                         case 2:
