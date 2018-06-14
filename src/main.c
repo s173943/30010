@@ -56,7 +56,7 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 }
 
 int main(void){
-        uint8_t bgMusicState = 0, mode;
+        uint8_t bgMusicState = 0, mode = 1;
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32];
 

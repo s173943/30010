@@ -335,38 +335,61 @@ void speakerBGMusicTest() {
 
 void speakerBGMusic(uint8_t * n, uint8_t mode) {
     //*n *= 10; // Length of note multiplier
-    switch( * n ) {
-    case 10:
-        speakerNote('F', 3);
-        break;
-    case 20:
-        speakerNote('G', 2);
-        break;
-    case 30:
-        speakerNote('A', 3);
-        break;
-    case 40:
-        speakerNote('G', 3);
-        break;
-    case 50:
-        speakerNote('A', 2);
-        break;
-    case 60:
-        speakerNote('C', 4);
-        break;
-    case 70:
-        speakerNote('D', 3);
-        break;
-    case 80:
-        speakerNote('D', 4);
-        break;
-    case 90:
-        speakerNote('F', 3);
-        break;
-    case 100:
-        speakerNote('G', 3);
-        *n = 0;
-        break;
+    switch(mode) {
+        // Background music case
+        case 0:
+            switch( * n ) {
+            case 10:
+                speakerNote('F', 3);
+                break;
+            case 20:
+                speakerNote('G', 2);
+                break;
+            case 30:
+                speakerNote('A', 3);
+                break;
+            case 40:
+                speakerNote('G', 3);
+                break;
+            case 50:
+                speakerNote('A', 2);
+                break;
+            case 60:
+                speakerNote('C', 4);
+                break;
+            case 70:
+                speakerNote('D', 3);
+                break;
+            case 80:
+                speakerNote('D', 4);
+                break;
+            case 90:
+                speakerNote('F', 3);
+                break;
+            case 100:
+                speakerNote('G', 3);
+                *n = 0;
+                break;
+            }
+            break;
+        // Pling case
+        case 1:
+            switch( * n ) {
+            case 2:
+                speakerNote('A', 5);
+                break;
+            case 4:
+                speakerNote('B', 5);
+                break;
+            case 6:
+                speakerNote('D', 6);
+                break;
+            case 10:
+                setFreq(0);
+                *n = 0;
+                break;
+            }
+            break;
     }
     (*n)++;
 }
