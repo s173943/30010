@@ -64,7 +64,7 @@ int main(void){
         setupLCD();
 
         initBall(&b, 6, 6, 1, -1);
-        initBall(&c, 80, 6, -1, -1);
+        //initBall(&c, 80, 6, -1, -1);
 
         clrscr(); // Clear putty terminal
         showCursor(0);
@@ -76,17 +76,20 @@ int main(void){
         TIM2->CR1 |= 0x0001; // Start timer
         setScrolling(0x00); // No scrolling text on LCD
 
+        lvl1(10, 10, playingField);
+
         simpleMapToArray(playingField);
 
         while (1) {
             if (updateLCD == 1){
+
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
                 updatePosition(&b, 1, 1, 99, 31, playingField);
                 ballToArray(&b, playingField);
-                removeBallFromArray(&c, playingField);
-                updatePosition(&c, 1, 1, 99, 31, playingField);
-                ballToArray(&c, playingField);
+                //removeBallFromArray(&c, playingField);
+               // updatePosition(&c, 1, 1, 99, 31, playingField);
+               // ballToArray(&c, playingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
