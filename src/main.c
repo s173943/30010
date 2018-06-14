@@ -56,6 +56,7 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 
 int main(void){
         struct ball_t b;
+        struct ball_t c;
         uint8_t playingField[128][32], oldPlayingField[128][32];
 
         init_usb_uart( 115200 ); // Initialize USB serial at 9600 baud
@@ -63,6 +64,7 @@ int main(void){
         setupLCD();
 
         initBall(&b, 6, 6, 1, -1);
+        initBall(&c, 80, 6, -1, -1);
 
         clrscr(); // Clear putty terminal
         showCursor(0);
@@ -82,6 +84,9 @@ int main(void){
                 removeBallFromArray(&b, playingField);
                 updatePosition(&b, 1, 1, 99, 31, playingField);
                 ballToArray(&b, playingField);
+                removeBallFromArray(&c, playingField);
+                updatePosition(&c, 1, 1, 99, 31, playingField);
+                ballToArray(&c, playingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
