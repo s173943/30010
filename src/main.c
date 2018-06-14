@@ -35,9 +35,9 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 }
 
 int main(void){
-        uint8_t bgMusicState = 0, soundMode;
+        uint16_t bgMusicState = 0;
         struct ball_t b;
-        uint8_t playingField[128][32], oldPlayingField[128][32];
+        uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
         int8_t menuSettings = 0;
 
@@ -57,8 +57,6 @@ int main(void){
         configADCS();
         configSpeaker();
         configJoy();
-
-        speakerHB();
         setFreq(0);
 
         TIM1->CR1 |= 0x0001; // Start timer
