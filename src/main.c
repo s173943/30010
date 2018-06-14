@@ -56,7 +56,7 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 }
 
 int main(void){
-        uint8_t bgMusicState = 0, mode = 1;
+        uint8_t bgMusicState = 0, soundMode;
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32];
 
@@ -75,11 +75,15 @@ int main(void){
         configTimer2();
         configADCS();
         configSpeaker();
+
+        speakerHB();
         setFreq(0);
 
         TIM1->CR1 |= 0x0001; // Start timer
 
         simpleMapToArray(playingField);
+
+        soundMode = 0;
 
         while (1) {
             if (updateLCD == 1){
@@ -90,7 +94,7 @@ int main(void){
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
                 copyArray(*playingField, *oldPlayingField);
-                speakerBGMusic(&bgMusicState, mode);
+                speakerBGMusic(&bgMusicState, soundMode);
                 updateLCD = 0;
             }
         }
