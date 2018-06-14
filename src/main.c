@@ -62,11 +62,14 @@ int main(void){
         //char * input;
         //char str1[12];
         uint8_t bgMusicState = 0, mode;
+        struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32];
 
         init_usb_uart( 115200 ); // Initialize USB serial at 115200 baud
         init_spi_lcd(); // Init spi lcd
         setupLCD();
+
+        initBall(&b, 6, 6, 1, -1);
 
         clrscr(); // Clear putty terminal
         showCursor(0);
@@ -89,6 +92,8 @@ int main(void){
         while (1) {
             if (updateLCD == 1){
                 updatePlayer(playingField);
+                updatePosition(&b, 1, 1, 100, 32);
+                ballToArray(&b, playingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
