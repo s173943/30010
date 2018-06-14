@@ -24,7 +24,7 @@ struct vector_t {
 };
 
 // === LUT DECLARATIONS ===
-extern const signed short SIN[512];
+const signed short SIN[512];
 // === Other functions
 void printFix(int32_t i);
 int32_t expand(int32_t i);

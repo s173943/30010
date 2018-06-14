@@ -19,6 +19,7 @@ void configTimer1();
 void configTimer2();
 void resetTimer2();
 void resetTimer1();
+void wait();
 void TIM1_UP_TIM16_IRQHandler(void);
 
 #endif /* _TIMER_H_ */

@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "charset.h"
+#include "speaker.h"
 
 extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;
@@ -60,6 +61,7 @@ int main(void){
         //struct ball_t b;
         //char * input;
         //char str1[12];
+        uint8_t bgMusicState = 0, mode;
         uint8_t playingField[128][32], oldPlayingField[128][32];
 
         init_usb_uart( 115200 ); // Initialize USB serial at 115200 baud
@@ -73,6 +75,12 @@ int main(void){
 
         configTimer1();
         configTimer2();
+        configSpeaker();
+
+        //speakerPling();
+        //speakerHB();
+        //speakerMario();
+        //speakerBGMusicTest(); speakerBGMusicTest(); speakerBGMusicTest(); speakerBGMusicTest(); setFreq(0);
 
         TIM1->CR1 |= 0x0001; // Start timer
 
@@ -85,7 +93,13 @@ int main(void){
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
                 copyArray(*playingField, *oldPlayingField);
+                speakerBGMusic(&bgMusicState, mode);
                 updateLCD = 0;
+                /*if (bgMusicState == 5) {
+                    bgMusicState = 0;
+                } else {
+                    bgMusicState++;
+                }*/
             }
         }
 }
