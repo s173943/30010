@@ -140,9 +140,7 @@ void setLed(uint8_t b, uint8_t g, uint8_t r) {
     }
 }
 
-uint16_t readADC1() {
-    pinSetup(0, 'A', 0, 0);
-
+void configADCS() {
     RCC->CFGR2  &=  ~RCC_CFGR2_ADCPRE12;
     RCC->CFGR2  |=  RCC_CFGR2_ADCPRE12_DIV6;
     RCC->AHBENR |=  RCC_AHBPeriph_ADC12;
@@ -158,6 +156,10 @@ uint16_t readADC1() {
 
     ADC1->CR    |=  0x00000001;
     while(!(ADC1->ISR & 0x00000001));
+}
+
+uint16_t readADC1() {
+    pinSetup(0, 'A', 0, 0);
 
     ADC_RegularChannelConfig(ADC1, ADC_Channel_1, 1, ADC_SampleTime_1Cycles5);
     ADC_StartConversion(ADC1);
@@ -167,22 +169,6 @@ uint16_t readADC1() {
 
 uint16_t readADC2() {
     pinSetup(1, 'A', 0, 0);
-
-    RCC->CFGR2  &=  ~RCC_CFGR2_ADCPRE12;
-    RCC->CFGR2  |=  RCC_CFGR2_ADCPRE12_DIV6;
-    RCC->AHBENR |=  RCC_AHBPeriph_ADC12;
-
-    ADC1->CR    =   0x00000000;
-    ADC1->CFGR  &=  0xFDFFC007;
-    ADC1->SQR1  &=  ~ADC_SQR1_L;
-
-    ADC1->CR    |=  0x10000000;
-    for(int i = 0; i < 1000; i++);
-    ADC1->CR    |=  0x80000000;
-    for(int i = 0; i < 100; i++);
-
-    ADC1->CR    |=  0x00000001;
-    while(!(ADC1->ISR & 0x00000001));
 
     ADC_RegularChannelConfig(ADC1, ADC_Channel_2, 1, ADC_SampleTime_1Cycles5);
     ADC_StartConversion(ADC1);

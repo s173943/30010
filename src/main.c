@@ -73,6 +73,7 @@ int main(void){
 
         configTimer1();
         configTimer2();
+        configADCS();
         configSpeaker();
         setFreq(0);
 
