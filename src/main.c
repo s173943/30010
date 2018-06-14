@@ -88,5 +88,7 @@ int main(void){
                 copyArray(*playingField, *oldPlayingField);
                 updateLCD = 0;
             }
+
         }
+
 }
