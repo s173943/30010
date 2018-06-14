@@ -9,6 +9,7 @@ void configLed();
 uint8_t readJoystick();
 void setLed(uint8_t b, uint8_t g, uint8_t r);
 
+void configADCS();
 uint16_t readADC1();
 uint16_t readADC2();
 

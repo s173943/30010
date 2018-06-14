@@ -109,22 +109,3 @@ void updatePlayer(uint8_t a[128][32]){
         a[100][i]=179;
     }
 }
-
-void blinkText(uint8_t a[128][32]){
-    uint8_t emptyBuffer[128][32];
-    memset(emptyBuffer, 0x00, sizeof (uint8_t) * 128 * 32);
-    uint16_t testCount = 0;
-
-    if(updateLCD == 1){
-        testCount++;
-    }
-    if(testCount == 100){
-        convertArrayToBuffer(emptyBuffer);
-        lcd_push_buffer(emptyBuffer);
-    }
-    else if(testCount == 200){
-        convertArrayToBuffer(a);
-        lcd_push_buffer(a);
-        testCount = 0;
-    }
-}

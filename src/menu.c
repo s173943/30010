@@ -6,20 +6,12 @@ extern uint8_t updateLCD;
 
 void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],int8_t *menuSettings, uint16_t *testCount){
     uint8_t x, oldx, menuTrack = 0;
-    //*testCount=0;
     int8_t selector = 1;
 
     while(((*menuSettings >> 0) & 1) == 0){
-        //if(updateLCD == 1){
-         //   *testCount = *testCount + 1;
-        //}
         x=readJoystick();
         gotoxy(1,1);
-        printf("test1");
         if (menuTrack == 0){
-            gotoxy(1,2);
-            printf("test2");
-            //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
             startMenu(playingField, selector, testCount, &menuTrack);
             drawChangeInArray(playingField, oldPlayingField);
             convertArrayToBuffer(playingField);
@@ -30,24 +22,26 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                 blinkSelect(4,&selector);
                 if((readJoystick()>>4)&1){
                     switch(selector){
+                        // Play game
                         case 1:
                             *menuSettings |= (0x0001 << 0);
-                            //*startGame = 1;
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-                            //simpleMapToArray(playingField);
-
+                            simpleMapToArray(playingField);
                             break;
+                        // Level
                         case 2:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             selector = 1;
                             menuTrack = 2;
                             break;
+                        // Mode
                         case 3:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             selector = 1;
                             menuTrack = 3;
                             break;
                         case 4:
+                        // Help
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             selector = 1;
                             menuTrack = 4;
@@ -57,6 +51,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                 oldx = x;
             }
         }
+        // Level/Difficulty menu
         else if (menuTrack == 2){
             levelMenu(playingField, selector, testCount, &menuTrack);
             drawChangeInArray(playingField, oldPlayingField);
@@ -67,6 +62,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                 blinkSelect(3,&selector);
                 if((readJoystick()>>4)&1){
                     switch(selector){
+                        // Difficulty Easy
                         case 1:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             *menuSettings |= (0x0001 << 2);
@@ -74,6 +70,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                             menuTrack = 0;
                             selector = 1;
                             break;
+                        // Difficulty Medium
                         case 2:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             *menuSettings |= (0x0001 << 3);
@@ -81,6 +78,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                             menuTrack = 0;
                             selector = 1;
                             break;
+                        // Difficulty Hard
                         case 3:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             *menuSettings |= (0x0001 << 4);
@@ -94,8 +92,8 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                 oldx = x;
             }
         }
+        // Mode menu
         else if (menuTrack == 3){
-            //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
             modeMenu(playingField, selector, testCount, &menuTrack);
             drawChangeInArray(playingField, oldPlayingField);
             convertArrayToBuffer(playingField);
@@ -106,12 +104,14 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                 blinkSelect(2,&selector);
                 if((readJoystick()>>4)&1){
                     switch(selector){
+                        // One player
                         case 1:
                             *menuSettings |= (0x0001 << 1);
                             //*playerMode = 1;
                             menuTrack = 0;
                             selector = 1;
                             break;
+                        // Two player
                         case 2:
                             *menuSettings |= (0x0000 << 1);
                             //*playerMode = 2;
@@ -119,12 +119,13 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                             selector = 1;
                             break;
                     }
+                    memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                 }
                 oldx = x;
             }
         }
+        // Help menu
         else if (menuTrack == 4){
-            //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
             helpMenu(playingField, selector, testCount, &menuTrack);
             drawChangeInArray(playingField, oldPlayingField);
             convertArrayToBuffer(playingField);
@@ -134,19 +135,28 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                 blinkSelect(1,&selector);
                 if((readJoystick()>>4)&1){
                     switch(selector){
+                        // Help menu ?
                         case 1:
                             menuTrack = 0;
                             selector = 1;
                             break;
                     }
+                    memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                 }
                 oldx = x;
             }
         }
-        gotoxy(1,3);
-        printf("test3");
         *testCount = *testCount +1;
-        lcd_update();
+        //lcd_update();
+    }
+}
+
+void simpleMapToArray(uint8_t playingField[128][32]){
+    // 196 Horizontal line, 179 Vertical line.
+    uint8_t i;
+    for (i = 0; i <= 100; i++) {
+        playingField[i][0] = 196;
+        playingField[i][31] = 196;
     }
 }
 

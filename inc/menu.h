@@ -11,6 +11,7 @@
 
 void menuTree(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], int8_t *menuSettings, uint16_t *testCount);
 
+void simpleMapToArray(uint8_t playingField[128][32]);
 void blinkSelect(int8_t maxWindows, int8_t *selector);
 void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, int8_t y2,int8_t val, int8_t selector, uint16_t *testCount);
 void modeMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack);
