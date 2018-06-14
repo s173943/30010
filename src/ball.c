@@ -45,7 +45,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
 
 
 
-    if (cy <= ((y1+1) << FIX14_SHIFT) || cy >= ((y2) << FIX14_SHIFT)){ //bolden rammer top/bund
+    if (cy <= ((y1+1) << FIX14_SHIFT) || cy >= ((y2-1) << FIX14_SHIFT)){ //bolden rammer top/bund
         (b->vel).y = -((b->vel).y);
         cx = (b->pos).x + (b->vel).x;
         cy = (b->pos).y + (b->vel).y;
@@ -53,11 +53,9 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
 
 
 
-    if (cx <= ((x1+1) << FIX14_SHIFT) || cx >= ((x2-1) << FIX14_SHIFT)){ //når bolden rammer en striker
+    if (cx <= ((x1) << FIX14_SHIFT) || cx >= ((x2) << FIX14_SHIFT)){ //når bolden rammer en striker
         uint8_t i= 1; //ser om vi er til venstre eller højre. Hvis leftOrRight er 1, er vi til venstre.
         uint8_t leftOrRight = ((cx <= ((x1+1) << FIX14_SHIFT))?1:0);
-        strikerLeft=200;
-        strikerRight=200;
         for(i=1; i<32; i++){
             if (playingField[0][i] == 179){
                 strikerLeft = i;
@@ -65,7 +63,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
             }
         }
         for(i=1; i<32; i++){
-        if (playingField[100][i] == 179){
+            if (playingField[100][i] == 179){
                 strikerRight = i;
               break;
             }
@@ -97,7 +95,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
         printf("          ");
 
         if((leftOrRight)?(cy > ((strikerLeft) << FIX14_SHIFT) && cy <= ((len+strikerLeft) << FIX14_SHIFT)):(cy > (strikerRight << FIX14_SHIFT) && cy <= ((len+strikerRight) << FIX14_SHIFT))){  //toppen, tjekker
-            if((leftOrRight)?((b->vel).y<0):((b->vel).y>0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
+            if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
                 rotate(&(b->vel), -85);
             }else{
                 rotate(&(b->vel), 85);
@@ -106,22 +104,22 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
             printf("hit top");
         }
         //if(cy > (len+(strikerLeft)) && cy <= ((len*2)+(strikerLeft) << FIX14_SHIFT)){ //den næstøverste del
-        else if((leftOrRight)?(cy > (len+(strikerLeft)) && cy <= (((len*2)+strikerLeft) << FIX14_SHIFT)):(cy > (len+strikerRight) && cy <= (((len*2)+strikerRight) << FIX14_SHIFT))){  //nestøverste, tjekker
-                if((leftOrRight)?((b->vel).y<0):((b->vel).y>0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
-                    rotate(&(b->vel), -107);
-                }else{
-                    rotate(&(b->vel), 107);
-                }
+        else if((leftOrRight)?(cy > ((len+strikerLeft) << FIX14_SHIFT) && cy <= (((len*2)+strikerLeft) << FIX14_SHIFT)):(cy > ((len+strikerRight) << FIX14_SHIFT) && cy <= (((len*2)+strikerRight) << FIX14_SHIFT))){  //nestøverste, tjekker
+            if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
+                rotate(&(b->vel), -107);
+            }else{
+                rotate(&(b->vel), 107);
+            }
             gotoxy(50, 18);
             printf("hit midtop");
-            }
+        }
         else if((leftOrRight)?(cy > (((len*2)+strikerLeft) << FIX14_SHIFT) && cy <= (((len*3)+strikerLeft) << FIX14_SHIFT)):(cy > (((len*2)+strikerRight) << FIX14_SHIFT) && cy <= (((len*3)+strikerRight) << FIX14_SHIFT))){  //nestøverste, tjekker
                 (b->vel).x = -((b->vel).x);
                 gotoxy(50, 19);
                 printf("hit mid");
         }
         else if((leftOrRight)?(cy > (((len*3)+strikerLeft) << FIX14_SHIFT) && cy <= (((len*4)+strikerLeft) << FIX14_SHIFT)):(cy > (((len*3)+strikerRight) << FIX14_SHIFT) && cy <= (((len*4)+strikerRight) << FIX14_SHIFT))){  //nestøverste, tjekker
-             if((leftOrRight)?((b->vel).y<0):((b->vel).y>0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
+             if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
                 rotate(&(b->vel), -149);
             }else{
                 rotate(&(b->vel), 149);
@@ -131,7 +129,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
         }
         //if(cy > (((len*4)+(strikerLeft)) << FIX14_SHIFT) && cy < (strikerLeft << FIX14_SHIFT)){   //bunden
         else if((leftOrRight)?(cy > (((len*4)+strikerLeft) << FIX14_SHIFT) && cy < ((len*5)+strikerLeft) << FIX14_SHIFT):(cy > (((len*4)+strikerRight) << FIX14_SHIFT) && cy <= (((len*5)+strikerRight) << FIX14_SHIFT))){  //nestøverste, tjekker
-            if((leftOrRight)?((b->vel).y<0):((b->vel).y>0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
+            if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
                 rotate(&(b->vel), -171);
             }else{
                 rotate(&(b->vel), 171);
@@ -143,7 +141,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
         cy = (b->pos).y + (b->vel).y;
     }
 
-    if(cx <= ((x1) << FIX14_SHIFT) || cx >= ((x2) << FIX14_SHIFT)){ //uden for strikeren
+    if(cx < ((x1) << FIX14_SHIFT) || cx > ((x2) << FIX14_SHIFT)){ //uden for strikeren
             cx = 40 << FIX14_SHIFT;
             cy = 20 << FIX14_SHIFT;
     }
