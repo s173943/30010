@@ -26,6 +26,23 @@
 extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;
 
+
+void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, int8_t y2,int8_t val, int8_t *selector){
+    uint8_t i;
+    for(i = y1; i <= y2; i++){
+        playingField[x1][i] = 124;
+        playingField[x2][i] = 124;
+    }
+    for(i = x1; i <= x2; i++){
+        playingField[i][y1] = 95;
+        playingField[i][y2] = 95;
+    }
+    if (val == *selector){
+        //blink
+    }
+}
+
+
 char * getInput() {
     char * line = malloc(32 * sizeof (char));
     uint8_t x;
@@ -59,6 +76,7 @@ int main(void){
         uint8_t bgMusicState = 0, soundMode;
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32];
+        // test count
 
         init_usb_uart( 115200 ); // Initialize USB serial at 115200 baud
         init_spi_lcd(); // Init spi lcd
@@ -82,11 +100,29 @@ int main(void){
         TIM1->CR1 |= 0x0001; // Start timer
 
         simpleMapToArray(playingField);
+        level_hard(playingField, 10, 3);
+        level_easy(playingField, 50, 3);
+
+        //convertArrayToBuffer(playingField);
+        //lcd_push_buffer(lcdArray);
+
+
+
+
 
         soundMode = 0;
 
         while (1) {
             if (updateLCD == 1){
+                xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
+                yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),(23));
+
+                //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+
+                //lcd_push_buffer(playingField);
+                //menuSquare(playingField, 10, 5, 20, 20);
+                //convertArrayToBuffer(playingField);
+                //lcd_push_buffer(playingField);
                 updatePlayer(playingField);
                 updatePosition(&b, 1, 1, 100, 32);
                 ballToArray(&b, playingField);
@@ -96,6 +132,19 @@ int main(void){
                 copyArray(*playingField, *oldPlayingField);
                 speakerBGMusic(&bgMusicState, soundMode);
                 updateLCD = 0;
+                // lcd upadte noget
             }
+            /*
+            if(testCount == 1){
+                memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+
+                lcd_push_buffer(playingField);
+                menuSquare(playingField, 10, 5, 20, 20);
+                convertArrayToBuffer(playingField);
+                lcd_push_buffer(playingField);
+
+                testCount = 0;
+            }
+            */
         }
 }
