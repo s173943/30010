@@ -104,12 +104,12 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
     }
 
 
-    if (playingField[cx][cy] == 111){ //bolden rammer top/bund
+    /*if (playingField[cx][cy] == 111){ //bolden rammer top/bund
         (b->vel).x = -((b->vel).x);
         (b->vel).y = -((b->vel).y);
         cx = (b->pos).x + (b->vel).x;
         cy = (b->pos).y + (b->vel).y;
-    }
+    }*/
 
     (b->pos).x = cx;
     (b->pos).y = cy;
