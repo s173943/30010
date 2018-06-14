@@ -24,27 +24,12 @@ void removeBall(struct ball_t *b) {
     printf(" ");
 }
 
-
-
-
-
 void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint8_t playingField[128][32]){
     int32_t cx, cy, yy, len;
     int8_t strikerLeft, strikerRight;
     cx = (b->pos).x + (b->vel).x;
     cy = (b->pos).y + (b->vel).y;
     len = 2;
-    /*
-    gotoxy(50, 10);
-    printFix((b->vel).x);
-    gotoxy(50, 11);
-    printFix((b->vel).y);
-    gotoxy(50, 13);
-    printFix(MINVELX); //Burde printe 0.09425 laveste boldhastighed?
-    gotoxy(50, 14);
-    printFix(MINVElY); //Burde printe 0.34077 laveste boldhastighed?
-
-    */
 
     if (cy <= ((y1+1) << FIX14_SHIFT) || cy >= ((y2-1) << FIX14_SHIFT)){ //bolden rammer top/bund
         (b->vel).y = -((b->vel).y);
@@ -67,23 +52,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
               break;
             }
         }
-        /*
-        gotoxy(50, 25);
-        printf("%03d", strikerLeft);
-        gotoxy(50, 26);
-        printf("%03d", strikerRight);
 
-        gotoxy(50, 17);
-        printf("          ");
-        gotoxy(50, 18);
-        printf("          ");
-        gotoxy(50, 19);
-        printf("          ");
-        gotoxy(50, 20);
-        printf("          ");
-        gotoxy(50, 21);
-        printf("          ");
-        */
         if((leftOrRight)?(cy > ((strikerLeft) << FIX14_SHIFT) && cy <= ((len+strikerLeft) << FIX14_SHIFT)):(cy > (strikerRight << FIX14_SHIFT) && cy <= ((len+strikerRight) << FIX14_SHIFT))){  //toppen, tjekker
             if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
                 rotate(&(b->vel), -85);
@@ -141,15 +110,6 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
         cx = (b->pos).x + (b->vel).x;
         cy = (b->pos).y + (b->vel).y;
     }
-
-    /*
-    if(playingField[cx][cy] > 0){ //når bolden rammer en brick
-
-        if(playingField[cx][cy]==
-
-
-    }
-    */
 
     (b->pos).x = cx;
     (b->pos).y = cy;

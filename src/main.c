@@ -37,7 +37,6 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 int main(void){
         uint8_t bgMusicState = 0, soundMode;
         struct ball_t b;
-        struct ball_t c;
         uint8_t playingField[128][32], oldPlayingField[128][32];
         uint16_t testCount = 0;
         int8_t menuSettings = 0;
@@ -47,7 +46,6 @@ int main(void){
         setupLCD();
 
         initBall(&b, 6, 6, 1, -1);
-        initBall(&c, 80, 6, -1, -1);
 
         clrscr(); // Clear putty terminal
         showCursor(0);
@@ -72,19 +70,20 @@ int main(void){
             if (updateLCD == 1){
                 // Will hang in menu till play or something idk
                 menuTree(playingField,oldPlayingField, &menuSettings, &testCount);
-
+                // Update player and ball
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
                 updatePosition(&b, 1, 1, 99, 31, playingField);
                 ballToArray(&b, playingField);
-                removeBallFromArray(&c, playingField);
-                updatePosition(&c, 1, 1, 99, 31, playingField);
-                ballToArray(&c, playingField);
+                // Draw change in array and push buffer
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
+                // Copy array into oldArray, for comparison
                 copyArray(*playingField, *oldPlayingField);
+                // Cycle background music
                 speakerBGMusic(&bgMusicState, soundMode);
+                // Prepare for next update
                 updateLCD = 0;
             }
 
