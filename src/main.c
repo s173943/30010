@@ -56,13 +56,16 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 }
 
 int main(void){
+<<<<<<< HEAD
         //uint8_t xsize = 32, ysize = 6, x, oldx, oldsec, i;
         //uint32_t a;
         //struct ball_t b;
         //char * input;
         //char str1[12];
         uint8_t bgMusicState = 0, mode;
+=======
         struct ball_t b;
+>>>>>>> master
         uint8_t playingField[128][32], oldPlayingField[128][32];
 
         init_usb_uart( 115200 ); // Initialize USB serial at 115200 baud
