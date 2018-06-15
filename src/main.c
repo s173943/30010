@@ -55,6 +55,7 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 }
 
 int main(void){
+        uint8_t bricks;
         struct ball_t b;
         struct ball_t c;
         uint8_t playingField[128][32], oldPlayingField[128][32];
@@ -63,20 +64,20 @@ int main(void){
         init_spi_lcd(); // Init spi lcd
         setupLCD();
 
-        initBall(&b, 6, 6, 1, -1);
+        initBall(&b, 0, 0, 1, 1, 0);
         //initBall(&c, 80, 6, -1, -1);
 
         clrscr(); // Clear putty terminal
         showCursor(0);
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset playing field (to 0)
         memset(oldPlayingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset old playing field (to 0)
-
+        configJoy();
         configTimer();
 
         TIM2->CR1 |= 0x0001; // Start timer
         setScrolling(0x00); // No scrolling text on LCD
 
-        lvl1(10, 10, playingField);
+        lvl1(10, 10, playingField, &bricks);
 
         simpleMapToArray(playingField);
 
@@ -85,7 +86,7 @@ int main(void){
 
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
-                updatePosition(&b, 1, 1, 99, 31, playingField);
+                updatePosition(&b, 1, 1, 99, 31, playingField, &bricks);
                 ballToArray(&b, playingField);
                 //removeBallFromArray(&c, playingField);
                // updatePosition(&c, 1, 1, 99, 31, playingField);
