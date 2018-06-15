@@ -26,20 +26,7 @@ extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;
 
 
-void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, int8_t y2,int8_t val, int8_t *selector){
-    uint8_t i;
-    for(i = y1; i <= y2; i++){
-        playingField[x1][i] = 124;
-        playingField[x2][i] = 124;
-    }
-    for(i = x1; i <= x2; i++){
-        playingField[i][y1] = 95;
-        playingField[i][y2] = 95;
-    }
-    if (val == *selector){
-        //blink
-    }
-}
+
 
 
 char * getInput() {
@@ -111,6 +98,7 @@ int main(void){
         simpleMapToArray(playingField);
         level_hard(playingField, 10, 3);
         level_easy(playingField, 50, 3);
+        numberWrite(playingField, 50,15, 20);
 
         //convertArrayToBuffer(playingField);
         //lcd_push_buffer(lcdArray);
@@ -135,7 +123,7 @@ int main(void){
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
                 copyArray(*playingField, *oldPlayingField);
-                lcd_update();
+                //lcd_update();
                 //testCount++;
             }
             /*
