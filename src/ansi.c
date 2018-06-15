@@ -1,5 +1,7 @@
 #include "ansi.h"
+#include "string.h"
 #define ESC 0x1B
+
 
 void fgcolor(int foreground) {
 /*  Value      foreground     Value     foreground
@@ -261,3 +263,453 @@ void drawChangeInArray(uint8_t playingField[128][32], uint8_t oldPlayingField[12
         }
     }
 }
+
+void numberWrite(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t number){
+    int8_t BLOCK = 50;
+    char str[4];
+    sprintf(str, "%d", number);
+    if (strlen(str) == 1){
+        switch(str[0]){
+            case 49:
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+1] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+1] = BLOCK;
+                a[x+2][y+2] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+4] = BLOCK;
+                a[x+2][y+5] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            case 50:
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+4] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+2] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            case 51:
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                break;
+            case 52:
+                a[x+0][y+0] = BLOCK;
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+3] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+4][y+0] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+3] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            case 53:
+                a[x+0][y+0] = BLOCK;
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+3] = BLOCK;
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+0] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                break;
+            case 54:
+
+                break;
+            case 55:
+                a[x+0][y+0] = BLOCK;
+                a[x+0][y+1] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+4] = BLOCK;
+                a[x+1][y+5] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+2] = BLOCK;
+                a[x+4][y+0] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                break;
+
+
+            case 56:
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+4] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                break;
+
+            case 57:
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+1] = BLOCK;
+                a[x+1][y+2] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+4] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+1] = BLOCK;
+                a[x+2][y+2] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+4] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+1] = BLOCK;
+                a[x+3][y+2] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+3] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+        }
+    }
+        else if (strlen(str) == 2){
+            switch(str[0]){
+                            case 49:
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+1] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+1] = BLOCK;
+                a[x+2][y+2] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+4] = BLOCK;
+                a[x+2][y+5] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            case 50:
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+4] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+2] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            case 51:
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                break;
+            case 52:
+                a[x+0][y+0] = BLOCK;
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+3] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+4][y+0] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+3] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            case 53:
+                a[x+0][y+0] = BLOCK;
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+3] = BLOCK;
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+0] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                break;
+            case 54:
+
+                break;
+            case 55:
+                a[x+0][y+0] = BLOCK;
+                a[x+0][y+1] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+4] = BLOCK;
+                a[x+1][y+5] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+2] = BLOCK;
+                a[x+4][y+0] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                break;
+
+
+            case 56:
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+4] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                break;
+
+            case 57:
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+1] = BLOCK;
+                a[x+1][y+2] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+4] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+1] = BLOCK;
+                a[x+2][y+2] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+4] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+1] = BLOCK;
+                a[x+3][y+2] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+3] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            }
+            x+=6;
+            switch(str[1]){
+                            case 49:
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+1] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+1] = BLOCK;
+                a[x+2][y+2] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+4] = BLOCK;
+                a[x+2][y+5] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            case 50:
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+4] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+2] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            case 51:
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                break;
+            case 52:
+                a[x+0][y+0] = BLOCK;
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+3] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+4][y+0] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+3] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            case 53:
+                a[x+0][y+0] = BLOCK;
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+3] = BLOCK;
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+0] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                break;
+            case 54:
+
+                break;
+            case 55:
+                a[x+0][y+0] = BLOCK;
+                a[x+0][y+1] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+4] = BLOCK;
+                a[x+1][y+5] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+2] = BLOCK;
+                a[x+4][y+0] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                break;
+
+
+            case 56:
+                a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+4] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                break;
+
+            case 57:
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+0][y+6] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+1] = BLOCK;
+                a[x+1][y+2] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+4] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+1] = BLOCK;
+                a[x+2][y+2] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+4] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+1] = BLOCK;
+                a[x+3][y+2] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+3] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+                a[x+4][y+6] = BLOCK;
+                break;
+            }
+        }
+    }
+
