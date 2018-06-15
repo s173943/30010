@@ -267,107 +267,107 @@ void speakerBGMusic(uint16_t * n, uint8_t mode) {
             switch( * n ) {
             // First
             case (1*TAKT):
-                speakerNote('A', 5);
+                speakerNote('A', 4);
                 break;
             case (2*TAKT):
-                speakerNote('C', 6);
+                speakerNote('C', 5);
                 break;
             case (3*TAKT):
-                speakerNote('E', 6);
+                speakerNote('E', 5);
                 break;
             case (4*TAKT):
-                speakerNote('E', 5);
+                speakerNote('E', 4);
                 break;
             // Second
             case (5*TAKT):
-                speakerNote('C', 5);
+                speakerNote('C', 4);
                 break;
             case (6*TAKT):
-                speakerNote('A', 4);
+                speakerNote('A', 3);
                 break;
             case (7*TAKT):
-                speakerNote('A', 5);
+                speakerNote('A', 4);
                 break;
             case (8*TAKT):
-                speakerNote('C', 6);
+                speakerNote('C', 5);
                 break;
             // Third
             case (9*TAKT):
-                speakerNote('E', 6);
-                break;
-            case (10*TAKT):
                 speakerNote('E', 5);
                 break;
+            case (10*TAKT):
+                speakerNote('E', 4);
+                break;
             case (11*TAKT):
-                speakerNote('C', 5);
+                speakerNote('C', 4);
                 break;
             case (12*TAKT):
-                speakerNote('A', 4);
+                speakerNote('A', 3);
                 break;
             // Fourth
             case (13*TAKT):
-                speakerNote('A', 5);
+                speakerNote('A', 4);
                 break;
             case (14*TAKT):
-                speakerNote('C', 6);
+                speakerNote('C', 5);
                 break;
             case (15*TAKT):
-                speakerNote('G', 5);
+                speakerNote('G', 4);
                 break;
             case (16*TAKT):
-                speakerNote('B', 5);
+                speakerNote('B', 4);
                 break;
             // Fifth
             case (17*TAKT):
-                speakerNote('A', 5);
+                speakerNote('A', 4);
                 break;
             case (18*TAKT):
-                speakerNote('C', 6);
+                speakerNote('C', 5);
                 break;
             case (19*TAKT):
-                speakerNote('E', 6);
+                speakerNote('E', 5);
                 break;
             case (20*TAKT):
-                speakerNote('E', 5);
+                speakerNote('E', 4);
                 break;
             // Sixth
             case (21*TAKT):
-                speakerNote('C', 5);
+                speakerNote('C', 4);
                 break;
             case (22*TAKT):
-                speakerNote('A', 4);
+                speakerNote('A', 3);
                 break;
             case (23*TAKT):
-                speakerNote('A', 5);
+                speakerNote('A', 4);
                 break;
             case (24*TAKT):
-                speakerNote('C', 6);
+                speakerNote('C', 5);
                 break;
             // Seventh
             case (25*TAKT):
-                speakerNote('E', 6);
-                break;
-            case (26*TAKT):
                 speakerNote('E', 5);
                 break;
+            case (26*TAKT):
+                speakerNote('E', 4);
+                break;
             case (27*TAKT):
-                speakerNote('C', 5);
+                speakerNote('C', 4);
                 break;
             case (28*TAKT):
-                speakerNote('A', 4);
+                speakerNote('A', 5);
                 break;
             // Eigth
             case (29*TAKT):
-                speakerNote('B', 5);
+                speakerNote('B', 4);
                 break;
             case (30*TAKT):
-                speakerNote('D', 6);
+                speakerNote('D', 5);
                 break;
             case (31*TAKT):
-                speakerNote('F', 6);
+                speakerNote('F', 5);
                 break;
             case (32*TAKT):
-                speakerNote('F', 5);
+                speakerNote('F', 4);
                 *n = 0;
                 break;
             }

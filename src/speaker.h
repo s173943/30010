@@ -4,7 +4,7 @@
 #include "stm32f30x_conf.h"
 #include "timer.h"
 
-#define TAKT 2
+#define TAKT 3
 
 void configSpeaker();
 void setFreq(uint16_t freq);
