@@ -73,7 +73,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
     }
     cx = (b->pos).x + (b->vel).x;
     cy = (b->pos).y + (b->vel).y;
-    leftOrRight = ((cx <= ((x1+1) << FIX14_SHIFT))?1:0);     //ser om vi er til venstre eller h�jre. Hvis leftOrRight er 1, er vi til venstre.
+    leftOrRight = ((cx <= ((x1+1) << FIX14_SHIFT))?1:0);  //ser om vi er til venstre eller h�jre. Hvis leftOrRight er 1, er vi til venstre.
     len = 2;
 
     gotoxy(110, 10);
@@ -87,14 +87,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
     gotoxy(110, 14);
     printf("%02d", leftOrRight);
 
-    /*
-    gotoxy(50, 13);
-    printFix(MINVELX); //Burde printe 0.09425 laveste boldhastighed?
-    gotoxy(50, 14);
-    printFix(MINVElY); //Burde printe 0.34077 laveste boldhastighed?
-
-    */
-    if(b->state == 0){ //hvis bolden er doed ved venstre playa
+    if(b->state == 0){ // Ball is dead and at left striker
         initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
         if(readJoystick() & (0x001 << 3)){
             initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
@@ -104,7 +97,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
             rotate(&(b->vel), -64);
         }
     }
-    if(b->state == 1){ //hvis bolden er doed ved h�jre playa
+    if(b->state == 1){ // Ball is dead at right striker
         initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
         if(readJoystick() & (0x001 << 2)){
             initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
@@ -228,11 +221,17 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
             cx = (b->pos).x + (b->vel).x;
             cy = (b->pos).y + (b->vel).y;
 
-            if(cx < ((x1) << FIX14_SHIFT)){ //uden for venstre striker
+            if(cx < ((x1) << FIX14_SHIFT)){ // Outside left, state to 0
                 initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
+                if ((*lives) != 0) {
+                    (*lives)--;
+                }
             }
-            else if(cx > ((x2) << FIX14_SHIFT)){ //uden for h�jre striker
+            else if(cx > ((x2) << FIX14_SHIFT)){ // Outside right, state to 1
                 initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
+                if ((*lives) != 0) {
+                    (*lives)--;
+                }
             }
 
         }
@@ -243,16 +242,16 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
         if(playingField[i][j] != 0 && cy >= ((y1+2) << FIX14_SHIFT) && cy <= ((y2-2) << FIX14_SHIFT) && cx >= ((x1+2) << FIX14_SHIFT) && cx <= ((x2-2) << FIX14_SHIFT)){ //n�r bolden rammer en brick
         gotoxy(115, 15);
         printf("%c", playingField[i][j]);
-            if(playingField[i][j]==196){ //n�r bolden rammer en vandret streg
+            if(playingField[i][j]==196){ // When the ball hits a horizontal line
                 while(playingField[i][j] != 192 && playingField[i][j] != 218){
                     i--;
                 }if(playingField[i][j] == 192){
                     while(playingField[i][j] != 218){
                         j--;
                     }
-                    removeBrick(i, j, playingField, bricks);
+                    removeBrick(i, j, playingField, bricks, score);
                 }else if(playingField[i][j] == 218){
-                    removeBrick(i, j, playingField, bricks);
+                    removeBrick(i, j, playingField, bricks, score);
                 }
                 (b->vel).y = -((b->vel).y);
                 cx = (b->pos).x + (b->vel).x;
@@ -267,9 +266,9 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                     while(playingField[i][j] != 218){
                         i--;
                     }
-                    removeBrick(i, j, playingField, bricks);
+                    removeBrick(i, j, playingField, bricks, score);
                 }else if(playingField[i][j] == 218){
-                    removeBrick(i, j, playingField, bricks);
+                    removeBrick(i, j, playingField, bricks, score);
                 }
                 (b->vel).x = -((b->vel).x);
                 cx = (b->pos).x + (b->vel).x;
@@ -298,7 +297,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 while(playingField[i][j] != 218){
                     j--;
                 }
-                removeBrick(i, j, playingField, bricks);
+                removeBrick(i, j, playingField, bricks, score);
             }
 
             else if(playingField[i][j] == 218){ //n�r bolden rammer det oeverste venstre hjoerne
@@ -318,7 +317,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                         (b->vel).y = -((b->vel).y);
                     }
                 }
-                removeBrick(i, j, playingField, bricks);
+                removeBrick(i, j, playingField, bricks, score);
 
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
@@ -347,7 +346,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 while(playingField[i][j] != 218){
                     i--;
                 }
-                removeBrick(i, j, playingField, bricks);
+                removeBrick(i, j, playingField, bricks, score);
             }else if(playingField[i][j] == 217){ //n�r bolden rammer det nederste hoejre hjoerne
                 if(playingField[i+1][j] == 192){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
                     (b->vel).y = -((b->vel).y);
@@ -373,21 +372,15 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 while(playingField[i][j] != 218){
                     j--;
                 }
-                removeBrick(i, j, playingField, bricks);
-
+                removeBrick(i, j, playingField, bricks, score);
             }
         }
         (b->pos).x = cx; //boldens position bliver opdateret.
         (b->pos).y = cy;
-
     }
 }
 
-
-
-
-
-void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bricks) {
+void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bricks, uint8_t *score) {
     uint8_t i, j;
             gotoxy(101, 25);
             //printf("Test6");
@@ -397,6 +390,7 @@ void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *b
         }
     }
     (*bricks)--;
+    (*score)++;
 }
 
 void ballToArray(struct ball_t *b, uint8_t playingField[128][32]){

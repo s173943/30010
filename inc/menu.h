@@ -33,6 +33,8 @@ void livesToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t l
 void scoreToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t score);
 void drawHeart(uint8_t a[128][32], uint8_t x, uint8_t y);
 void drawScore(uint8_t a[128][32], uint8_t x, uint8_t y);
+void clearPartOfArray(uint8_t playingField[128][32], uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2);
+void copyArray(uint8_t * playingField, uint8_t * oldPlayingField);
 
 void sonicAni1(uint8_t a[128][32], uint8_t x, uint8_t y);
 void sonicAni2(uint8_t a[128][32], uint8_t x, uint8_t y);

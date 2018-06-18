@@ -27,13 +27,6 @@
 extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;
 
-void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
-    uint16_t i;
-    for (i = 0; i < 4096; i++) { // 128 * 32 = 4096
-        oldPlayingField[i] = playingField[i];
-    }
-}
-
 int main(void){
         uint16_t bgMusicState = 0;
         uint8_t bricks, lives, score = 0;
@@ -83,7 +76,7 @@ int main(void){
                 // Copy array into oldArray, for comparison
                 copyArray(*playingField, *oldPlayingField);
                 // Cycle background music
-                speakerBGMusic(&bgMusicState, soundMode);
+                //speakerBGMusic(&bgMusicState, soundMode);
                 // Prepare for next update
                 updateLCD = 0;
             }

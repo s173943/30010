@@ -71,7 +71,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                             *menuSettings |= (0x0001 << 0);
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             simpleMapToArray(playingField);
-                            (*lives) = 3; // Easy? max 4
+                            (*lives) = 3; // Can be set later on?
                             lvl1(10, 10, playingField, bricks, lives);
                             break;
                         // Level
@@ -194,8 +194,26 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
     }
 }
 
+void clearPartOfArray(uint8_t playingField[128][32], uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {
+    uint8_t i, j;
+    for (i = x1; i <= (x1+x2); i++) {
+        for (j = y1; j <= (y1+y2); j++) {
+            playingField[i][j] = 0;
+        }
+    }
+}
+
+void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
+    uint16_t i;
+    for (i = 0; i < 4096; i++) { // 128 * 32 = 4096
+        oldPlayingField[i] = playingField[i];
+    }
+}
+
 void livesToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t lives) {
     uint8_t i;
+    lives = (lives > 4)?4:lives; // if more than four only display four
+    clearPartOfArray(playingField, x, y, 17, 14);
     for (i = 0; i < lives; i++) {
         if (i % 2 == 0) {
             drawHeart(playingField, (x), (y + (i * 4)) );
@@ -207,6 +225,7 @@ void livesToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t l
 
 void scoreToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t score) {
     drawScore(playingField, x, y);
+    clearPartOfArray(playingField, x+5, y+8, 17, 7);
     numberWrite(playingField, x+5, y+8, score);
 }
 
@@ -5422,28 +5441,21 @@ void numberWrite(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t number){
                 a[x+4][y+5] = BLOCK;
                 break;
             case 57:
+                a[x+0][y+1] = BLOCK;
                 a[x+0][y+2] = BLOCK;
-                a[x+0][y+5] = BLOCK;
-                a[x+0][y+6] = BLOCK;
                 a[x+1][y+0] = BLOCK;
-                a[x+1][y+1] = BLOCK;
-                a[x+1][y+2] = BLOCK;
                 a[x+1][y+3] = BLOCK;
-                a[x+1][y+4] = BLOCK;
+                a[x+1][y+6] = BLOCK;
                 a[x+2][y+0] = BLOCK;
-                a[x+2][y+1] = BLOCK;
-                a[x+2][y+2] = BLOCK;
                 a[x+2][y+3] = BLOCK;
-                a[x+2][y+4] = BLOCK;
                 a[x+2][y+6] = BLOCK;
-                a[x+3][y+1] = BLOCK;
-                a[x+3][y+2] = BLOCK;
-                a[x+3][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+5] = BLOCK;
                 a[x+4][y+1] = BLOCK;
                 a[x+4][y+2] = BLOCK;
                 a[x+4][y+3] = BLOCK;
-                a[x+4][y+5] = BLOCK;
-                a[x+4][y+6] = BLOCK;
+                a[x+4][y+4] = BLOCK;
                 break;
             }
             x+=6;

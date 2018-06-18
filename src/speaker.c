@@ -18,16 +18,6 @@ void setFreq(uint16_t freq) {
     TIM2->EGR |= 0x01;
 }
 
-void speakerPling() {
-    setFreq(1500);
-    wait();
-    setFreq(2000);
-    wait();
-    setFreq(1500);
-    wait();
-    setFreq(0);
-}
-
 void speakerNote(char note, uint8_t octave) {
     uint16_t n;
     switch(note) {

@@ -8,7 +8,6 @@
 
 void configSpeaker();
 void setFreq(uint16_t freq);
-void speakerPling();
 void speakerNote(char note, uint8_t octave);
 void speakerBGMusic(uint16_t * n, uint8_t mode);
 

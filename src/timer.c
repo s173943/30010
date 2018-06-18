@@ -31,23 +31,6 @@ void configTimer1() {
     NVIC_EnableIRQ(TIM1_UP_TIM16_IRQn);
 }
 
-void resetTimer2() {
-    //
-}
-
-void resetTimer1() {
-    TIM3->CR1 = 0x0000;
-    TIM3->CNT = 0x00000000;
-    stopWatch.hours = 0;
-    stopWatch.minutes = 0;
-    stopWatch.seconds = 0;
-    stopWatch.dseconds = 0;
-}
-
-void wait() {
-    for(uint32_t i = 0; i < 2000000; i++) {}
-}
-
 void TIM1_UP_TIM16_IRQHandler(void) {
     stopWatch.dseconds++;
 
