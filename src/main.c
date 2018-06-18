@@ -95,11 +95,14 @@ int main(void){
         TIM2->CR1 |= 0x0001; // Start timer
         setScrolling(0x00); // No scrolling text on LCD
 
-        simpleMapToArray(playingField);
-        level_hard(playingField, 10, 3);
+        //simpleMapToArray(playingField);
+        //level_hard(playingField, 10, 3);
         //level_easy(playingField, 50, 3);
-        numberWrite(playingField, 50,15, 2);
+        //numberWrite(playingField, 50,15, 2);
 
+        sonicAni1(playingField, 0, 0);
+        sonicAni2(playingField, 30, 0);
+        sonicAni3(playingField, 60, 0);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
 
