@@ -9,7 +9,7 @@
 
 #define BLOCK 219
 
-void menuTree(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], int8_t *menuSettings, uint16_t *testCount);
+void menuTree(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], int8_t *menuSettings, uint16_t *testCount,  uint8_t *bricks, uint8_t *lives);
 
 void simpleMapToArray(uint8_t playingField[128][32]);
 void blinkSelect(int8_t maxWindows, int8_t *selector);
@@ -28,4 +28,8 @@ void level_easy(uint8_t a[128][32], uint8_t x, uint8_t y);
 void ugandanKnuckles(uint8_t a[128][32], uint8_t x, uint8_t y);
 void sanik(uint8_t a[128][32], uint8_t x, uint8_t y);
 void logo(uint8_t a[128][32], uint8_t x, uint8_t y);
+
+void livesToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t lives);
+void scoreToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t score);
+void drawHeart(uint8_t a[128][32], uint8_t x, uint8_t y);
 #endif

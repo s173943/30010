@@ -24,7 +24,7 @@ void removeBall(struct ball_t *b) {
     printf(" ");
 }
 
-void lvl1(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bricks){
+void lvl1(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bricks, uint8_t *lives){
     for(int8_t i = x; i<60; i+=3){
         for(int8_t j = y; j<20; j+=4){
             drawBrick(i, j, playingField, bricks);
@@ -52,14 +52,9 @@ void drawBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bri
     playingField[x][y+3] = dlcChar;
     playingField[x+1][y+3] = hChar;
     playingField[x+2][y+3] = drcChar;
-
-
-
 }
 
-
-
-void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint8_t playingField[128][32], uint8_t *bricks){
+void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint8_t playingField[128][32], uint8_t *bricks, uint8_t *lives, uint8_t *score){
     int32_t cx, cy, len;
     int8_t i, j;
     int8_t strikerLeft, strikerRight;

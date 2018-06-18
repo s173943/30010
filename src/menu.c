@@ -4,9 +4,7 @@
 #include "timer.h"
 #include "ball.h"
 
-extern uint8_t updateLCD;
-
-void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],int8_t *menuSettings, uint16_t *testCount){
+void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],int8_t *menuSettings, uint16_t *testCount,  uint8_t *bricks, uint8_t *lives){
     uint8_t x, oldx, menuTrack = 0;
     int8_t selector = 1;
 
@@ -29,7 +27,8 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                             *menuSettings |= (0x0001 << 0);
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             simpleMapToArray(playingField);
-                            lvl1(10, 10, playingField);
+                            (*lives) = 3; // Easy?
+                            lvl1(10, 10, playingField, bricks, lives);
                             break;
                         // Level
                         case 2:
@@ -152,6 +151,48 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
         *testCount = *testCount +1;
         //lcd_update();
     }
+}
+
+void livesToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t lives) {
+    uint8_t i;
+    for (i = 0; i < lives; i++) {
+        if (i % 2 == 0) {
+            drawHeart(playingField, (x), (y + (i * 4)) );
+        } else {
+            drawHeart(playingField, (x + 9), (y + (i * (i==1?0:4)) - (i==1?0:4)) );
+        }
+    }
+}
+
+void scoreToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t score) {
+    //
+}
+
+void drawHeart(uint8_t a[128][32], uint8_t x, uint8_t y) {
+    a[x+1][y] = BLOCK;
+    a[x+2][y] = BLOCK;
+    a[x+5][y] = BLOCK;
+    a[x+6][y] = BLOCK;
+
+    a[x+0][y+1] = BLOCK;
+    a[x+3][y+1] = BLOCK;
+    a[x+4][y+1] = BLOCK;
+    a[x+7][y+1] = BLOCK;
+
+    a[x+0][y+2] = BLOCK;
+    a[x+7][y+2] = BLOCK;
+
+    a[x+0][y+3] = BLOCK;
+    a[x+7][y+3] = BLOCK;
+
+    a[x+1][y+4] = BLOCK;
+    a[x+6][y+4] = BLOCK;
+
+    a[x+2][y+5] = BLOCK;
+    a[x+5][y+5] = BLOCK;
+
+    a[x+3][y+6] = BLOCK;
+    a[x+4][y+6] = BLOCK;
 }
 
 void simpleMapToArray(uint8_t playingField[128][32]){

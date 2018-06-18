@@ -6,6 +6,7 @@ void configSpeaker() {
     GPIOB->MODER &= ~(0x00000003 << (10 * 2)); // Clear
     GPIOB->MODER |= (0x00000002 << (10 * 2)); // Alternate function
     GPIO_PinAFConfig(GPIOB, GPIO_PinSource10, GPIO_AF_1); // Specify PWM mode
+    setFreq(0); // Stop buzzer, might be unnecessary
 }
 
 void setFreq(uint16_t freq) {

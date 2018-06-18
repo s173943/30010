@@ -36,7 +36,7 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 
 int main(void){
         uint16_t bgMusicState = 0;
-        uint8_t bricks;
+        uint8_t bricks, lives, score;
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
@@ -59,7 +59,6 @@ int main(void){
         configADCS();
         configSpeaker();
         configJoy();
-        setFreq(0);
 
         TIM1->CR1 |= 0x0001; // Start timer
         setScrolling(0x00); // No scrolling
@@ -68,13 +67,14 @@ int main(void){
 
         while (1) {
             if (updateLCD == 1){
-                // Will hang in menu till play or something idk
-                menuTree(playingField,oldPlayingField, &menuSettings, &testCount);
+                // Will hang in menu till play is pressed
+                menuTree(playingField,oldPlayingField, &menuSettings, &testCount, &bricks, &lives);
                 // Update player and ball
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
-                updatePosition(&b, 1, 1, 99, 31, playingField, &bricks);
+                updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score);
                 ballToArray(&b, playingField);
+                livesToArray(playingField, 105, 2, lives);
                 // Draw change in array and push buffer
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
