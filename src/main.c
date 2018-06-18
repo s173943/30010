@@ -96,12 +96,12 @@ int main(void){
         setScrolling(0x00); // No scrolling text on LCD
 
         simpleMapToArray(playingField);
-        //level_hard(playingField, 10, 3);
+        level_hard(playingField, 10, 3);
         //level_easy(playingField, 50, 3);
         numberWrite(playingField, 50,15, 2);
 
-        //convertArrayToBuffer(playingField);
-        //lcd_push_buffer(lcdArray);
+        convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
 
 
 
