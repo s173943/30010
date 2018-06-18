@@ -35,7 +35,7 @@ int main(void){
         uint16_t testCount = 0;
         int8_t menuSettings = 0;
 
-        init_usb_uart( 115200 ); // Initialize USB serial at 115200 baud
+        init_usb_uart( 460800 ); // Initialize USB serial at 115200 baud
         init_spi_lcd(); // Init spi lcd
         setupLCD();
 
