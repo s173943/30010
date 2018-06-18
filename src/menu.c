@@ -5,21 +5,21 @@
 #include "lcd.h"
 extern uint8_t updateLCD;
 void drawSonicLoser(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
-    if (*sonicCount == 10){
+    if (*sonicCount == 1){
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
         sonicAni1(playingField, 0,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
     }
-    else if(*sonicCount == 20){
+    else if(*sonicCount == 2){
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
         sonicAni2(playingField, 0,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
     }
-    else if(*sonicCount == 30){
+    else if(*sonicCount == 3){
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
         sonicAni3(playingField, 0,0);
         drawChangeInArray(playingField, oldPlayingField);
@@ -29,22 +29,22 @@ void drawSonicLoser(uint8_t playingField[128][32],uint8_t oldPlayingField[128][3
 
 }
 void drawSonicWinner(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
-    if (*sonicCount == 10){
-        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+    if (*sonicCount == 20){
+        //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
         sonicAni1(playingField, 50,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
     }
-    else if(*sonicCount == 20){
-        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+    else if(*sonicCount == 40){
+        //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
         sonicAni2(playingField, 50,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
     }
-    else if(*sonicCount == 30){
-        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+    else if(*sonicCount == 60){
+        //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
         sonicAni4(playingField, 50,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
