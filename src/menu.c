@@ -4744,7 +4744,7 @@ void sonicAni3(uint8_t a[128][32], uint8_t x, uint8_t y){
 }
 
 void sonicAni4(uint8_t a[128][32], uint8_t x, uint8_t y){
- 	a[x+0][y+16] = BLOCK;
+ 		a[x+0][y+16] = BLOCK;
 	a[x+0][y+17] = BLOCK;
 	a[x+0][y+18] = BLOCK;
 	a[x+0][y+19] = BLOCK;
@@ -4774,6 +4774,7 @@ void sonicAni4(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+6][y+3] = BLOCK;
 	a[x+6][y+6] = BLOCK;
 	a[x+6][y+7] = BLOCK;
+	a[x+6][y+8] = BLOCK;
 	a[x+6][y+14] = BLOCK;
 	a[x+6][y+15] = BLOCK;
 	a[x+6][y+17] = BLOCK;
@@ -4781,6 +4782,8 @@ void sonicAni4(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+6][y+31] = BLOCK;
 	a[x+7][y+2] = BLOCK;
 	a[x+7][y+3] = BLOCK;
+	a[x+7][y+5] = BLOCK;
+	a[x+7][y+9] = BLOCK;
 	a[x+7][y+15] = BLOCK;
 	a[x+7][y+16] = BLOCK;
 	a[x+7][y+17] = BLOCK;
@@ -4791,6 +4794,8 @@ void sonicAni4(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+7][y+29] = BLOCK;
 	a[x+7][y+31] = BLOCK;
 	a[x+8][y+2] = BLOCK;
+	a[x+8][y+5] = BLOCK;
+	a[x+8][y+10] = BLOCK;
 	a[x+8][y+16] = BLOCK;
 	a[x+8][y+17] = BLOCK;
 	a[x+8][y+22] = BLOCK;
@@ -4798,6 +4803,8 @@ void sonicAni4(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+8][y+31] = BLOCK;
 	a[x+9][y+2] = BLOCK;
 	a[x+9][y+5] = BLOCK;
+	a[x+9][y+6] = BLOCK;
+	a[x+9][y+10] = BLOCK;
 	a[x+9][y+16] = BLOCK;
 	a[x+9][y+23] = BLOCK;
 	a[x+9][y+27] = BLOCK;
@@ -4824,6 +4831,7 @@ void sonicAni4(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+12][y+1] = BLOCK;
 	a[x+12][y+2] = BLOCK;
 	a[x+12][y+6] = BLOCK;
+	a[x+12][y+10] = BLOCK;
 	a[x+12][y+24] = BLOCK;
 	a[x+12][y+27] = BLOCK;
 	a[x+12][y+28] = BLOCK;
@@ -4835,18 +4843,23 @@ void sonicAni4(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+13][y+27] = BLOCK;
 	a[x+13][y+29] = BLOCK;
 	a[x+14][y+2] = BLOCK;
+	a[x+14][y+5] = BLOCK;
+	a[x+14][y+9] = BLOCK;
 	a[x+14][y+23] = BLOCK;
 	a[x+14][y+24] = BLOCK;
 	a[x+14][y+25] = BLOCK;
 	a[x+14][y+26] = BLOCK;
 	a[x+14][y+30] = BLOCK;
 	a[x+15][y+3] = BLOCK;
+	a[x+15][y+5] = BLOCK;
+	a[x+15][y+7] = BLOCK;
 	a[x+15][y+8] = BLOCK;
 	a[x+15][y+16] = BLOCK;
 	a[x+15][y+22] = BLOCK;
 	a[x+15][y+26] = BLOCK;
 	a[x+15][y+30] = BLOCK;
 	a[x+16][y+3] = BLOCK;
+	a[x+16][y+6] = BLOCK;
 	a[x+16][y+7] = BLOCK;
 	a[x+16][y+16] = BLOCK;
 	a[x+16][y+17] = BLOCK;
@@ -4978,5 +4991,6 @@ void sonicAni4(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+40][y+11] = BLOCK;
 	a[x+40][y+12] = BLOCK;
 	a[x+40][y+13] = BLOCK;
+
 
 }
