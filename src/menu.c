@@ -9,45 +9,45 @@ extern uint8_t updateLCD;
 void drawSonicLoser(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
     if (*sonicCount == 1){
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni1(playingField, 0,0);
+        sonicAni1(playingField, 70,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
     }
     else if(*sonicCount == 2){
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni1Loser(playingField, 0,0);
+        sonicAni1Loser(playingField, 70,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
     }
-
-
 }
+
 void drawSonicWinner(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
-    if (*sonicCount == 20){
+    if (*sonicCount == 1){
         //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni1(playingField, 50,0);
+        sonicAni1(playingField, 70,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
     }
-    else if(*sonicCount == 40){
+    else if(*sonicCount == 2){
         //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni2(playingField, 50,0);
+        sonicAni2(playingField, 70,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
     }
-    else if(*sonicCount == 60){
+    else if(*sonicCount == 3){
         //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni4(playingField, 50,0);
+        sonicAni4(playingField, 70,0);
         drawChangeInArray(playingField, oldPlayingField);
         convertArrayToBuffer(playingField);
         lcd_push_buffer(lcdArray);
     }
 
 }
+
 void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],int8_t *menuSettings, uint16_t *testCount, uint8_t *bricks, uint8_t *lives){
     uint8_t x, oldx, menuTrack = 0;
     int8_t selector = 1;
@@ -112,7 +112,6 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                         case 1:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             *menuSettings |= (0x0001 << 2);
-                            //*difficulty = 1;
                             menuTrack = 0;
                             selector = 1;
                             break;
@@ -120,7 +119,6 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                         case 2:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             *menuSettings |= (0x0001 << 3);
-                            //*difficulty = 2;
                             menuTrack = 0;
                             selector = 1;
                             break;
@@ -128,13 +126,11 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                         case 3:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             *menuSettings |= (0x0001 << 4);
-                            //*difficulty = 3;
                             menuTrack = 0;
                             selector = 1;
                             break;
                     }
                 }
-
                 oldx = x;
             }
         }
@@ -180,20 +176,21 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
             if (x!=oldx){
                 blinkSelect(1,&selector);
                 if((readJoystick()>>4)&1){
-                    switch(selector){
+                    menuTrack = 0;
+                    /*switch(selector){ ---------------------------------------------------------------------------- kilde til fejl pr 18/6
                         // Help menu ?
                         case 1:
                             menuTrack = 0;
                             selector = 1;
                             break;
                     }
+                    */
                     memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                 }
                 oldx = x;
             }
         }
         *testCount = *testCount +1;
-        //lcd_update();
     }
 }
 
@@ -206,10 +203,6 @@ void livesToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t l
             drawHeart(playingField, (x + 9), (y + (i * (i==1?0:4)) - (i==1?0:4)) );
         }
     }
-}
-
-void scoreToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t score) {
-    //
 }
 
 void drawHeart(uint8_t a[128][32], uint8_t x, uint8_t y) {
@@ -293,68 +286,46 @@ void startMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCou
     convertArrayToBuffer(playingField);
     lcd_push_buffer(lcdArray);
 
-/*
-    if((readJoystick()>>4&1)){
-        switch(selector){
-            case 1: //play
-                *menuTrack = 1;
-                break;
-            case 2: //mode
-                *menuTrack = 2;
-                break;
-            case 3: //level
-                *menuTrack = 3;
-                break;
-            case 4: //mode
-                *menuTrack = 4;
-                break;
-        }
-    }
-*/
 }
 
 void blinkSelect(int8_t maxWindows, int8_t * selector){
-    //uint8_t x,oldx;
 
-
-        if((readJoystick()>>3)&1){
-            *selector = *selector + 1;
-            if (*selector >= maxWindows+1){
+    if((readJoystick()>>3)&1){
+        *selector = *selector + 1;
+        if (*selector >= maxWindows+1){
+            *selector = 1;
+        }
+    }
+    else if((readJoystick()>>2)&1){
+        *selector = *selector - 1;
+        if (*selector <= 0){
+            *selector = maxWindows;
+        }
+    }
+    if(maxWindows == 4){
+        if((readJoystick() >> 0) & 1){
+            if (*selector+2 == 5){
                 *selector = 1;
             }
-        }
-        else if((readJoystick()>>2)&1){
-            *selector = *selector - 1;
-            if (*selector <= 0){
-                *selector = maxWindows;
+            else if(*selector+2 == 6){
+                *selector = 2;
+            }
+            else{
+                *selector = *selector + 2;
             }
         }
-        if(maxWindows == 4){
-            if((readJoystick() >> 0) & 1){
-                if (*selector+2 == 5){
-                    *selector = 1;
-                }
-                else if(*selector+2 == 6){
-                    *selector = 2;
-                }
-                else{
-                    *selector = *selector + 2;
-                }
+        if((readJoystick() >> 1) & 1){
+            if (*selector-2 == -1){
+                *selector = 3;
             }
-
-
-            if((readJoystick() >> 1) & 1){
-                if (*selector-2 == -1){
-                    *selector = 3;
-                }
-                else if(*selector-2 == 0){
-                    *selector = 4;
-                }
-                else{
-                    *selector = *selector -2;
-                }
+            else if(*selector-2 == 0){
+                *selector = 4;
+            }
+            else{
+                *selector = *selector -2;
             }
         }
+    }
 }
 
 
