@@ -28,9 +28,12 @@ void level_easy(uint8_t a[128][32], uint8_t x, uint8_t y);
 void ugandanKnuckles(uint8_t a[128][32], uint8_t x, uint8_t y);
 void sanik(uint8_t a[128][32], uint8_t x, uint8_t y);
 void logo(uint8_t a[128][32], uint8_t x, uint8_t y);
+
 void livesToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t lives);
 void scoreToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t score);
 void drawHeart(uint8_t a[128][32], uint8_t x, uint8_t y);
+void drawScore(uint8_t a[128][32], uint8_t x, uint8_t y);
+
 void sonicAni1(uint8_t a[128][32], uint8_t x, uint8_t y);
 void sonicAni2(uint8_t a[128][32], uint8_t x, uint8_t y);
 void sonicAni3(uint8_t a[128][32], uint8_t x, uint8_t y);
