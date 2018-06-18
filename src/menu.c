@@ -4170,7 +4170,7 @@ void scrollInit(uint8_t a[128][32], uint8_t x, uint8_t y){
 }
 
 void sonicAni1(uint8_t a[128][32], uint8_t x, uint8_t y){
-	a[x+0][y+10] = BLOCK;
+		a[x+0][y+10] = BLOCK;
 	a[x+0][y+11] = BLOCK;
 	a[x+0][y+12] = BLOCK;
 	a[x+0][y+13] = BLOCK;
@@ -4182,6 +4182,9 @@ void sonicAni1(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+2][y+10] = BLOCK;
 	a[x+2][y+17] = BLOCK;
 	a[x+2][y+18] = BLOCK;
+	a[x+3][y+7] = BLOCK;
+	a[x+3][y+8] = BLOCK;
+	a[x+3][y+11] = BLOCK;
 	a[x+3][y+19] = BLOCK;
 	a[x+4][y+5] = BLOCK;
 	a[x+4][y+6] = BLOCK;
@@ -4239,6 +4242,7 @@ void sonicAni1(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+13][y+20] = BLOCK;
 	a[x+13][y+22] = BLOCK;
 	a[x+13][y+24] = BLOCK;
+	a[x+13][y+27] = BLOCK;
 	a[x+13][y+30] = BLOCK;
 	a[x+14][y+0] = BLOCK;
 	a[x+14][y+9] = BLOCK;
@@ -4263,10 +4267,13 @@ void sonicAni1(uint8_t a[128][32], uint8_t x, uint8_t y){
 	a[x+16][y+10] = BLOCK;
 	a[x+16][y+11] = BLOCK;
 	a[x+16][y+12] = BLOCK;
+	a[x+16][y+20] = BLOCK;
 	a[x+16][y+24] = BLOCK;
+	a[x+16][y+27] = BLOCK;
 	a[x+16][y+30] = BLOCK;
 	a[x+17][y+5] = BLOCK;
 	a[x+17][y+6] = BLOCK;
+	a[x+17][y+19] = BLOCK;
 	a[x+17][y+24] = BLOCK;
 	a[x+17][y+25] = BLOCK;
 	a[x+17][y+26] = BLOCK;
