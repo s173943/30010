@@ -74,7 +74,8 @@ int main(void){
                 removeBallFromArray(&b, playingField);
                 updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score);
                 ballToArray(&b, playingField);
-                livesToArray(playingField, 105, 2, lives);
+                livesToArray(playingField, 103, 12, lives);
+                scoreToArray(playingField, 103, 2, score);
                 // Draw change in array and push buffer
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
@@ -86,7 +87,5 @@ int main(void){
                 // Prepare for next update
                 updateLCD = 0;
             }
-
         }
-
 }
