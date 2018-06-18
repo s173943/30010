@@ -36,6 +36,7 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 
 int main(void){
         uint16_t bgMusicState = 0;
+        uint8_t bricks;
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
@@ -45,7 +46,8 @@ int main(void){
         init_spi_lcd(); // Init spi lcd
         setupLCD();
 
-        initBall(&b, 6, 6, 1, -1);
+        initBall(&b, 10, 5, 1, 1, 2);
+        //initBall(&c, 80, 6, -1, -1);
 
         clrscr(); // Clear putty terminal
         showCursor(0);
@@ -71,7 +73,7 @@ int main(void){
                 // Update player and ball
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
-                updatePosition(&b, 1, 1, 99, 31, playingField);
+                updatePosition(&b, 1, 1, 99, 31, playingField, &bricks);
                 ballToArray(&b, playingField);
                 // Draw change in array and push buffer
                 drawChangeInArray(playingField, oldPlayingField);
