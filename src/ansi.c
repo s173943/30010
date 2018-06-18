@@ -267,10 +267,28 @@ void drawChangeInArray(uint8_t playingField[128][32], uint8_t oldPlayingField[12
 void numberWrite(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t number){
     int8_t BLOCK = 50;
     char str[4];
-    sprintf(str, "%d", number);
+    sprintf(str, "%03d", number);
     for (uint8_t i = 0; i <= strlen(str)-1; i++){
 
         switch(str[i]){
+            case 48:
+            	a[x+0][y+1] = BLOCK;
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+3] = BLOCK;
+                a[x+0][y+4] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+1][y+0] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+1] = BLOCK;
+                a[x+4][y+2] = BLOCK;
+                a[x+4][y+3] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
+
             case 49:
                 a[x+0][y+6] = BLOCK;
                 a[x+1][y+1] = BLOCK;
@@ -353,7 +371,21 @@ void numberWrite(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t number){
                 a[x+4][y+5] = BLOCK;
                 break;
             case 54:
-
+                a[x+0][y+2] = BLOCK;
+                a[x+0][y+3] = BLOCK;
+                a[x+0][y+4] = BLOCK;
+                a[x+0][y+5] = BLOCK;
+                a[x+1][y+1] = BLOCK;
+                a[x+1][y+3] = BLOCK;
+                a[x+1][y+6] = BLOCK;
+                a[x+2][y+0] = BLOCK;
+                a[x+2][y+3] = BLOCK;
+                a[x+2][y+6] = BLOCK;
+                a[x+3][y+0] = BLOCK;
+                a[x+3][y+3] = BLOCK;
+                a[x+3][y+6] = BLOCK;
+                a[x+4][y+4] = BLOCK;
+                a[x+4][y+5] = BLOCK;
                 break;
             case 55:
                 a[x+0][y+0] = BLOCK;
