@@ -294,8 +294,6 @@ void drawScore(uint8_t a[128][32], uint8_t x, uint8_t y) {
 	a[x+23][y+6] = BLOCK;
 	a[x+24][y+2] = BLOCK;
 	a[x+24][y+3] = BLOCK;
-	a[x+26][y+2] = BLOCK;
-	a[x+26][y+5] = BLOCK;
 }
 
 void simpleMapToArray(uint8_t playingField[128][32]){
@@ -5291,6 +5289,7 @@ void numberWrite(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t number){
                 a[x+4][y+3] = BLOCK;
                 a[x+4][y+4] = BLOCK;
                 a[x+4][y+5] = BLOCK;
+                break;
             case 49:
                 a[x+0][y+6] = BLOCK;
                 a[x+1][y+1] = BLOCK;

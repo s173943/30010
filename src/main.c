@@ -36,7 +36,7 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 
 int main(void){
         uint16_t bgMusicState = 0;
-        uint8_t bricks, lives, score = 1;
+        uint8_t bricks, lives, score = 0;
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
