@@ -40,7 +40,7 @@ int main(void){
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
-        int8_t menuSettings = 0;
+        int8_t menuSettings = 0,workorPlay = 0;
 
         init_usb_uart( 115200 ); // Initialize USB serial at 115200 baud
         init_spi_lcd(); // Init spi lcd
@@ -75,8 +75,9 @@ int main(void){
                 updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score);
                 ballToArray(&b, playingField);
                 livesToArray(playingField, 103, 12, lives);
-                scoreToArray(playingField, 103, 2, score);
+                //scoreToArray(playingField, 103, 2, score);
                 // Draw change in array and push buffer
+                bossKeyEN(&workorPlay,playingField,oldPlayingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);

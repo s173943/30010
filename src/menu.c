@@ -119,7 +119,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                         case 2:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             *menuSettings |= (0x0001 << 3);
-                            menuTrack = 0;
+                            menuTrack = 0;oldx = x;
                             selector = 1;
                             break;
                         // Difficulty Hard
@@ -192,6 +192,39 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
         }
         *testCount = *testCount +1;
     }
+}
+
+void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPlayingField[128][32]){
+    uint8_t oldx,x;
+
+    x = readJoystick();
+    if (oldx!=x){
+        if(*workorPay == 0){
+
+            if(readJoystick() & (0x001 << 0)){
+                    memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+                    setFreq(0);
+                    *workorPay = 1;
+            }
+            oldx = x;
+        }
+
+        while(*workorPay == 1){
+
+            bossKey(playingField,0,0);
+            drawChangeInArray(playingField, oldPlayingField);
+            convertArrayToBuffer(playingField);
+            lcd_push_buffer(lcdArray);
+                    // Copy array into oldArray, for comparison
+            copyArray(*playingField, *oldPlayingField);
+
+                if(readJoystick() & (0x001 << 0)){
+                    *workorPay = 0;
+                }
+
+            }
+            oldx = x;
+        }
 }
 
 void livesToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t lives) {
