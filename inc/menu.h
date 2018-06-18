@@ -37,4 +37,5 @@ void sonicAni3(uint8_t a[128][32], uint8_t x, uint8_t y);
 void sonicAni4(uint8_t a[128][32], uint8_t x, uint8_t y);
 void drawSonicLoser(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32], uint8_t *sonicCount);
 void drawSonicWinner(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32], uint8_t *sonicCount);
+void sonicAni1Loser(uint8_t a[128][32], uint8_t x, uint8_t y);
 #endif

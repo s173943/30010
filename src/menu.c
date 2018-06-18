@@ -1,9 +1,11 @@
 #include "menu.h"
 #include "ansi.h"
 #include "lcd.h"
+#include "ball.h"
 #include "timer.h"
-#include "lcd.h"
+
 extern uint8_t updateLCD;
+
 void drawSonicLoser(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
     if (*sonicCount == 1){
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
