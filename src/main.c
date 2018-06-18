@@ -123,6 +123,7 @@ int main(void){
                 //convertArrayToBuffer(playingField);
                 //lcd_push_buffer(playingField);
                 drawSonicWinner(playingField,oldPlayingField,&sonicCount);
+                drawSonicWinner(playingField,oldPlayingField,&sonicCount);
                 updatePlayer(playingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
@@ -131,6 +132,9 @@ int main(void){
                 //lcd_update();
                 //testCount++;
                 sonicCount++;
+                if(sonicCount == 80){
+                    sonicCount = 0;
+                }
 
             }
             /*
