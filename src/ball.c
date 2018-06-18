@@ -283,24 +283,25 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
             }else if(playingField[i][j] == 192){ //når bolden rammer det nederste venstre hjoerne
+                if(playingField[i-1][j] == 217){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
+                    (b->vel).y = -((b->vel).y);
+                }
+                if(playingField[i][j+1] == 218){
+                    (b->vel).x = -((b->vel).x);
+                }
+                else if(!(playingField[i-1][j] == 217 || playingField[i][j+1] == 217)){
+                    (b->vel).x = -((b->vel).x);
+                    (b->vel).y = -((b->vel).y);
+                }
+                cx = (b->pos).x + (b->vel).x;
+                cy = (b->pos).y + (b->vel).y;
                 while(playingField[i][j] != 218){
                     j--;
                     //gotoxy(101, 23);
                     //printf("Test4");
                 }
                 removeBrick(i, j, playingField, bricks);
-                if(playingField[cx-1][cy] == 217){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
-                    (b->vel).y = -((b->vel).y);
-                }
-                if(playingField[cx][cy+1] == 218){
-                    (b->vel).x = -((b->vel).x);
-                }
-                else if(!(playingField[cx-1][cy] == 217 || playingField[cx][cy+1] == 217)){
-                    (b->vel).x = -((b->vel).x);
-                    (b->vel).y = -((b->vel).y);
-                }
-                cx = (b->pos).x + (b->vel).x;
-                cy = (b->pos).y + (b->vel).y;
+
             }
 
             else if(playingField[i][j] == 218){ //når bolden rammer det oeverste venstre hjoerne
@@ -319,25 +320,38 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 cy = (b->pos).y + (b->vel).y;
 
             }else if(playingField[i][j] == 191){ //når bolden rammer det oeverste hoejre hjoerne
+                if(playingField[i+1][j] == 218){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
+                    (b->vel).y = -((b->vel).y);
+                }
+                if(playingField[i][j-1] == 217){
+                    (b->vel).x = -((b->vel).x);
+                }
+                else if(!(playingField[i+1][j] == 218 || playingField[i][j+1] == 217)){
+                    (b->vel).x = -((b->vel).x);
+                    (b->vel).y = -((b->vel).y);
+                }
+                cx = (b->pos).x + (b->vel).x;
+                cy = (b->pos).y + (b->vel).y;
+
                 while(playingField[i][j] != 218){
                     i--;
                      gotoxy(101, 23);
                     //printf("Test4");
                 }
                 removeBrick(i, j, playingField, bricks);
-                if(playingField[cx+1][cy] == 218){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
+            }else if(playingField[i][j] == 217){ //når bolden rammer det nederste hoejre hjoerne
+                if(playingField[i+1][j] == 192){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
                     (b->vel).y = -((b->vel).y);
                 }
-                if(playingField[cx][cy-1] == 217){
+                if(playingField[i][j+1] == 191){
                     (b->vel).x = -((b->vel).x);
                 }
-                else if(!(playingField[cx+1][cy] == 218 || playingField[cx][cy+1] == 217)){
+                else if(!(playingField[i+1][j] == 192 || playingField[i][j+1] == 191)){
                     (b->vel).x = -((b->vel).x);
                     (b->vel).y = -((b->vel).y);
                 }
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
-            }else if(playingField[i][j] == 217){ //når bolden rammer det nederste hoejre hjoerne
                 while(playingField[i][j] != 192){
                     i--;
                     gotoxy(101, 21);
@@ -347,18 +361,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                     j--;
                 }
                 removeBrick(i, j, playingField, bricks);
-                if(playingField[cx+1][cy] == 192){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
-                    (b->vel).y = -((b->vel).y);
-                }
-                if(playingField[cx][cy+1] == 191){
-                    (b->vel).x = -((b->vel).x);
-                }
-                else if(!(playingField[cx+1][cy] == 192 || playingField[cx][cy+1] == 191)){
-                    (b->vel).x = -((b->vel).x);
-                    (b->vel).y = -((b->vel).y);
-                }
-                cx = (b->pos).x + (b->vel).x;
-                cy = (b->pos).y + (b->vel).y;
+
             }
         }
         (b->pos).x = cx; //boldens position bliver opdateret.
