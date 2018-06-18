@@ -64,7 +64,7 @@ int main(void){
         init_spi_lcd(); // Init spi lcd
         setupLCD();
 
-        initBall(&b, 10, 5, 1, 1, 2);
+        initBall(&b, 10, 5, 1, 1, 0);
         //initBall(&c, 80, 6, -1, -1);
 
         clrscr(); // Clear putty terminal
