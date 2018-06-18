@@ -122,7 +122,7 @@ int main(void){
                 //menuSquare(playingField, 10, 5, 20, 20);
                 //convertArrayToBuffer(playingField);
                 //lcd_push_buffer(playingField);
-                drawSonic(playingField,oldPlayingField,&sonicCount);
+                drawSonicWinner(playingField,oldPlayingField,&sonicCount);
                 updatePlayer(playingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
