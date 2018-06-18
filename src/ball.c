@@ -77,7 +77,6 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
             break;
         }
     }
-
     cx = (b->pos).x + (b->vel).x;
     cy = (b->pos).y + (b->vel).y;
     len = 2;
@@ -93,22 +92,32 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
     printFix(MINVElY); //Burde printe 0.34077 laveste boldhastighed?
 
     */
-    if(b->state == 0){
+    if(b->state == 0){ //hvis bolden er doed ved venstre playa
+        initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
 
-        if(((b->pos).x) == x1+1 << FIX14_SHIFT) {
+       /* if(readJoystick() & (0x001 << 2)){
             initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
-
-        }else{
-            initBall(b, x2-1, 5+strikerRight, 0, 0, 0);
+        }*/
+        if(readJoystick() & (0x001 << 3)){
+            initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
         }
-            if(readJoystick() & (0x001 << 3)){
-                initBall(b, x2-1, 5+strikerRight, -1, 1, 1);
-            }
-            if(readJoystick() & (0x001 << 2)){
-                initBall(b, x1+1, 5+strikerLeft, 1, 1, 1);
+        else if(readJoystick() & (0x001 << 0)){
+            initBall(b, x1+1, 5+strikerLeft, 1, 1, 2);
         }
-    }else if((b->state) == 1){
-
+    }
+    if(b->state == 1){ //hvis bolden er doed ved højre playa
+        initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
+        /*if(readJoystick() & (0x001 << 3)){
+            initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
+        }*/
+        if(readJoystick() & (0x001 << 2)){
+            initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
+        }
+        else if(readJoystick() & (0x001 << 0)){
+            initBall(b, x2-1, 5+strikerRight, -1, 1, 2);
+        }
+    }
+    else if((b->state) == 2){
         if (cy <= ((y1+1) << FIX14_SHIFT) || cy >= ((y2-1) << FIX14_SHIFT)){ //bolden rammer top/bund
             (b->vel).y = -((b->vel).y);
             cx = (b->pos).x + (b->vel).x;
@@ -175,7 +184,7 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
             }
             else if(cx > ((x2) << FIX14_SHIFT)){ //uden for højre striker
-                initBall(b, x2-1, 5+strikerRight, 0, 0, 0);
+                initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
             }
 
         }
@@ -285,9 +294,9 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
         (b->pos).y = cy;
 
     }
+}
 
 
-    }
 
 
 
