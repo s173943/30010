@@ -71,7 +71,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                             *menuSettings |= (0x0001 << 0);
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             simpleMapToArray(playingField);
-                            (*lives) = 3; // Easy?
+                            (*lives) = 3; // Easy? max 4
                             lvl1(10, 10, playingField, bricks, lives);
                             break;
                         // Level
@@ -209,7 +209,8 @@ void livesToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t l
 }
 
 void scoreToArray(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t score) {
-    //
+    drawScore(playingField, x, y);
+    numberWrite(playingField, x+5, y+8, score);
 }
 
 void drawHeart(uint8_t a[128][32], uint8_t x, uint8_t y) {
@@ -237,6 +238,67 @@ void drawHeart(uint8_t a[128][32], uint8_t x, uint8_t y) {
 
     a[x+3][y+6] = BLOCK;
     a[x+4][y+6] = BLOCK;
+}
+
+void drawScore(uint8_t a[128][32], uint8_t x, uint8_t y) {
+    a[x+0][y+1] = BLOCK;
+	a[x+0][y+2] = BLOCK;
+	a[x+0][y+6] = BLOCK;
+	a[x+1][y+0] = BLOCK;
+	a[x+1][y+3] = BLOCK;
+	a[x+1][y+6] = BLOCK;
+	a[x+2][y+0] = BLOCK;
+	a[x+2][y+3] = BLOCK;
+	a[x+2][y+6] = BLOCK;
+	a[x+3][y+0] = BLOCK;
+	a[x+3][y+4] = BLOCK;
+	a[x+3][y+5] = BLOCK;
+	a[x+5][y+2] = BLOCK;
+	a[x+5][y+3] = BLOCK;
+	a[x+5][y+4] = BLOCK;
+	a[x+5][y+5] = BLOCK;
+	a[x+6][y+1] = BLOCK;
+	a[x+6][y+6] = BLOCK;
+	a[x+7][y+1] = BLOCK;
+	a[x+7][y+6] = BLOCK;
+	a[x+8][y+1] = BLOCK;
+	a[x+8][y+6] = BLOCK;
+	a[x+10][y+2] = BLOCK;
+	a[x+10][y+3] = BLOCK;
+	a[x+10][y+4] = BLOCK;
+	a[x+10][y+5] = BLOCK;
+	a[x+11][y+1] = BLOCK;
+	a[x+11][y+6] = BLOCK;
+	a[x+12][y+1] = BLOCK;
+	a[x+12][y+6] = BLOCK;
+	a[x+13][y+1] = BLOCK;
+	a[x+13][y+6] = BLOCK;
+	a[x+14][y+2] = BLOCK;
+	a[x+14][y+3] = BLOCK;
+	a[x+14][y+4] = BLOCK;
+	a[x+14][y+5] = BLOCK;
+	a[x+16][y+2] = BLOCK;
+	a[x+16][y+3] = BLOCK;
+	a[x+16][y+4] = BLOCK;
+	a[x+16][y+5] = BLOCK;
+	a[x+16][y+6] = BLOCK;
+	a[x+17][y+1] = BLOCK;
+	a[x+18][y+1] = BLOCK;
+	a[x+19][y+1] = BLOCK;
+	a[x+21][y+2] = BLOCK;
+	a[x+21][y+3] = BLOCK;
+	a[x+21][y+4] = BLOCK;
+	a[x+21][y+5] = BLOCK;
+	a[x+22][y+1] = BLOCK;
+	a[x+22][y+4] = BLOCK;
+	a[x+22][y+6] = BLOCK;
+	a[x+23][y+1] = BLOCK;
+	a[x+23][y+4] = BLOCK;
+	a[x+23][y+6] = BLOCK;
+	a[x+24][y+2] = BLOCK;
+	a[x+24][y+3] = BLOCK;
+	a[x+26][y+2] = BLOCK;
+	a[x+26][y+5] = BLOCK;
 }
 
 void simpleMapToArray(uint8_t playingField[128][32]){
@@ -5254,7 +5316,6 @@ void numberWrite(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t number){
                 a[x+4][y+3] = BLOCK;
                 a[x+4][y+4] = BLOCK;
                 a[x+4][y+5] = BLOCK;
-
             case 49:
                 a[x+0][y+6] = BLOCK;
                 a[x+1][y+1] = BLOCK;

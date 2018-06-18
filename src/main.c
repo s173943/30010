@@ -36,7 +36,7 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 
 int main(void){
         uint16_t bgMusicState = 0;
-        uint8_t bricks, lives, score;
+        uint8_t bricks, lives, score = 1;
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
@@ -74,8 +74,8 @@ int main(void){
                 removeBallFromArray(&b, playingField);
                 updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score);
                 ballToArray(&b, playingField);
-                livesToArray(playingField, 103, 12, lives);
-                scoreToArray(playingField, 103, 2, score);
+                livesToArray(playingField, 102, 17, lives);
+                scoreToArray(playingField, 102, 0, score);
                 // Draw change in array and push buffer
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
