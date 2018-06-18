@@ -56,16 +56,15 @@ void drawBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bri
 
 void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint8_t playingField[128][32], uint8_t *bricks, uint8_t *lives, uint8_t *score){
     int32_t cx, cy, len;
-    int8_t i, j;
-    int8_t strikerLeft, strikerRight;
-    uint8_t q= 1; //ser om vi er til venstre eller h�jre. Hvis leftOrRight er 1, er vi til venstre.
-    uint8_t leftOrRight = ((cx <= ((x1+1) << FIX14_SHIFT))?1:0);
+    int8_t i, j, strikerLeft, strikerRight;
+    uint8_t leftOrRight, q;
     for(q=1; q<32; q++){
         if (playingField[0][q] == 179){
             strikerLeft = q;
             break;
         }
     }
+
     for(q=1; q<32; q++){
         if (playingField[100][q] == 179){
             strikerRight = q;
@@ -74,12 +73,20 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
     }
     cx = (b->pos).x + (b->vel).x;
     cy = (b->pos).y + (b->vel).y;
+    leftOrRight = ((cx <= ((x1+1) << FIX14_SHIFT))?1:0);     //ser om vi er til venstre eller h�jre. Hvis leftOrRight er 1, er vi til venstre.
     len = 2;
 
     gotoxy(110, 10);
     printFix((b->vel).x);
     gotoxy(110, 11);
     printFix((b->vel).y);
+    gotoxy(110, 12);
+    printf("%02d", strikerLeft);
+    gotoxy(110, 13);
+    printf("%02d", strikerRight);
+    gotoxy(110, 14);
+    printf("%02d", leftOrRight);
+
     /*
     gotoxy(50, 13);
     printFix(MINVELX); //Burde printe 0.09425 laveste boldhastighed?
@@ -89,27 +96,22 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
     */
     if(b->state == 0){ //hvis bolden er doed ved venstre playa
         initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
-
-       /* if(readJoystick() & (0x001 << 2)){
-            initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
-        }*/
         if(readJoystick() & (0x001 << 3)){
             initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
         }
         else if(readJoystick() & (0x001 << 0)){
             initBall(b, x1+1, 5+strikerLeft, 1, 1, 2);
+            rotate(&(b->vel), -64);
         }
     }
     if(b->state == 1){ //hvis bolden er doed ved h�jre playa
         initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
-        /*if(readJoystick() & (0x001 << 3)){
-            initBall(b, x2-1, 5+strikerRight, 0, 0, 1);
-        }*/
         if(readJoystick() & (0x001 << 2)){
             initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
         }
         else if(readJoystick() & (0x001 << 0)){
             initBall(b, x2-1, 5+strikerRight, -1, 1, 2);
+            rotate(&(b->vel), 64);
         }
     }
     else if((b->state) == 2){
@@ -138,39 +140,90 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
             printf("          ");
             */
             if((leftOrRight)?(cy > ((strikerLeft) << FIX14_SHIFT) && cy <= ((len+strikerLeft) << FIX14_SHIFT)):(cy > (strikerRight << FIX14_SHIFT) && cy <= ((len+strikerRight) << FIX14_SHIFT))){  //toppen, tjekker
-                if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er h�jre eller venstre. 0 er venstre, 1 er h�jre.
-                    rotate(&(b->vel), -85);
+                (b->vel).x = -((b->vel).x);
+                if(leftOrRight){ //tjekker om det er h�jre eller venstre. 1 er venstre, 0 er h�jre.
+                    rotate(&(b->vel), -43);
                 }else{
-                    rotate(&(b->vel), 85);
+                    rotate(&(b->vel), 43);
                     }
+                /*
+                if(leftOrRight){ //vinklen er for lille
+                    if((b->vel).x<0){
+                        (b->vel).x = -(b->vel).x;
+                    }
+                }else{
+                    if((b->vel).x>0){
+                        (b->vel).x = -(b->vel).x;
+                    }
+                }*/
 
+                gotoxy(110, 20);
+                printf("hit top");
             }
             else if((leftOrRight)?(cy > ((len+strikerLeft) << FIX14_SHIFT) && cy <= (((len*2)+strikerLeft) << FIX14_SHIFT)):(cy > ((len+strikerRight) << FIX14_SHIFT) && cy <= (((len*2)+strikerRight) << FIX14_SHIFT))){  //nest�verste, tjekker
-                if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er h�jre eller venstre. 0 er venstre, 1 er h�jre.
-                    rotate(&(b->vel), -107);
+                (b->vel).x = -((b->vel).x);
+                if(leftOrRight){ //tjekker om det er h�jre eller venstre. 1 er venstre, 0 er h�jre.
+                    rotate(&(b->vel), -21);
                 }else{
-                    rotate(&(b->vel), 107);
+                    rotate(&(b->vel), 21);
                 }
-
+                /*
+                if(leftOrRight){ //vinklen er for lille
+                    if((b->vel).x<0){
+                        (b->vel).x = -(b->vel).x;
+                    }
+                }else{
+                    if((b->vel).x>0){
+                        (b->vel).x = -(b->vel).x;
+                    }
+                }*/
+                gotoxy(110, 21);
+                printf("hit midtop");
             }
             else if((leftOrRight)?(cy > (((len*2)+strikerLeft) << FIX14_SHIFT) && cy <= (((len*3)+strikerLeft) << FIX14_SHIFT)):(cy > (((len*2)+strikerRight) << FIX14_SHIFT) && cy <= (((len*3)+strikerRight) << FIX14_SHIFT))){  //nest�verste, tjekker
-                    (b->vel).x = -((b->vel).x);
-
+                (b->vel).x = -((b->vel).x);
+                gotoxy(110, 22);
+                printf("hit mid");
             }
             else if((leftOrRight)?(cy > (((len*3)+strikerLeft) << FIX14_SHIFT) && cy <= (((len*4)+strikerLeft) << FIX14_SHIFT)):(cy > (((len*3)+strikerRight) << FIX14_SHIFT) && cy <= (((len*4)+strikerRight) << FIX14_SHIFT))){  //nest�verste, tjekker
-                 if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er h�jre eller venstre. 0 er venstre, 1 er h�jre.
-                    rotate(&(b->vel), -149);
+                 (b->vel).x = -((b->vel).x);
+                 if(leftOrRight){ //tjekker om det er h�jre eller venstre. 1 er venstre, 0 er h�jre.
+                    rotate(&(b->vel), 21);
                 }else{
-                    rotate(&(b->vel), 149);
+                    rotate(&(b->vel), -21);
                 }
-
+                /*
+                if(leftOrRight){ //vinklen er for lille
+                    if((b->vel).x<0){
+                        (b->vel).x = -(b->vel).x;
+                    }
+                }else{
+                    if((b->vel).x>0){
+                        (b->vel).x = -(b->vel).x;
+                    }
+                }*/
+                gotoxy(110, 23);
+                printf("hit midbot");
             }
             else if((leftOrRight)?(cy > (((len*4)+strikerLeft) << FIX14_SHIFT) && cy < ((len*5)+strikerLeft) << FIX14_SHIFT):(cy > (((len*4)+strikerRight) << FIX14_SHIFT) && cy <= (((len*5)+strikerRight) << FIX14_SHIFT))){  //nest�verste, tjekker
-                if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er h�jre eller venstre. 0 er venstre, 1 er h�jre.
-                    rotate(&(b->vel), -171);
+                (b->vel).x = -((b->vel).x);
+                if(leftOrRight){ //tjekker om det er h�jre eller venstre. 1 er venstre, 0 er h�jre.
+                    rotate(&(b->vel), 43);
                 }else{
-                    rotate(&(b->vel), 171);
+                    rotate(&(b->vel), -43);
                 }
+                /*
+                if(leftOrRight){ //vinklen er for lille
+                    if((b->vel).x<0){
+                        (b->vel).x = -(b->vel).x;
+                    }
+                }else{
+                    if((b->vel).x>0){
+                        (b->vel).x = -(b->vel).x;
+                    }
+                }*/
+                gotoxy(110, 24);
+                printf("hit bot");
             }
             cx = (b->pos).x + (b->vel).x;
             cy = (b->pos).y + (b->vel).y;
@@ -188,23 +241,12 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
         j = cy >> FIX14_SHIFT;
 
         if(playingField[i][j] != 0 && cy >= ((y1+2) << FIX14_SHIFT) && cy <= ((y2-2) << FIX14_SHIFT) && cx >= ((x1+2) << FIX14_SHIFT) && cx <= ((x2-2) << FIX14_SHIFT)){ //n�r bolden rammer en brick
-        gotoxy(101, 20);
-        printf("Test1");
-            if(playingField[i][j] == 218 || playingField[i][j] == 196 || playingField[i][j] == 191){
-
-
-
-            }
-
-            if(playingField[i][j]==196){
-                printf("%c", playingField[i][j]);
+        gotoxy(115, 15);
+        printf("%c", playingField[i][j]);
+            if(playingField[i][j]==196){ //n�r bolden rammer en vandret streg
                 while(playingField[i][j] != 192 && playingField[i][j] != 218){
                     i--;
-                    gotoxy(101, 21);
-                    printf("Test2");
                 }if(playingField[i][j] == 192){
-                    gotoxy(101, 22);
-                    printf("Test3");
                     while(playingField[i][j] != 218){
                         j--;
                     }
@@ -212,23 +254,18 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 }else if(playingField[i][j] == 218){
                     removeBrick(i, j, playingField, bricks);
                 }
-
                 (b->vel).y = -((b->vel).y);
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
 
             }
-            else if(playingField[i][j] == 179){
+
+            else if(playingField[i][j] == 179){ //n�r bolden rammer en lodret streg
                 while(playingField[i][j] != 218 && playingField[i][j] != 191){
                     j--;
-                     gotoxy(101, 23);
-                    printf("Test4");
                 }if(playingField[i][j] == 191){
                     while(playingField[i][j] != 218){
                         i--;
-
-                     gotoxy(101, 24);
-                    printf("Test5");
                     }
                     removeBrick(i, j, playingField, bricks);
                 }else if(playingField[i][j] == 218){
@@ -237,55 +274,110 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 (b->vel).x = -((b->vel).x);
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
-            }else if(playingField[i][j] == 192){
+            }else if(playingField[i][j] == 192){ //n�r bolden rammer det nederste venstre hjoerne
+                if(playingField[i-1][j] == 217){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
+                    (b->vel).y = -((b->vel).y);
+                }
+                if(playingField[i][j+1] == 218){
+                    (b->vel).x = -((b->vel).x);
+                }
+                else{
+                    if((b->vel).x<0 && (b->vel).y>0){ //if the ball hits the brick in an upward-left velocity
+                        (b->vel).y = -((b->vel).y);
+                    }
+                    if((b->vel).x>0 && (b->vel).y<0){ //if the ball hits the brick in an downward-right velocity
+                        (b->vel).x = -((b->vel).x);
+                    }else{
+                        (b->vel).x = -((b->vel).x);
+                        (b->vel).y = -((b->vel).y);
+                    }
+
+                }
+                cx = (b->pos).x + (b->vel).x;
+                cy = (b->pos).y + (b->vel).y;
                 while(playingField[i][j] != 218){
                     j--;
-                     gotoxy(101, 23);
-                    printf("Test4");
                 }
                 removeBrick(i, j, playingField, bricks);
-               (b->vel).y = -((b->vel).y);
-                cx = (b->pos).x + (b->vel).x;
-                cy = (b->pos).y + (b->vel).y;
             }
 
-            else if(playingField[i][j] == 218){
-                removeBrick(i, j, playingField, bricks);
-                (b->vel).y = -((b->vel).y);
-                cx = (b->pos).x + (b->vel).x;
-                cy = (b->pos).y + (b->vel).y;
-
-
-            }else if(playingField[i][j] == 191){
-                while(playingField[i][j] != 218){
-                    i--;
-                     gotoxy(101, 23);
-                    printf("Test4");
+            else if(playingField[i][j] == 218){ //n�r bolden rammer det oeverste venstre hjoerne
+                if(playingField[i-1][j] == 191){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
+                    (b->vel).y = -((b->vel).y);
+                }
+                if(playingField[i][j-1] == 192){
+                    (b->vel).x = -((b->vel).x);
+                }
+                else{
+                    if((b->vel).x<0 && (b->vel).y<0){ //if the ball hits the brick in an downward-left velocity
+                        (b->vel).y = -((b->vel).y);
+                    }if((b->vel).x>0 && (b->vel).y>0){ //if the ball hits the brick in an upward-right velocity
+                        (b->vel).x = -((b->vel).x);
+                    }else{
+                        (b->vel).x = -((b->vel).x);
+                        (b->vel).y = -((b->vel).y);
+                    }
                 }
                 removeBrick(i, j, playingField, bricks);
-                (b->vel).y = -((b->vel).y);
+
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
-            }else if(playingField[i][j] == 217){
+
+
+            }else if(playingField[i][j] == 191){ //n�r bolden rammer det oeverste hoejre hjoerne
+                if(playingField[i+1][j] == 218){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
+                    (b->vel).y = -((b->vel).y);
+                }
+                if(playingField[i][j-1] == 217){
+                    (b->vel).x = -((b->vel).x);
+                }
+                else{
+                    if((b->vel).x<0 && (b->vel).y>0){ //if the ball hits the brick in an upward-left velocity
+                        (b->vel).x = -((b->vel).x);
+                    }if((b->vel).x>0 && (b->vel).y<0){ //if the ball hits the brick in an downward-right velocity
+                        (b->vel).y = -((b->vel).y);
+                    }else{
+                        (b->vel).x = -((b->vel).x);
+                        (b->vel).y = -((b->vel).y);
+                    }
+                }
+                cx = (b->pos).x + (b->vel).x;
+                cy = (b->pos).y + (b->vel).y;
+
+                while(playingField[i][j] != 218){
+                    i--;
+                }
+                removeBrick(i, j, playingField, bricks);
+            }else if(playingField[i][j] == 217){ //n�r bolden rammer det nederste hoejre hjoerne
+                if(playingField[i+1][j] == 192){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
+                    (b->vel).y = -((b->vel).y);
+                }
+                if(playingField[i][j+1] == 191){
+                    (b->vel).x = -((b->vel).x);
+                }
+                else{
+                    if((b->vel).x<0 && (b->vel).y<0){ //if the ball hits the brick in an downward-left velocity
+                        (b->vel).x = -((b->vel).x);
+                    }if((b->vel).x>0 && (b->vel).y>0){ //if the ball hits the brick in an upward-right velocity
+                        (b->vel).y = -((b->vel).y);
+                    }else{
+                        (b->vel).x = -((b->vel).x);
+                        (b->vel).y = -((b->vel).y);
+                    }
+                }
+                cx = (b->pos).x + (b->vel).x;
+                cy = (b->pos).y + (b->vel).y;
                 while(playingField[i][j] != 192){
                     i--;
-                    gotoxy(101, 21);
-                    printf("Test2");
                 }
                 while(playingField[i][j] != 218){
-                        j--;
+                    j--;
                 }
                 removeBrick(i, j, playingField, bricks);
-                (b->vel).y = -((b->vel).y);
-                cx = (b->pos).x + (b->vel).x;
-                cy = (b->pos).y + (b->vel).y;
+
             }
         }
-
-
-
-
-        (b->pos).x = cx;
+        (b->pos).x = cx; //boldens position bliver opdateret.
         (b->pos).y = cy;
 
     }
@@ -297,8 +389,8 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
 
 void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bricks) {
     uint8_t i, j;
-                     gotoxy(101, 25);
-                printf("Test6");
+            gotoxy(101, 25);
+            //printf("Test6");
     for(i = x; i < x+3; i++){
         for(j = y; j < y+4; j++){
             playingField[i][j] = 0;
@@ -307,8 +399,10 @@ void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *b
     (*bricks)--;
 }
 
-void ballToArray(struct ball_t *b, uint8_t playingField[128][32]) {
-    playingField[(b->pos).x >> FIX14_SHIFT][(b->pos).y >> FIX14_SHIFT] = 111;
+void ballToArray(struct ball_t *b, uint8_t playingField[128][32]){
+    if(playingField[(b->pos).x >> FIX14_SHIFT][(b->pos).y >> FIX14_SHIFT] == 0){
+        playingField[(b->pos).x >> FIX14_SHIFT][(b->pos).y >> FIX14_SHIFT] = 111;
+    }
 }
 
 void removeBallFromArray(struct ball_t *b, uint8_t playingField[128][32]) {
