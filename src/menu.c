@@ -2,8 +2,34 @@
 #include "ansi.h"
 #include "lcd.h"
 #include "timer.h"
+#include "lcd.h"
 extern uint8_t updateLCD;
-
+void drawSonic(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
+    if (*sonicCount == 20){
+        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+        sonicAni1(playingField, 0,0);
+        drawChangeInArray(playingField, oldPlayingField);
+        convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
+    }
+    else if(*sonicCount == 40){
+        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+        sonicAni2(playingField, 0,0);
+        drawChangeInArray(playingField, oldPlayingField);
+        convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
+    }
+    else if(*sonicCount == 60){
+        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+        sonicAni3(playingField, 0,0);
+        drawChangeInArray(playingField, oldPlayingField);
+        convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
+    }
+    else if (*sonicCount == 80){
+        *sonicCount = 0;
+    }
+}
 void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],int8_t *menuSettings, uint16_t *testCount){
     uint8_t x, oldx, menuTrack = 0;
     //*testCount=0;

@@ -67,7 +67,7 @@ int main(void){
         char str1[12];
         uint16_t xx, yy;
         uint8_t playingField[128][32], oldPlayingField[128][32];
-        uint8_t testCount = 0;
+        uint8_t testCount = 0,sonicCount = 0;
 
         uint16_t xtest;
 
@@ -100,11 +100,11 @@ int main(void){
         //level_easy(playingField, 50, 3);
         //numberWrite(playingField, 50,15, 2);
 
-        sonicAni1(playingField, 0, 0);
-        sonicAni2(playingField, 30, 0);
-        sonicAni3(playingField, 60, 0);
-        convertArrayToBuffer(playingField);
-        lcd_push_buffer(lcdArray);
+        //sonicAni1(playingField, 2, 0);
+        //sonicAni2(playingField, 30, 0);
+        //sonicAni3(playingField, 60, 0);
+        //convertArrayToBuffer(playingField);
+        //lcd_push_buffer(lcdArray);
 
 
 
@@ -112,15 +112,17 @@ int main(void){
 
         while (1) {
             if (updateLCD == 1){
+                gotoxy(2,2);
                 xx = FIX14_MULT(FIX14_DIV(readADC1(),4088),(23));
                 yy = FIX14_MULT(FIX14_DIV(readADC2(),4088),(23));
-
+                printf("%d test",sonicCount);
                 //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
 
                 //lcd_push_buffer(playingField);
                 //menuSquare(playingField, 10, 5, 20, 20);
                 //convertArrayToBuffer(playingField);
                 //lcd_push_buffer(playingField);
+                drawSonic(playingField,oldPlayingField,&sonicCount);
                 updatePlayer(playingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
@@ -128,6 +130,8 @@ int main(void){
                 copyArray(*playingField, *oldPlayingField);
                 //lcd_update();
                 //testCount++;
+                sonicCount++;
+
             }
             /*
             if(testCount == 1){

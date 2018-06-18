@@ -30,4 +30,5 @@ void logo(uint8_t a[128][32], uint8_t x, uint8_t y);
 void sonicAni1(uint8_t a[128][32], uint8_t x, uint8_t y);
 void sonicAni2(uint8_t a[128][32], uint8_t x, uint8_t y);
 void sonicAni3(uint8_t a[128][32], uint8_t x, uint8_t y);
+void drawSonic(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32], uint8_t *sonicCount);
 #endif
