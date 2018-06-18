@@ -145,10 +145,11 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
             printf("          ");
             */
             if((leftOrRight)?(cy > ((strikerLeft) << FIX14_SHIFT) && cy <= ((len+strikerLeft) << FIX14_SHIFT)):(cy > (strikerRight << FIX14_SHIFT) && cy <= ((len+strikerRight) << FIX14_SHIFT))){  //toppen, tjekker
+                (b->vel).x = -((b->vel).x);
                 if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
-                    rotate(&(b->vel), -85);
+                    rotate(&(b->vel), 43);
                 }else{
-                    rotate(&(b->vel), 85);
+                    rotate(&(b->vel), -43);
                     }
                 if(leftOrRight){ //vinklen er for lille
                     if((b->vel).x<0){
@@ -164,10 +165,11 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 printf("hit top");
             }
             else if((leftOrRight)?(cy > ((len+strikerLeft) << FIX14_SHIFT) && cy <= (((len*2)+strikerLeft) << FIX14_SHIFT)):(cy > ((len+strikerRight) << FIX14_SHIFT) && cy <= (((len*2)+strikerRight) << FIX14_SHIFT))){  //nestøverste, tjekker
+                (b->vel).x = -((b->vel).x);
                 if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
-                    rotate(&(b->vel), -107);
+                    rotate(&(b->vel), 21);
                 }else{
-                    rotate(&(b->vel), 107);
+                    rotate(&(b->vel), -21);
                 }
                 if(leftOrRight){ //vinklen er for lille
                     if((b->vel).x<0){
@@ -187,10 +189,11 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 printf("hit mid");
             }
             else if((leftOrRight)?(cy > (((len*3)+strikerLeft) << FIX14_SHIFT) && cy <= (((len*4)+strikerLeft) << FIX14_SHIFT)):(cy > (((len*3)+strikerRight) << FIX14_SHIFT) && cy <= (((len*4)+strikerRight) << FIX14_SHIFT))){  //nestøverste, tjekker
+                 (b->vel).x = -((b->vel).x);
                  if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
-                    rotate(&(b->vel), -149);
+                    rotate(&(b->vel), -21);
                 }else{
-                    rotate(&(b->vel), 149);
+                    rotate(&(b->vel), 21);
                 }
                 if(leftOrRight){ //vinklen er for lille
                     if((b->vel).x<0){
@@ -205,10 +208,11 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 printf("hit midbot");
             }
             else if((leftOrRight)?(cy > (((len*4)+strikerLeft) << FIX14_SHIFT) && cy < ((len*5)+strikerLeft) << FIX14_SHIFT):(cy > (((len*4)+strikerRight) << FIX14_SHIFT) && cy <= (((len*5)+strikerRight) << FIX14_SHIFT))){  //nestøverste, tjekker
+                (b->vel).x = -((b->vel).x);
                 if((leftOrRight)?((b->vel).y>0):((b->vel).y<0)){ //tjekker om det er højre eller venstre. 0 er venstre, 1 er højre.
-                    rotate(&(b->vel), -171);
+                    rotate(&(b->vel), -43);
                 }else{
-                    rotate(&(b->vel), 171);
+                    rotate(&(b->vel), 43);
                 }
                 if(leftOrRight){ //vinklen er for lille
                     if((b->vel).x<0){
@@ -256,7 +260,6 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 }else if(playingField[i][j] == 218){
                     removeBrick(i, j, playingField, bricks);
                 }
-
                 (b->vel).y = -((b->vel).y);
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
@@ -289,10 +292,18 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 if(playingField[i][j+1] == 218){
                     (b->vel).x = -((b->vel).x);
                 }
-                else if(!(playingField[i-1][j] == 217 || playingField[i][j+1] == 217)){
-                    (b->vel).x = -((b->vel).x);
-                    (b->vel).y = -((b->vel).y);
+                else{
+                    if((b->vel).x<0 && (b->vel).y>0){ //if the ball hits the brick in an upward-left velocity
+                        (b->vel).y = -((b->vel).y);
+                    }else if((b->vel).x>0 && (b->vel).y<0){ //if the ball hits the brick in an downward-right velocity
+                        (b->vel).x = -((b->vel).x);
+                    }else{
+                        (b->vel).x = -((b->vel).x);
+                        (b->vel).y = -((b->vel).y);
+                    }
+
                 }
+
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
                 while(playingField[i][j] != 218){
@@ -305,19 +316,26 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
             }
 
             else if(playingField[i][j] == 218){ //når bolden rammer det oeverste venstre hjoerne
-                removeBrick(i, j, playingField, bricks);
                 if(playingField[i-1][j] == 191){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
                     (b->vel).y = -((b->vel).y);
                 }
                 if(playingField[i][j-1] == 192){
                     (b->vel).x = -((b->vel).x);
                 }
-                else if(!(playingField[i-1][j] == 191 || playingField[i][j-1] == 192)){
-                    (b->vel).x = -((b->vel).x);
-                    (b->vel).y = -((b->vel).y);
+                else{
+                    if((b->vel).x<0 && (b->vel).y<0){ //if the ball hits the brick in an downward-left velocity
+                        (b->vel).y = -((b->vel).y);
+                    }else if((b->vel).x>0 && (b->vel).y>0){ //if the ball hits the brick in an upward-right velocity
+                        (b->vel).x = -((b->vel).x);
+                    }else{
+                        (b->vel).x = -((b->vel).x);
+                        (b->vel).y = -((b->vel).y);
+                    }
                 }
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
+                removeBrick(i, j, playingField, bricks);
+
 
             }else if(playingField[i][j] == 191){ //når bolden rammer det oeverste hoejre hjoerne
                 if(playingField[i+1][j] == 218){ //Tjekker om de naerliggende bricks ligger vandret eller lodret
@@ -326,9 +344,15 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 if(playingField[i][j-1] == 217){
                     (b->vel).x = -((b->vel).x);
                 }
-                else if(!(playingField[i+1][j] == 218 || playingField[i][j+1] == 217)){
-                    (b->vel).x = -((b->vel).x);
-                    (b->vel).y = -((b->vel).y);
+                else{
+                    if((b->vel).x<0 && (b->vel).y>0){ //if the ball hits the brick in an upward-left velocity
+                        (b->vel).x = -((b->vel).x);
+                    }else if((b->vel).x>0 && (b->vel).y<0){ //if the ball hits the brick in an downward-right velocity
+                        (b->vel).y = -((b->vel).y);
+                    }else{
+                        (b->vel).x = -((b->vel).x);
+                        (b->vel).y = -((b->vel).y);
+                    }
                 }
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
@@ -346,9 +370,16 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
                 if(playingField[i][j+1] == 191){
                     (b->vel).x = -((b->vel).x);
                 }
-                else if(!(playingField[i+1][j] == 192 || playingField[i][j+1] == 191)){
-                    (b->vel).x = -((b->vel).x);
-                    (b->vel).y = -((b->vel).y);
+                else{
+                    if((b->vel).x<0 && (b->vel).y<0){ //if the ball hits the brick in an downward-left velocity
+                        (b->vel).x = -((b->vel).x);
+                    }else if((b->vel).x>0 && (b->vel).y>0){ //if the ball hits the brick in an upward-right velocity
+                        (b->vel).y = -((b->vel).y);
+                    }else{
+                        (b->vel).x = -((b->vel).x);
+                        (b->vel).y = -((b->vel).y);
+                    }
+
                 }
                 cx = (b->pos).x + (b->vel).x;
                 cy = (b->pos).y + (b->vel).y;
