@@ -37,7 +37,7 @@ void drawBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32]);
 void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint8_t playingField[128][32], uint8_t *bricks, uint8_t *lives, uint8_t *score, struct powerUp_t *p, uint8_t *balls);
 void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bricks, struct powerUp_t *p, int8_t powerUpLeftOrRight);
 
-void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, struct ball_t *c, uint8_t playingField[128][32], uint8_t *balls);
+void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, struct ball_t *c, struct ball_t *d, struct ball_t *e, struct ball_t *f, uint8_t playingField[128][32], uint8_t *balls);
 void powerToArray(struct powerUp_t *p, uint8_t playingField[128][32]);
 
 void ballToArray(struct ball_t *b, uint8_t playingField[128][32]);

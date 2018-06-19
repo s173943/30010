@@ -137,23 +137,6 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
         }
 
         if (cx <= ((x1) << FIX14_SHIFT) || cx >= ((x2) << FIX14_SHIFT)){ //n�r bolden rammer en strike
-    /*
-            gotoxy(105, 25);
-            printf("%03d", strikerLeft);
-            gotoxy(105, 26);
-            printf("%03d", strikerRight);
-
-            gotoxy(50, 17);
-            printf("          ");
-            gotoxy(50, 18);
-            printf("          ");
-            gotoxy(50, 19);
-            printf("          ");
-            gotoxy(50, 20);
-            printf("          ");
-            gotoxy(50, 21);
-            printf("          ");
-            */
             if((leftOrRight)?(cy > ((strikerLeft) << FIX14_SHIFT) && cy <= ((len+strikerLeft) << FIX14_SHIFT)):(cy > (strikerRight << FIX14_SHIFT) && cy <= ((len+strikerRight) << FIX14_SHIFT))){  //toppen, tjekker
                 (b->vel).x = -((b->vel).x);
                 if(leftOrRight){ //tjekker om det er h�jre eller venstre. 1 er venstre, 0 er h�jre.
@@ -423,8 +406,6 @@ void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *b
     if(random == 1){
         initPowerUp(p, x+1, y+1, powerUpLeftOrRight);
     }
-            //gotoxy(101, 25);
-            //printf("Test6");
     for(i = x; i < x+3; i++){
         for(j = y; j < y+4; j++){
             playingField[i][j] = 0;
@@ -433,7 +414,7 @@ void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *b
     (*bricks)--;
 }
 
-void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, struct ball_t *c, uint8_t playingField[128][32], uint8_t *balls){
+void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, struct ball_t *c, struct ball_t *d, struct ball_t *e, struct ball_t *f, uint8_t playingField[128][32], uint8_t *balls){
     uint8_t q, strikerRight, strikerLeft;
     if(p->vel != 0){
         if(p->x > x1+1 && p->x < x2+1){
@@ -451,7 +432,7 @@ void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, 
                 }
                 }
                 if(p->y > strikerRight && p->y < strikerRight+10){
-                    if(*balls<2){
+                    if(*balls<5){
                         (*balls)++;
                     }
                     if(b->state == 3){
@@ -459,6 +440,15 @@ void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, 
                     }
                     if(c->state == 3){
                         initBall(c, x2+1, 5+strikerRight, 0, 0, 1);
+                    }
+                    if(d->state == 3){
+                        initBall(d, x2+1, 5+strikerRight, 0, 0, 1);
+                    }
+                    if(e->state == 3){
+                        initBall(e, x2+1, 5+strikerRight, 0, 0, 1);
+                    }
+                    if(f->state == 3){
+                        initBall(f, x2+1, 5+strikerRight, 0, 0, 1);
                     }
                 }
                 initPowerUp(p, 5, 5, 0);
@@ -473,7 +463,7 @@ void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, 
                     }
                 }
                 if(p->y > strikerLeft && p->y < strikerLeft+10){
-                    if(*balls<2){
+                    if(*balls<5){
                         (*balls)++;
                     }
                     if(b->state == 3){
@@ -481,6 +471,15 @@ void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, 
                     }
                     if(c->state == 3){
                         initBall(c, x1+1, 5+strikerLeft, 0, 0, 0);
+                    }
+                    if(d->state == 3){
+                        initBall(d, x1+1, 5+strikerLeft, 0, 0, 0);
+                    }
+                    if(e->state == 3){
+                        initBall(e, x1+1, 5+strikerLeft, 0, 0, 0);
+                    }
+                    if(f->state == 3){
+                        initBall(f, x1+1, 5+strikerLeft, 0, 0, 0);
                     }
                 }
                 initPowerUp(p, 5, 5, 0);

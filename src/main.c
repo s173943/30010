@@ -40,6 +40,9 @@ int main(void){
         uint8_t balls = 1;
         struct ball_t b;
         struct ball_t c;
+        struct ball_t d;
+        struct ball_t e;
+        struct ball_t f;
         struct powerUp_t p;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
@@ -52,6 +55,9 @@ int main(void){
 
         initBall(&b, 10, 5, 1, 1, 0);
         initBall(&c, 10, 5, 1, 1, 3);
+        initBall(&d, 10, 5, 1, 1, 3);
+        initBall(&e, 10, 5, 1, 1, 3);
+        initBall(&f, 10, 5, 1, 1, 3);
         initPowerUp(&p, 0, 0, 0); //resetter poweruppen
         //initBall(&c, 80, 6, -1, -1);
 
@@ -79,14 +85,23 @@ int main(void){
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
                 removeBallFromArray(&c, playingField);
+                removeBallFromArray(&d, playingField);
+                removeBallFromArray(&e, playingField);
+                removeBallFromArray(&f, playingField);
                 removePowerUpFromArray(&p, playingField);
                 updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls);
                 updatePosition(&c, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls);
-                powerUpdate(&p, 1, 99, &b, &c, playingField, &balls);
+                updatePosition(&d, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls);
+                updatePosition(&e, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls);
+                updatePosition(&f, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls);
+                powerUpdate(&p, 1, 99, &b, &c, &d, &e, &f, playingField, &balls);
                 //powerUpdate(&p, 1, 99, &c, playingField, &balls);
                 powerToArray(&p, playingField);
                 ballToArray(&b, playingField);
                 ballToArray(&c, playingField);
+                ballToArray(&d, playingField);
+                ballToArray(&e, playingField);
+                ballToArray(&f, playingField);
                 livesToArray(playingField, 102, 17, lives);
                 scoreToArray(playingField, 102, 0, score);
                 // Draw change in array and push buffer
