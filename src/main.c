@@ -47,11 +47,11 @@ int main(void){
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset playing field (to 0)
         memset(oldPlayingField, 0x00, sizeof (uint8_t) * 128 * 32); // Reset old playing field (to 0)
 
-        configTimer1();
-        configTimer2();
-        configADCS();
-        configSpeaker();
-        configJoy();
+        configTimer1(); // Config TIM1 and IRQ16 for timer stuff
+        configTimer2(); // Config TIM2 for PWM control
+        configADCS(); // Config general ADC settings
+        configSpeaker(); // Config speaker and wire TIM2 with it
+        configJoy(); // Config Joystick
 
         setSpeed(10); // Initial update speed = 10 times per second
         TIM1->CR1 |= 0x0001; // Start timer
@@ -62,10 +62,10 @@ int main(void){
         while (1) {
             if (updateLCD == 1){
                 // Will hang in menu till play is pressed, then draw map and stuff
-                menuTree(playingField,oldPlayingField, &menuSettings, &testCount, &lives);
+                menuTree(playingField,oldPlayingField, &menuSettings, &menuSettingsCheck, &testCount, &lives);
                 interpretMenuSettings(playingField, oldPlayingField, menuSettings, &menuSettingsCheck, &bricks);
 
-                // Update player and ball
+                // Update playingField with everything
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
                 updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score);

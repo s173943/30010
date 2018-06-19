@@ -11,12 +11,25 @@ void drawLevel(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t bric
     }
 }
 
-void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],uint8_t *menuSettings, uint16_t *testCount, uint8_t *lives){
+void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],uint8_t *menuSettings, uint8_t *menuSettingsCheck, uint16_t *testCount, uint8_t *lives){
     uint8_t x, oldx, menuTrack = 0, selector = 1;
 
-    while(((*menuSettings >> 0) & 1) == 0){
+    if (((((*menuSettings) >> 0) & 1) != 0) && (readJoystick() & (0x001 << 1))) {
+        (*menuSettings) &= ~(0x01); // Sets first bit to 0
+        (*menuSettingsCheck) = 0; // Sets first bit to 0
+        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+    }
+
+    /*
+    Bit 0: Gamestart = 1
+    Bit 1: Single-/2- player
+    Bit 2: Easy
+    Bit 3: Medium
+    Bit 4: Hard
+    */
+
+    while((((*menuSettings) >> 0) & 1) == 0){
         x=readJoystick();
-        gotoxy(1,1);
         if (menuTrack == 0){
             startMenu(playingField, selector, testCount, &menuTrack);
             drawChangeInArray(playingField, oldPlayingField);
