@@ -200,9 +200,9 @@ void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPla
     x = readJoystick();
     if (oldx!=x){
         if(*workorPay == 0){
-            if(readJoystick() & (0x001 << 1)){
+            if(readJoystick() & (0x01 << 1)){
                     copyArray(*playingField, *paused);
-                    copyArray(*playingField, *oldPlayingField);
+                    //copyArray(*playingField, *oldPlayingField);
                     memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                     setFreq(0);
                     *workorPay = 1;
@@ -217,7 +217,7 @@ void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPla
                     // Copy array into oldArray, for comparison
             copyArray(*playingField, *oldPlayingField);
 
-                if(readJoystick() & (0x001 << 1)){
+                if(readJoystick() & (0x01 << 1)){
                     memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                     //drawChangeInArray(playingField, paused);
                     copyArray(*paused,*playingField);
