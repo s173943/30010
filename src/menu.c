@@ -11,10 +11,10 @@ void drawLevel(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t bric
     }
 }
 
-void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],uint8_t *menuSettings, uint8_t *menuSettingsCheck, uint16_t *testCount, uint8_t *lives){
-    uint8_t x, oldx, menuTrack = 0, selector = 1;
+void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],uint8_t *menuSettings, uint8_t *menuSettingsCheck, uint16_t *testCount, uint8_t *lives, uint8_t *oldx){
+    uint8_t x = readJoystick(), menuTrack = 0, selector = 1;
 
-    if (((((*menuSettings) >> 0) & 1) != 0) && (readJoystick() & (0x001 << 1))) {
+    if (((((*menuSettings) >> 0) & 1) != 0) && (readJoystick() & (0x001 << 1)) && (x != (*oldx))) {
         (*menuSettings) &= ~(0x01); // Sets first bit to 0
         (*menuSettingsCheck) = 0; // Sets first bit to 0
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
@@ -37,7 +37,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
             lcd_push_buffer(lcdArray);
             copyArray(*playingField, *oldPlayingField);
 
-            if (x!=oldx){
+            if (x!=(*oldx)){
                 blinkSelect(4,&selector);
                 if((readJoystick()>>4)&1){
                     switch(selector){
@@ -68,7 +68,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
                             break;
                     }
                 }
-                oldx = x;
+                (*oldx) = x;
             }
         }
         // Level/Difficulty menu
@@ -78,7 +78,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
             convertArrayToBuffer(playingField);
             lcd_push_buffer(lcdArray);
             copyArray(*playingField, *oldPlayingField);
-            if (x!=oldx){
+            if (x!=(*oldx)){
                 blinkSelect(3,&selector);
                 if((readJoystick()>>4)&1){
                     switch(selector){
@@ -105,7 +105,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
                             break;
                     }
                 }
-                oldx = x;
+                (*oldx) = x;
             }
         }
         // Mode menu
@@ -116,7 +116,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
             lcd_push_buffer(lcdArray);
             copyArray(*playingField, *oldPlayingField);
 
-            if (x!=oldx){
+            if (x!=(*oldx)){
                 blinkSelect(2,&selector);
                 if((readJoystick()>>4)&1){
                     switch(selector){
@@ -137,7 +137,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
                     }
                     memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                 }
-                oldx = x;
+                (*oldx) = x;
             }
         }
         // Help menu
@@ -147,7 +147,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
             convertArrayToBuffer(playingField);
             lcd_push_buffer(lcdArray);
             copyArray(*playingField, *oldPlayingField);
-            if (x!=oldx){
+            if (x!=(*oldx)){
                 blinkSelect(1,&selector);
                 if((readJoystick()>>4)&1){
                     menuTrack = 0;
@@ -161,7 +161,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
                     */
                     memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                 }
-                oldx = x;
+                (*oldx) = x;
             }
         }
         *testCount = *testCount +1;
@@ -241,21 +241,21 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
         oldPlayingField[i] = playingField[i];
     }
 }
-void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPlayingField[128][32]){
-    uint8_t oldx,x;
-    x = readJoystick();
-    if (oldx!=x){
+void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPlayingField[128][32], uint8_t *oldx){
+    uint8_t x = readJoystick();
+
+    if ((*oldx)!=x){
         if(*workorPay == 0){
-            if(readJoystick() & (0x01 << 1)){
+            if(readJoystick() & (0x01 << 4)){
                 copyArray(*playingField, *oldPlayingField);
-                //copyArray(*playingField, *oldPlayingField);
                 memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                 setFreq(0);
                 *workorPay = 1;
             }
-            oldx = x;
+            (*oldx) = x;
         }
         while(*workorPay == 1){
+            x = readJoystick();
             bossKey(playingField,0,0);
             drawWindowFromArray(playingField);
             convertArrayToBuffer(playingField);
@@ -263,7 +263,7 @@ void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPla
             // Copy array into oldArray, for comparison
             //copyArray(*playingField, *oldPlayingField);
 
-            if(readJoystick() & (0x01 << 1)){
+            if(x & (0x01 << 4) && (*oldx)!=x){
                 memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                 //drawChangeInArray(playingField, paused);
                 copyArray(*oldPlayingField,*playingField);
@@ -271,9 +271,9 @@ void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPla
                 lcd_push_buffer(lcdArray);
                 *workorPay = 0;
             }
-
+            (*oldx) = x;
         }
-        oldx = x;
+        (*oldx) = x;
     }
 }
 

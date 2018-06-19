@@ -29,7 +29,7 @@ extern uint8_t updateLCD;
 
 int main(void){
         uint16_t bgMusicState = 0;
-        uint8_t bricks, lives, score = 0;
+        uint8_t bricks, lives, score = 0, oldJoy = 0;
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
@@ -62,8 +62,9 @@ int main(void){
         while (1) {
             if (updateLCD == 1){
                 // Will hang in menu till play is pressed, then draw map and stuff
-                menuTree(playingField,oldPlayingField, &menuSettings, &menuSettingsCheck, &testCount, &lives);
+                menuTree(playingField,oldPlayingField, &menuSettings, &menuSettingsCheck, &testCount, &lives, &oldJoy);
                 interpretMenuSettings(playingField, oldPlayingField, menuSettings, &menuSettingsCheck, &bricks);
+                bossKeyEN(&workorPlay,playingField,oldPlayingField, &oldJoy);
 
                 // Update playingField with everything
                 updatePlayer(playingField);
@@ -74,7 +75,6 @@ int main(void){
                 scoreToArray(playingField, 102, 0, score);
 
                 // Draw change in array and push buffer
-                bossKeyEN(&workorPlay,playingField,oldPlayingField);
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
