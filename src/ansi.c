@@ -1,7 +1,4 @@
 #include "ansi.h"
-#include "string.h"
-#define ESC 0x1B
-
 
 void fgcolor(int foreground) {
 /*  Value      foreground     Value     foreground
@@ -72,28 +69,12 @@ void gotoxy(uint8_t x, uint8_t y) {
     printf("%c[%d;%dH", ESC, y, x);
 }
 
-void underline(uint8_t on) {
-    printf("%c[%dm", ESC, (on == 1)? 04:24);
-}
-
-void inverse(uint8_t on){
-    if (on == 1){
-        color(15,0);
-    } else {
-        color(0, 2);
-    }
-}
-
 void showCursor(uint8_t on) {
     if (on == 1){
         printf("%c[?25h", ESC);
     } else {
         printf("%c[?25l", ESC);
     }
-}
-
-void blink(uint8_t on){
-    printf("%c[%dm", ESC, (on == 1)? 05:25);
 }
 
 void drawWindowFromArray(uint8_t playingField[128][32]) {

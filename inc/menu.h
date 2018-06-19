@@ -12,6 +12,7 @@
 #include "speaker.h"
 
 #define BLOCK 219
+
 void drawLevel(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t bricksx, uint8_t bricksy, uint8_t *bricks);
 
 void menuTree(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *menuSettings, uint8_t *menuSettingsCheck, uint16_t *testCount, uint8_t *lives, uint8_t *oldx);

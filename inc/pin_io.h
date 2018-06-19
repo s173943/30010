@@ -2,6 +2,7 @@
 #define _PIN_IO_H_
 
 #include "stm32f30x_conf.h"
+#include "timer.h"
 
 void pinSetup(uint16_t port, char portName, uint32_t moder, uint32_t puder);
 void configJoy();

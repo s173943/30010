@@ -95,6 +95,7 @@
 		<Unit filename="inc\lcd.h" />
 		<Unit filename="inc\menu.h" />
 		<Unit filename="inc\pin_io.h" />
+		<Unit filename="inc\speaker.h" />
 		<Unit filename="inc\stm32f30x.h" />
 		<Unit filename="inc\stm32f30x_conf.h" />
 		<Unit filename="inc\system_stm32f30x.h" />
@@ -213,7 +214,6 @@
 		<Unit filename="src\speaker.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="src\speaker.h" />
 		<Unit filename="src\startup_stm32f30x.S">
 			<Option compilerVar="CC" />
 		</Unit>

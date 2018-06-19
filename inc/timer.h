@@ -1,9 +1,9 @@
+#ifndef _TIMER_H_
+#define _TIMER_H_
+
 #include "stm32f30x_conf.h"
 #include "lcd.h"
 #include <stdio.h>
-
-#ifndef _TIMER_H_
-#define _TIMER_H_
 
 //A flag for updating the LCD
 extern uint8_t updateLCD;

@@ -11,17 +11,6 @@ void initBall(struct ball_t *b, int32_t x, int32_t y, int32_t vx, int32_t vy, ui
     (b->state) = aliveOrDead;
 }
 
-void drawBall(struct ball_t *b, uint8_t hx, uint8_t hy) {
-    gotoxy((b->pos).x >> FIX14_SHIFT,(b->pos).y >> FIX14_SHIFT);
-    printf("%c", 111);
-    gotoxy(hx, hy);
-}
-
-void removeBall(struct ball_t *b) {
-    gotoxy((b->pos).x >> FIX14_SHIFT, (b->pos).y >> FIX14_SHIFT);
-    printf(" ");
-}
-
 void drawBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32]){
     uint8_t vChar, hChar, dlcChar, drcChar, tlcChar, trcChar;
     vChar = 179;

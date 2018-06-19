@@ -55,7 +55,6 @@ int main(void){
 
         setSpeed(10); // Initial update speed = 10 times per second
         TIM1->CR1 |= 0x0001; // Start timer
-        setScrolling(0x00); // No scrolling
 
         soundMode = 10;
 

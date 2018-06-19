@@ -1,5 +1,4 @@
 #include "pin_io.h"
-#include "timer.h"
 
 void pinSetup(uint16_t port, char portName, uint32_t moder, uint32_t puder) {
     if (portName == 'A')
@@ -51,6 +50,13 @@ void configJoy() {
     RCC->AHBENR |= RCC_AHBPeriph_GPIOB; // Enable clock for port B.
     RCC->AHBENR |= RCC_AHBPeriph_GPIOC; // Enable clock for port C.
 
+    pinSetup(0, 'C', 0, 0); // PC0
+    pinSetup(4, 'A', 0, 0); // PA4
+    pinSetup(5, 'B', 0, 0); // PB5
+    pinSetup(1, 'C', 0, 0); // PC1
+    pinSetup(0, 'B', 0, 0); // PB0
+
+    /*
     // Clear mode registers
     GPIOC->MODER &= ~(0x00000003 << (0 * 2)); // Right   (PC0)
     GPIOA->MODER &= ~(0x00000003 << (4 * 2)); // UP      (PA4)
@@ -75,6 +81,7 @@ void configJoy() {
     GPIOB->PUPDR |= (0x00000000 << (5 * 2)); // Center  (PB5)
     GPIOC->PUPDR |= (0x00000000 << (1 * 2)); // Left    (PC1)
     GPIOB->PUPDR |= (0x00000000 << (0 * 2)); // Down    (PB0)
+    */
 }
 
 uint8_t readJoystick() {

@@ -219,12 +219,10 @@ void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPla
             drawWindowFromArray(playingField);
             convertArrayToBuffer(playingField);
             lcd_push_buffer(lcdArray);
-            // Copy array into oldArray, for comparison
-            //copyArray(*playingField, *oldPlayingField);
 
             if(x & (0x01 << 4) && (*oldx)!=x){
                 memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-                //drawChangeInArray(playingField, paused);
+                drawWindowFromArray(playingField);
                 copyArray(*oldPlayingField,*playingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
