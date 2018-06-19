@@ -31,5 +31,6 @@ void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *b
 
 void ballToArray(struct ball_t *b, uint8_t playingField[128][32]);
 void removeBallFromArray(struct ball_t *b, uint8_t playingField[128][32]);
+void updatePlayer(uint8_t a[128][32]);
 
 #endif /* _BALL_H_ */

@@ -391,3 +391,26 @@ void ballToArray(struct ball_t *b, uint8_t playingField[128][32]){
 void removeBallFromArray(struct ball_t *b, uint8_t playingField[128][32]) {
     playingField[(b->pos).x >> FIX14_SHIFT][(b->pos).y >> FIX14_SHIFT] = 0;
 }
+
+void updatePlayer(uint8_t a[128][32]){
+    uint8_t i;
+    uint16_t xx, yy;
+    xx = FIX14_MULT(FIX14_DIV(readADC1(),4096),(PLAYERMAX));
+    yy = FIX14_MULT(FIX14_DIV(readADC2(),4096),(PLAYERMAX));
+
+    // Remove everything in the player line.
+    for (i = 1; i < 31; i++) {
+        a[0][i] = 0;
+        a[100][i] = 0;
+    }
+
+    //player 1 replace
+    for (i = (xx+1); i < (xx+11); i++) {
+        a[0][i]=179;
+    }
+
+    //player 2 replace
+    for (i = (yy+1); i < (yy+11); i++) {
+        a[100][i]=179;
+    }
+}
