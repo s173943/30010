@@ -9,6 +9,7 @@
 #include "ansi.h"
 #include "ball.h"
 #include "timer.h"
+#include "speaker.h"
 
 #define BLOCK 219
 void drawLevel(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t bricksx, uint8_t bricksy, uint8_t *bricks);
@@ -28,6 +29,9 @@ void help(uint8_t a[128][32], uint8_t x, uint8_t y);
 void mode(uint8_t a[128][32], uint8_t x, uint8_t y);
 void level(uint8_t a[128][32], uint8_t x, uint8_t y);
 void play(uint8_t a[128][32], uint8_t x, uint8_t y);
+
+void drawLine(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t length, uint8_t height);
+void level_hard(uint8_t a[128][32], uint8_t x, uint8_t y);
 void level_medium(uint8_t a[128][32], uint8_t x, uint8_t y);
 void level_easy(uint8_t a[128][32], uint8_t x, uint8_t y);
 void ugandanKnuckles(uint8_t a[128][32], uint8_t x, uint8_t y);
