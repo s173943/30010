@@ -196,12 +196,12 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
 
 void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPlayingField[128][32]){
     uint8_t oldx,x;
-    uint8_t paused[128][32];
+    //uint8_t paused[128][32];
     x = readJoystick();
     if (oldx!=x){
         if(*workorPay == 0){
             if(readJoystick() & (0x01 << 1)){
-                    copyArray(*playingField, *paused);
+                    copyArray(*playingField, *oldPlayingField);
                     //copyArray(*playingField, *oldPlayingField);
                     memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                     setFreq(0);
@@ -211,16 +211,16 @@ void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPla
         }
         while(*workorPay == 1){
             bossKey(playingField,0,0);
-            drawChangeInArray(playingField, oldPlayingField);
+            drawWindowFromArray(playingField);
             convertArrayToBuffer(playingField);
             lcd_push_buffer(lcdArray);
                     // Copy array into oldArray, for comparison
-            copyArray(*playingField, *oldPlayingField);
+            //copyArray(*playingField, *oldPlayingField);
 
                 if(readJoystick() & (0x01 << 1)){
                     memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                     //drawChangeInArray(playingField, paused);
-                    copyArray(*paused,*playingField);
+                    copyArray(*oldPlayingField,*playingField);
                     convertArrayToBuffer(playingField);
                     lcd_push_buffer(lcdArray);
                     *workorPay = 0;
