@@ -11,12 +11,15 @@ void drawLevel(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t bric
     }
 }
 
-void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],uint8_t *menuSettings, uint8_t *menuSettingsCheck, uint16_t *testCount, uint8_t *lives, uint8_t *oldx){
+void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],uint8_t *menuSettings, uint8_t *menuSettingsCheck, uint16_t *testCount, uint8_t *lives, uint8_t *score, uint8_t *oldx){
     uint8_t x = readJoystick(), menuTrack = 0, selector = 1;
 
-    if (((((*menuSettings) >> 0) & 1) != 0) && (readJoystick() & (0x001 << 1)) && (x != (*oldx))) {
+    // If ingame and down is pressed let the menu start again, all is lost though!
+    if ((((((*menuSettings) >> 0) & 1) != 0) && (readJoystick() & (0x001 << 1)) && (x != (*oldx))) || (((*menuSettings) >> 6) & 1) != 0) {
         (*menuSettings) &= ~(0x01); // Sets first bit to 0
         (*menuSettingsCheck) = 0; // Sets first bit to 0
+        (*menuSettings) &= ~(0x01 << 5); // Reset win
+        (*menuSettings) &= ~(0x01 << 6); // Reset lost
         memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
     }
 
@@ -26,6 +29,8 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
     Bit 2: Easy
     Bit 3: Medium
     Bit 4: Hard
+    Bit 5: Won
+    Bit 6: Lost
     */
 
     while((((*menuSettings) >> 0) & 1) == 0){
@@ -47,6 +52,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             simpleMapToArray(playingField); // Draw edges
                             (*lives) = 3; // Can be set later on?
+                            (*score) = 0;
                             break;
                         // Level
                         case 2:
@@ -151,14 +157,6 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
                 blinkSelect(1,&selector);
                 if((readJoystick()>>4)&1){
                     menuTrack = 0;
-                    /*switch(selector){ ---------------------------------------------------------------------------- kilde til fejl pr 18/6
-                        // Help menu ?
-                        case 1:
-                            menuTrack = 0;
-                            selector = 1;
-                            break;
-                    }
-                    */
                     memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                 }
                 (*oldx) = x;
@@ -166,6 +164,16 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
         }
         *testCount = *testCount +1;
     }
+}
+
+void youLoseScreen(uint8_t a[128][32], uint8_t score) {
+    memset(a, 0x00, sizeof (uint8_t) * 128 * 32);
+    youLose(a, 37, 8, score);
+    drawWindowFromArray(a);
+    convertArrayToBuffer(a);
+    lcd_push_buffer(lcdArray);
+
+    while ((readJoystick() & (0x01 << 4)) != (0x01 << 4));
 }
 
 void interpretMenuSettings(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32], uint8_t menuSettings, uint8_t * menuSettingsCheck, uint8_t *bricks) {
@@ -1486,188 +1494,23 @@ void logo(uint8_t a[128][32], uint8_t x, uint8_t y){
 
 }
 
-void youLose(uint8_t a[128][32], uint8_t x, uint8_t y){
-    a[x+2][y+7] = BLOCK;
-	a[x+2][y+8] = BLOCK;
-	a[x+2][y+9] = BLOCK;
-	a[x+3][y+9] = BLOCK;
-	a[x+3][y+13] = BLOCK;
-	a[x+3][y+14] = BLOCK;
-	a[x+4][y+9] = BLOCK;
-	a[x+5][y+7] = BLOCK;
-	a[x+5][y+8] = BLOCK;
-	a[x+5][y+9] = BLOCK;
-	a[x+5][y+15] = BLOCK;
-	a[x+7][y+8] = BLOCK;
-	a[x+7][y+9] = BLOCK;
-	a[x+7][y+10] = BLOCK;
-	a[x+7][y+11] = BLOCK;
-	a[x+8][y+7] = BLOCK;
-	a[x+8][y+8] = BLOCK;
-	a[x+8][y+12] = BLOCK;
-	a[x+8][y+14] = BLOCK;
-	a[x+8][y+15] = BLOCK;
-	a[x+9][y+7] = BLOCK;
-	a[x+9][y+12] = BLOCK;
-	a[x+10][y+7] = BLOCK;
-	a[x+10][y+11] = BLOCK;
-	a[x+10][y+12] = BLOCK;
-	a[x+10][y+14] = BLOCK;
-	a[x+10][y+18] = BLOCK;
-	a[x+10][y+19] = BLOCK;
-	a[x+11][y+8] = BLOCK;
-	a[x+11][y+9] = BLOCK;
-	a[x+11][y+10] = BLOCK;
-	a[x+11][y+11] = BLOCK;
-	a[x+11][y+20] = BLOCK;
-	a[x+11][y+21] = BLOCK;
-	a[x+11][y+22] = BLOCK;
-	a[x+12][y+15] = BLOCK;
-	a[x+12][y+18] = BLOCK;
-	a[x+12][y+19] = BLOCK;
-	a[x+13][y+7] = BLOCK;
-	a[x+13][y+8] = BLOCK;
-	a[x+13][y+9] = BLOCK;
-	a[x+13][y+10] = BLOCK;
-	a[x+13][y+11] = BLOCK;
-	a[x+14][y+12] = BLOCK;
-	a[x+14][y+14] = BLOCK;
-	a[x+14][y+15] = BLOCK;
-	a[x+14][y+20] = BLOCK;
-	a[x+14][y+21] = BLOCK;
-	a[x+15][y+12] = BLOCK;
-	a[x+15][y+19] = BLOCK;
-	a[x+15][y+22] = BLOCK;
-	a[x+16][y+11] = BLOCK;
-	a[x+16][y+19] = BLOCK;
-	a[x+16][y+22] = BLOCK;
-	a[x+17][y+7] = BLOCK;
-	a[x+17][y+8] = BLOCK;
-	a[x+17][y+9] = BLOCK;
-	a[x+17][y+10] = BLOCK;
-	a[x+17][y+13] = BLOCK;
-	a[x+17][y+20] = BLOCK;
-	a[x+17][y+21] = BLOCK;
-	a[x+18][y+13] = BLOCK;
-	a[x+18][y+14] = BLOCK;
-	a[x+19][y+19] = BLOCK;
-	a[x+19][y+20] = BLOCK;
-	a[x+19][y+21] = BLOCK;
-	a[x+19][y+22] = BLOCK;
-	a[x+20][y+22] = BLOCK;
-	a[x+21][y+19] = BLOCK;
-	a[x+21][y+20] = BLOCK;
-	a[x+21][y+21] = BLOCK;
-	a[x+21][y+22] = BLOCK;
-	a[x+23][y+19] = BLOCK;
-	a[x+23][y+20] = BLOCK;
-	a[x+23][y+21] = BLOCK;
-	a[x+23][y+22] = BLOCK;
-	a[x+24][y+7] = BLOCK;
-	a[x+24][y+8] = BLOCK;
-	a[x+24][y+9] = BLOCK;
-	a[x+24][y+10] = BLOCK;
-	a[x+24][y+11] = BLOCK;
-	a[x+24][y+12] = BLOCK;
-	a[x+24][y+19] = BLOCK;
-	a[x+25][y+12] = BLOCK;
-	a[x+25][y+14] = BLOCK;
-	a[x+26][y+12] = BLOCK;
-	a[x+26][y+15] = BLOCK;
-	a[x+27][y+12] = BLOCK;
-	a[x+27][y+19] = BLOCK;
-	a[x+27][y+20] = BLOCK;
-	a[x+27][y+22] = BLOCK;
-	a[x+28][y+19] = BLOCK;
-	a[x+28][y+21] = BLOCK;
-	a[x+28][y+22] = BLOCK;
-	a[x+29][y+10] = BLOCK;
-	a[x+29][y+11] = BLOCK;
-	a[x+29][y+14] = BLOCK;
-	a[x+29][y+15] = BLOCK;
-	a[x+30][y+8] = BLOCK;
-	a[x+30][y+12] = BLOCK;
-	a[x+30][y+14] = BLOCK;
-	a[x+30][y+20] = BLOCK;
-	a[x+30][y+21] = BLOCK;
-	a[x+30][y+22] = BLOCK;
-	a[x+31][y+7] = BLOCK;
-	a[x+31][y+8] = BLOCK;
-	a[x+31][y+12] = BLOCK;
-	a[x+31][y+19] = BLOCK;
-	a[x+31][y+22] = BLOCK;
-	a[x+32][y+12] = BLOCK;
-	a[x+32][y+13] = BLOCK;
-	a[x+32][y+19] = BLOCK;
-	a[x+32][y+22] = BLOCK;
-	a[x+33][y+8] = BLOCK;
-	a[x+33][y+9] = BLOCK;
-	a[x+33][y+10] = BLOCK;
-	a[x+33][y+11] = BLOCK;
-	a[x+34][y+14] = BLOCK;
-	a[x+34][y+15] = BLOCK;
-	a[x+34][y+20] = BLOCK;
-	a[x+34][y+21] = BLOCK;
-	a[x+35][y+8] = BLOCK;
-	a[x+35][y+11] = BLOCK;
-	a[x+35][y+12] = BLOCK;
-	a[x+35][y+19] = BLOCK;
-	a[x+35][y+22] = BLOCK;
-	a[x+36][y+7] = BLOCK;
-	a[x+36][y+10] = BLOCK;
-	a[x+36][y+12] = BLOCK;
-	a[x+36][y+19] = BLOCK;
-	a[x+36][y+22] = BLOCK;
-	a[x+37][y+7] = BLOCK;
-	a[x+37][y+8] = BLOCK;
-	a[x+37][y+10] = BLOCK;
-	a[x+37][y+12] = BLOCK;
-	a[x+37][y+15] = BLOCK;
-	a[x+37][y+20] = BLOCK;
-	a[x+37][y+21] = BLOCK;
-	a[x+38][y+10] = BLOCK;
-	a[x+38][y+12] = BLOCK;
-	a[x+38][y+14] = BLOCK;
-	a[x+39][y+8] = BLOCK;
-	a[x+39][y+10] = BLOCK;
-	a[x+39][y+11] = BLOCK;
-	a[x+39][y+19] = BLOCK;
-	a[x+39][y+20] = BLOCK;
-	a[x+39][y+21] = BLOCK;
-	a[x+39][y+22] = BLOCK;
-	a[x+40][y+19] = BLOCK;
-	a[x+41][y+7] = BLOCK;
-	a[x+41][y+8] = BLOCK;
-	a[x+41][y+9] = BLOCK;
-	a[x+41][y+10] = BLOCK;
-	a[x+41][y+11] = BLOCK;
-	a[x+41][y+12] = BLOCK;
-	a[x+41][y+13] = BLOCK;
-	a[x+41][y+19] = BLOCK;
-	a[x+41][y+20] = BLOCK;
-	a[x+41][y+21] = BLOCK;
-	a[x+41][y+22] = BLOCK;
-	a[x+42][y+7] = BLOCK;
-	a[x+42][y+9] = BLOCK;
-	a[x+42][y+12] = BLOCK;
-	a[x+42][y+19] = BLOCK;
-	a[x+42][y+20] = BLOCK;
-	a[x+42][y+22] = BLOCK;
-	a[x+43][y+7] = BLOCK;
-	a[x+43][y+9] = BLOCK;
-	a[x+43][y+12] = BLOCK;
-	a[x+43][y+19] = BLOCK;
-	a[x+43][y+20] = BLOCK;
-	a[x+43][y+22] = BLOCK;
-	a[x+44][y+7] = BLOCK;
-	a[x+44][y+12] = BLOCK;
-	a[x+45][y+7] = BLOCK;
-	a[x+45][y+8] = BLOCK;
-	a[x+45][y+12] = BLOCK;
-	a[x+45][y+13] = BLOCK;
-	a[x+46][y+19] = BLOCK;
-	a[x+46][y+22] = BLOCK;
+void youLose(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t score){
+    charToArray(a, x+3, y+0, 'Y');
+    charToArray(a, x+9, y+0, 'O');
+    charToArray(a, x+15, y+0, 'U');
 
+    charToArray(a, x+27, y+0, 'L');
+    charToArray(a, x+33, y+0, 'O');
+    charToArray(a, x+38, y+0, 'S');
+    charToArray(a, x+45, y+0, 'E');
+
+    charToArray(a, x, y+8, 'S');
+    charToArray(a, x+6, y+8, 'C');
+    charToArray(a, x+12, y+8, 'O');
+    charToArray(a, x+18, y+8, 'R');
+    charToArray(a, x+24, y+8, 'E');
+
+    numberWrite(a, x+37, y+8, score);
 }
 
 void youWin(uint8_t a[128][32], uint8_t x, uint8_t y){
@@ -2923,6 +2766,11 @@ void charToArray(uint8_t a[128][32], uint8_t x, uint8_t y, char c) {
         a[x+3][y+5] = BLOCK;
         a[x+4][y] = BLOCK;
         a[x+4][y+6] = BLOCK;
+        break;
+    case 'U':
+        drawLine(a, x+1, y+6, 4, 1);
+        drawLine(a, x, y, 1, 6);
+        drawLine(a, x+5, y, 1, 6);
         break;
     }
 }

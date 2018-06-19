@@ -15,7 +15,7 @@
 
 void drawLevel(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t bricksx, uint8_t bricksy, uint8_t *bricks);
 
-void menuTree(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *menuSettings, uint8_t *menuSettingsCheck, uint16_t *testCount, uint8_t *lives, uint8_t *oldx);
+void menuTree(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *menuSettings, uint8_t *menuSettingsCheck, uint16_t *testCount, uint8_t *lives, uint8_t *score, uint8_t *oldx);
 void interpretMenuSettings(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32], uint8_t menuSettings, uint8_t * menuSettingsCheck,  uint8_t *bricks);
 
 void simpleMapToArray(uint8_t playingField[128][32]);
@@ -24,6 +24,10 @@ void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, 
 void modeMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack);
 void levelMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack);
 void helpMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack);
+
+void youLoseScreen(uint8_t a[128][32], uint8_t score);
+void youLose(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t score);
+void youWin(uint8_t a[128][32], uint8_t x, uint8_t y);
 
 void startMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount,uint8_t *menuTrack);
 void help(uint8_t a[128][32], uint8_t x, uint8_t y);

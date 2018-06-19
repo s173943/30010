@@ -14,13 +14,11 @@
 #include "stm32f30x_conf.h" // STM32 config
 #include "30010_io.h" // Input/output library for this course
 #include "ansi.h"
-#include "trigonometri.h"
 #include "ball.h"
 #include "pin_io.h"
 #include "timer.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "charset.h"
 #include "speaker.h"
 #include "menu.h"
 
@@ -29,8 +27,9 @@ extern uint8_t updateLCD;
 
 int main(void){
         uint16_t bgMusicState = 0;
-        uint8_t bricks, lives, score = 0, oldJoy = 0;
-        struct ball_t b;
+        uint8_t bricks, lives, score = 0, oldJoy = 0, balls = 1;
+        struct ball_t b, c, d, e, f;
+        struct powerUp_t p;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
         uint8_t menuSettings = 0x04, menuSettingsCheck = 0, workorPlay = 0;
@@ -40,7 +39,11 @@ int main(void){
         setupLCD();
 
         initBall(&b, 10, 5, 1, 1, 0);
-        //initBall(&c, 80, 6, -1, -1);
+        initBall(&c, 10, 5, 1, 1, 3);
+        initBall(&d, 10, 5, 1, 1, 3);
+        initBall(&e, 10, 5, 1, 1, 3);
+        initBall(&f, 10, 5, 1, 1, 3);
+        initPowerUp(&p, 0, 0, 0); // Reset the powerup
 
         clrscr(); // Clear putty terminal
         showCursor(0);
@@ -56,20 +59,43 @@ int main(void){
         setSpeed(10); // Initial update speed = 10 times per second
         TIM1->CR1 |= 0x0001; // Start timer
 
-        soundMode = 10;
+        soundMode = 10; // Muted = 10, 0 = background music
 
-        while (1) {
+        while(1){
             if (updateLCD == 1){
                 // Will hang in menu till play is pressed, then draw map and stuff
-                menuTree(playingField,oldPlayingField, &menuSettings, &menuSettingsCheck, &testCount, &lives, &oldJoy);
+                menuTree(playingField,oldPlayingField, &menuSettings, &menuSettingsCheck, &testCount, &lives, &score, &oldJoy);
                 interpretMenuSettings(playingField, oldPlayingField, menuSettings, &menuSettingsCheck, &bricks);
                 bossKeyEN(&workorPlay,playingField,oldPlayingField, &oldJoy);
 
-                // Update playingField with everything
+                // Update player
                 updatePlayer(playingField);
-                removeBallFromArray(&b, playingField);
-                updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score);
+
+                // Remove balls and powerup
+                removeBallFromArray(&b, playingField); // Could be made smaller with a function + loop
+                removeBallFromArray(&c, playingField);
+                removeBallFromArray(&d, playingField);
+                removeBallFromArray(&e, playingField);
+                removeBallFromArray(&f, playingField);
+                removePowerUpFromArray(&p, playingField);
+
+                // Update balls and powerup
+                updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls, &menuSettings);
+                updatePosition(&c, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls, &menuSettings);
+                updatePosition(&d, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls, &menuSettings);
+                updatePosition(&e, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls, &menuSettings);
+                updatePosition(&f, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls, &menuSettings);
+                powerUpdate(&p, 1, 99, &b, &c, &d, &e, &f, playingField, &balls);
+
+                // Put powerups and balls into array
+                powerToArray(&p, playingField);
                 ballToArray(&b, playingField);
+                ballToArray(&c, playingField);
+                ballToArray(&d, playingField);
+                ballToArray(&e, playingField);
+                ballToArray(&f, playingField);
+
+                // Add score and life to the array
                 livesToArray(playingField, 102, 17, lives);
                 scoreToArray(playingField, 102, 0, score);
 
