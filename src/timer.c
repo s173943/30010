@@ -1,5 +1,9 @@
 #include "timer.h"
 
+void setSpeed(uint8_t newSpeed) {
+    updateSpeed = newSpeed;
+}
+
 void configTimer2(){
     RCC->APB1ENR |= 0x00000001; // Enable clock line 2
 

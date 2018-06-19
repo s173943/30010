@@ -381,6 +381,9 @@ void speakerBGMusic(uint16_t * n, uint8_t mode) {
                 break;
             }
             break;
+        case 10:
+            setFreq(0);
+            break;
     }
     (*n)++;
 }

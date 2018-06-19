@@ -33,7 +33,7 @@ int main(void){
         struct ball_t b;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
-        int8_t menuSettings = 0;
+        uint8_t menuSettings = 0x04, menuSettingsCheck = 0;
 
         init_usb_uart( 460800 ); // Initialize USB serial at 115200 baud
         init_spi_lcd(); // Init spi lcd
@@ -53,15 +53,17 @@ int main(void){
         configSpeaker();
         configJoy();
 
+        setSpeed(10); // Initial update speed = 10 times per second
         TIM1->CR1 |= 0x0001; // Start timer
         setScrolling(0x00); // No scrolling
 
-        soundMode = 0;
+        soundMode = 10;
 
         while (1) {
             if (updateLCD == 1){
                 // Will hang in menu till play is pressed
-                menuTree(playingField,oldPlayingField, &menuSettings, &testCount, &bricks, &lives);
+                menuTree(playingField,oldPlayingField, &menuSettings, &testCount, &lives);
+                interpretMenuSettings(playingField, oldPlayingField, menuSettings, &menuSettingsCheck, &bricks);
                 // Update player and ball
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
@@ -76,7 +78,7 @@ int main(void){
                 // Copy array into oldArray, for comparison
                 copyArray(*playingField, *oldPlayingField);
                 // Cycle background music
-                //speakerBGMusic(&bgMusicState, soundMode);
+                speakerBGMusic(&bgMusicState, soundMode);
                 // Prepare for next update
                 updateLCD = 0;
             }

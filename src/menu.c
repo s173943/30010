@@ -1,56 +1,19 @@
 #include "menu.h"
-#include "ansi.h"
-#include "lcd.h"
-#include "ball.h"
-#include "timer.h"
 
 extern uint8_t updateLCD;
 
-void drawSonicLoser(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
-    if (*sonicCount == 1){
-        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni1(playingField, 70,0);
-        drawChangeInArray(playingField, oldPlayingField);
-        convertArrayToBuffer(playingField);
-        lcd_push_buffer(lcdArray);
-    }
-    else if(*sonicCount == 2){
-        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni1Loser(playingField, 70,0);
-        drawChangeInArray(playingField, oldPlayingField);
-        convertArrayToBuffer(playingField);
-        lcd_push_buffer(lcdArray);
+void drawLevel(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t bricksx, uint8_t bricksy, uint8_t *bricks){
+    for(uint8_t i = 0; i < bricksx; i++){
+        for(uint8_t j = 0; j < bricksy; j++){
+            drawBrick((x+i*3), (y+j*4), playingField);
+            (*bricks)++;
+        }
     }
 }
 
-void drawSonicWinner(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
-    if (*sonicCount == 1){
-        //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni1(playingField, 70,0);
-        drawChangeInArray(playingField, oldPlayingField);
-        convertArrayToBuffer(playingField);
-        lcd_push_buffer(lcdArray);
-    }
-    else if(*sonicCount == 2){
-        //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni2(playingField, 70,0);
-        drawChangeInArray(playingField, oldPlayingField);
-        convertArrayToBuffer(playingField);
-        lcd_push_buffer(lcdArray);
-    }
-    else if(*sonicCount == 3){
-        //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-        sonicAni4(playingField, 70,0);
-        drawChangeInArray(playingField, oldPlayingField);
-        convertArrayToBuffer(playingField);
-        lcd_push_buffer(lcdArray);
-    }
-
-}
-
-void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],int8_t *menuSettings, uint16_t *testCount, uint8_t *bricks, uint8_t *lives){
+void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],uint8_t *menuSettings, uint16_t *testCount, uint8_t *lives){
     uint8_t x, oldx, menuTrack = 0;
-    int8_t selector = 1;
+    uint8_t selector = 1;
 
     while(((*menuSettings >> 0) & 1) == 0){
         x=readJoystick();
@@ -72,7 +35,6 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                             simpleMapToArray(playingField);
                             (*lives) = 3; // Can be set later on?
-                            lvl1(10, 10, playingField, bricks, lives);
                             break;
                         // Level
                         case 2:
@@ -111,21 +73,21 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
                         // Difficulty Easy
                         case 1:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-                            *menuSettings |= (0x0001 << 2);
+                            (*menuSettings) |= (0x0001 << 2);
                             menuTrack = 0;
                             selector = 1;
                             break;
                         // Difficulty Medium
                         case 2:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-                            *menuSettings |= (0x0001 << 3);
+                            (*menuSettings) |= (0x0001 << 3);
                             menuTrack = 0;
                             selector = 1;
                             break;
                         // Difficulty Hard
                         case 3:
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-                            *menuSettings |= (0x0001 << 4);
+                            (*menuSettings) |= (0x0001 << 4);
                             menuTrack = 0;
                             selector = 1;
                             break;
@@ -192,6 +154,64 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],in
         }
         *testCount = *testCount +1;
     }
+}
+
+void interpretMenuSettings(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32], uint8_t menuSettings, uint8_t * menuSettingsCheck, uint8_t *bricks) {
+    if ((menuSettings & 0x04) == 0x04 && ((*menuSettingsCheck) & 0x04) != 0x04) { // Easy
+        setSpeed(10);
+        drawLevel(playingField, 34, 2, 10, 7, bricks);
+        (*menuSettingsCheck) |= 0x04;
+    } else if ((menuSettings & 0x08) == 0x08 && ((*menuSettingsCheck) & 0x08) != 0x08) { // Medium
+        setSpeed(5);
+        drawLevel(playingField, 25, 2, 16, 7, bricks);
+        (*menuSettingsCheck) |= 0x08;
+    } else if ((menuSettings & 0x10) == 0x10 && ((*menuSettingsCheck) & 0x10) != 0x10) { // Hard
+        setSpeed(2);
+        drawLevel(playingField, 16, 2, 22, 7, bricks);
+        (*menuSettingsCheck) |= 0x10;
+    }
+}
+
+void drawSonicLoser(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
+    if (*sonicCount == 1){
+        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+        sonicAni1(playingField, 70,0);
+        drawChangeInArray(playingField, oldPlayingField);
+        convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
+    }
+    else if(*sonicCount == 2){
+        memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+        sonicAni1Loser(playingField, 70,0);
+        drawChangeInArray(playingField, oldPlayingField);
+        convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
+    }
+}
+
+void drawSonicWinner(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *sonicCount){
+    if (*sonicCount == 1){
+        //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+        sonicAni1(playingField, 70,0);
+        drawChangeInArray(playingField, oldPlayingField);
+        convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
+    }
+    else if(*sonicCount == 2){
+        //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+        sonicAni2(playingField, 70,0);
+        drawChangeInArray(playingField, oldPlayingField);
+        convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
+    }
+    else if(*sonicCount == 3){
+        //memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
+        sonicAni4(playingField, 70,0);
+        drawChangeInArray(playingField, oldPlayingField);
+        convertArrayToBuffer(playingField);
+        lcd_push_buffer(lcdArray);
+    }
+
 }
 
 void clearPartOfArray(uint8_t playingField[128][32], uint8_t x1, uint8_t y1, uint8_t x2, uint8_t y2) {
@@ -371,7 +391,7 @@ void startMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCou
 
 }
 
-void blinkSelect(int8_t maxWindows, int8_t * selector){
+void blinkSelect(uint8_t maxWindows, uint8_t * selector){
 
     if((readJoystick()>>3)&1){
         *selector = *selector + 1;

@@ -6,13 +6,18 @@
 #include <string.h>
 #include "charset.h"
 #include "30010_io.h"
+#include "ansi.h"
+#include "ball.h"
+#include "timer.h"
 
 #define BLOCK 219
+void drawLevel(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t bricksx, uint8_t bricksy, uint8_t *bricks);
 
-void menuTree(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], int8_t *menuSettings, uint16_t *testCount,  uint8_t *bricks, uint8_t *lives);
+void menuTree(uint8_t playingField[128][32],uint8_t oldPlayingField[128][32], uint8_t *menuSettings, uint16_t *testCount, uint8_t *lives);
+void interpretMenuSettings(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32], uint8_t menuSettings, uint8_t * menuSettingsCheck,  uint8_t *bricks);
 
 void simpleMapToArray(uint8_t playingField[128][32]);
-void blinkSelect(int8_t maxWindows, int8_t *selector);
+void blinkSelect(uint8_t maxWindows, uint8_t *selector);
 void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, int8_t y2,int8_t val, int8_t selector, uint16_t *testCount);
 void modeMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack);
 void levelMenu(uint8_t playingField[128][32], int8_t selector, uint16_t *testCount, uint8_t *menuTrack);

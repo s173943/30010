@@ -1,6 +1,4 @@
 #include "ball.h"
-#include "lcd.h"
-#include "pin_io.h"
 
 void initVector(struct vector_t *v, int32_t x, int32_t y) {
     v->x = x << FIX14_SHIFT;
@@ -24,16 +22,7 @@ void removeBall(struct ball_t *b) {
     printf(" ");
 }
 
-void lvl1(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bricks, uint8_t *lives){
-    for(int8_t i = x; i<60; i+=3){
-        for(int8_t j = y; j<20; j+=4){
-            drawBrick(i, j, playingField, bricks);
-            (*bricks)++;
-        }
-    }
-}
-
-void drawBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bricks){
+void drawBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32]){
     uint8_t vChar, hChar, dlcChar, drcChar, tlcChar, trcChar;
     vChar = 179;
     hChar = 196;
