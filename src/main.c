@@ -37,16 +37,22 @@ void copyArray(uint8_t * playingField, uint8_t * oldPlayingField) {
 int main(void){
         uint16_t bgMusicState = 0;
         uint8_t bricks, lives, score = 0;
+        uint8_t balls = 1;
         struct ball_t b;
+        struct ball_t c;
+        struct powerUp_t p;
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
         int8_t menuSettings = 0;
+        srand(time(NULL));
 
         init_usb_uart( 115200 ); // Initialize USB serial at 115200 baud
         init_spi_lcd(); // Init spi lcd
         setupLCD();
 
         initBall(&b, 10, 5, 1, 1, 0);
+        initBall(&c, 10, 5, 1, 1, 3);
+        initPowerUp(&p, 0, 0, 0); //resetter poweruppen
         //initBall(&c, 80, 6, -1, -1);
 
         clrscr(); // Clear putty terminal
@@ -65,15 +71,22 @@ int main(void){
 
         soundMode = 0;
 
-        while (1) {
+        while(1){
             if (updateLCD == 1){
                 // Will hang in menu till play is pressed
                 menuTree(playingField,oldPlayingField, &menuSettings, &testCount, &bricks, &lives);
                 // Update player and ball
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
-                updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score);
+                removeBallFromArray(&c, playingField);
+                removePowerUpFromArray(&p, playingField);
+                updatePosition(&b, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls);
+                updatePosition(&c, 1, 1, 99, 31, playingField, &bricks, &lives, &score, &p, &balls);
+                powerUpdate(&p, 1, 99, &b, &c, playingField, &balls);
+                //powerUpdate(&p, 1, 99, &c, playingField, &balls);
+                powerToArray(&p, playingField);
                 ballToArray(&b, playingField);
+                ballToArray(&c, playingField);
                 livesToArray(playingField, 102, 17, lives);
                 scoreToArray(playingField, 102, 0, score);
                 // Draw change in array and push buffer
