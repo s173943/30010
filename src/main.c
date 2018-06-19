@@ -61,9 +61,10 @@ int main(void){
 
         while (1) {
             if (updateLCD == 1){
-                // Will hang in menu till play is pressed
+                // Will hang in menu till play is pressed, then draw map and stuff
                 menuTree(playingField,oldPlayingField, &menuSettings, &testCount, &lives);
                 interpretMenuSettings(playingField, oldPlayingField, menuSettings, &menuSettingsCheck, &bricks);
+
                 // Update player and ball
                 updatePlayer(playingField);
                 removeBallFromArray(&b, playingField);
@@ -71,14 +72,18 @@ int main(void){
                 ballToArray(&b, playingField);
                 livesToArray(playingField, 102, 17, lives);
                 scoreToArray(playingField, 102, 0, score);
+
                 // Draw change in array and push buffer
                 drawChangeInArray(playingField, oldPlayingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
+
                 // Copy array into oldArray, for comparison
                 copyArray(*playingField, *oldPlayingField);
+
                 // Cycle background music
                 speakerBGMusic(&bgMusicState, soundMode);
+
                 // Prepare for next update
                 updateLCD = 0;
             }

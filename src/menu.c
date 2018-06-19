@@ -12,8 +12,7 @@ void drawLevel(uint8_t playingField[128][32], uint8_t x, uint8_t y, uint8_t bric
 }
 
 void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],uint8_t *menuSettings, uint16_t *testCount, uint8_t *lives){
-    uint8_t x, oldx, menuTrack = 0;
-    uint8_t selector = 1;
+    uint8_t x, oldx, menuTrack = 0, selector = 1;
 
     while(((*menuSettings >> 0) & 1) == 0){
         x=readJoystick();
@@ -33,7 +32,7 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
                         case 1:
                             *menuSettings |= (0x0001 << 0);
                             memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-                            simpleMapToArray(playingField);
+                            simpleMapToArray(playingField); // Draw edges
                             (*lives) = 3; // Can be set later on?
                             break;
                         // Level
