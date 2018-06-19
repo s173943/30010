@@ -56,3 +56,8 @@ void TIM1_UP_TIM16_IRQHandler(void) {
 
     TIM1->SR &= ~0x0001;
 }
+/*
+void showStopWatch(){
+
+}
+*/

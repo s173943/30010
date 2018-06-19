@@ -50,5 +50,6 @@ void drawSonicWinner(uint8_t playingField[128][32], uint8_t oldPlayingField[128]
 void sonicAni1Loser(uint8_t a[128][32], uint8_t x, uint8_t y);
 
 void numberWrite(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t number);
-
+void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPlayingField[128][32]);
+void bossKey(uint8_t a[128][32], uint8_t x, uint8_t y);
 #endif
