@@ -162,7 +162,9 @@ void menuTree(uint8_t playingField[128][32], uint8_t oldPlayingField[128][32],ui
                 (*oldx) = x;
             }
         }
-        *testCount = *testCount +1;
+        if(updateLCD == 1){
+            *testCount = *testCount + 1;
+        }
     }
 }
 
@@ -217,6 +219,7 @@ void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPla
                 copyArray(*playingField, *oldPlayingField);
                 memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
                 setFreq(0);
+                clrscr();
                 *workorPay = 1;
             }
             (*oldx) = x;
@@ -230,8 +233,9 @@ void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPla
 
             if(x & (0x01 << 4) && (*oldx)!=x){
                 memset(playingField, 0x00, sizeof (uint8_t) * 128 * 32);
-                drawWindowFromArray(playingField);
+                clrscr();
                 copyArray(*oldPlayingField,*playingField);
+                drawWindowFromArray(playingField);
                 convertArrayToBuffer(playingField);
                 lcd_push_buffer(lcdArray);
                 *workorPay = 0;
@@ -459,7 +463,7 @@ void menuSquare(uint8_t playingField[128][32], int8_t x1, int8_t y1, int8_t x2, 
                 playingField[i][y2] = 95;
             }
         }
-        else if (*testCount == 60){
+        else if (*testCount >= 60){
             *testCount = 0;
         }
     }
