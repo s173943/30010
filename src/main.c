@@ -24,6 +24,7 @@
 #include <stdlib.h>
 #include "speaker.h"
 #include "menu.h"
+#include "bosskey.h"
 
 extern volatile struct timer_t stopWatch;
 extern uint8_t updateLCD;

@@ -51,8 +51,7 @@ void clearPartOfArray(uint8_t playingField[128][32], uint8_t x1, uint8_t y1, uin
 void copyArray(uint8_t * playingField, uint8_t * oldPlayingField);
 
 void numberWrite(uint8_t a[128][32], uint8_t x, uint8_t y, uint8_t number);
-void bossKeyEN(uint8_t *workorPay, uint8_t playingField[128][32], uint8_t oldPlayingField[128][32], uint8_t *oldx);
-void bossKey(uint8_t a[128][32], uint8_t x, uint8_t y);
+
 
 void helpscreen(uint8_t a[128][32], uint8_t x, uint8_t y);
 void charToArray(uint8_t a[128][32], uint8_t x, uint8_t y, char c);
