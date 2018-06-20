@@ -24,7 +24,6 @@ struct ball_t {
 
 void initVector(struct vector_t *v, int32_t x, int32_t y);
 void initBall(struct ball_t *b, int32_t x, int32_t y, int32_t vx, int32_t vy, uint8_t aliveOrDead);
-void drawBall(struct ball_t *b, uint8_t hx, uint8_t hy);
 void removeBall(struct ball_t *b);
 void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint8_t playingField[128][32], uint8_t *bricks, uint8_t *lives, uint8_t *score, struct powerUp_t *p, uint8_t *balls, uint8_t *menuSettings);
 void ballToArray(struct ball_t *b, uint8_t playingField[128][32]);
