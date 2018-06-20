@@ -19,5 +19,4 @@ void powerToArray(struct powerUp_t *p, uint8_t playingField[128][32]);
 void removePowerUpFromArray(struct powerUp_t *p, uint8_t playingField[128][32]);
 
 
-
 #endif /* POWERUP_H_INCLUDED */

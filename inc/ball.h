@@ -29,11 +29,10 @@ void removeBall(struct ball_t *b);
 void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint8_t playingField[128][32], uint8_t *bricks, uint8_t *lives, uint8_t *score, struct powerUp_t *p, uint8_t *balls, uint8_t *menuSettings);
 void ballToArray(struct ball_t *b, uint8_t playingField[128][32]);
 void removeBallFromArray(struct ball_t *b, uint8_t playingField[128][32]);
-<<<<<<< HEAD
+
 void updatePlayer(uint8_t a[128][32],uint16_t adc1,uint16_t adc2);
-void removePowerUpFromArray(struct powerUp_t *p, uint8_t playingField[128][32]);
-=======
-void updatePlayer(uint8_t a[128][32]);
->>>>>>> fuckup
+
+
+void updatePlayer(uint8_t a[128][32],uint16_t adc1,uint16_t adc2);
 
 #endif /* _BALL_H_ */

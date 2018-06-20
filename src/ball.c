@@ -341,7 +341,7 @@ void removeBallFromArray(struct ball_t *b, uint8_t playingField[128][32]) {
     }
 }
 
-<<<<<<< HEAD
+/*
 void removePowerUpFromArray(struct powerUp_t *p, uint8_t playingField[128][32]) {
     // Remove if it is alive
     if((p->vel)>0){
@@ -366,11 +366,9 @@ void removePowerUpFromArray(struct powerUp_t *p, uint8_t playingField[128][32]) 
         }
     }
 }
-
+*/
 void updatePlayer(uint8_t a[128][32],uint16_t adc1,uint16_t adc2){
-=======
-void updatePlayer(uint8_t a[128][32]){
->>>>>>> fuckup
+
     uint8_t i;
 
 
