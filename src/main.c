@@ -63,7 +63,7 @@ int main(void){
         setSpeed(10); // Initial update speed = 10 times per second
         TIM1->CR1 |= 0x0001; // Start timer
 
-        soundMode = 10; // Muted = 10, 0 = background music
+        soundMode = 0; // Muted = 10, 0 = background music
 
         while(1){
             if (updateLCD == 1){
