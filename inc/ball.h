@@ -14,7 +14,6 @@
 
 struct ball_t {
     struct vector_t pos, vel;
-    uint16_t hits;
     uint8_t state;
 };
 
