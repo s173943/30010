@@ -15,6 +15,9 @@
 #include "30010_io.h" // Input/output library for this course
 #include "ansi.h"
 #include "ball.h"
+#include "powerUp.h"
+#include "brick.h"
+
 #include "pin_io.h"
 #include "timer.h"
 #include <stdio.h>

@@ -1,5 +1,6 @@
 #include "ball.h"
 
+
 void initVector(struct vector_t *v, int32_t x, int32_t y) {
     v->x = x << FIX14_SHIFT;
     v->y = y << FIX14_SHIFT;
@@ -11,35 +12,8 @@ void initBall(struct ball_t *b, int32_t x, int32_t y, int32_t vx, int32_t vy, ui
     (b->state) = aliveOrDead;
 }
 
-void initPowerUp(struct powerUp_t *p, int32_t x, int32_t y, int8_t leftOrRight){
-    uint8_t random;
-    random = rand() % 3 + 1;
-    p->x = x;
-    p->y = y;
-    p->vel = leftOrRight;
-    p->type = random;
-}
 
-void drawBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32]){
-    uint8_t vChar, hChar, dlcChar, drcChar, tlcChar, trcChar;
-    vChar = 179;
-    hChar = 196;
-    tlcChar = 218;
-    trcChar = 191;
-    dlcChar = 192;
-    drcChar = 217;
 
-    playingField[x][y] = tlcChar;
-    playingField[x+1][y] = hChar;
-    playingField[x+2][y] = trcChar;
-    playingField[x][y+1] = vChar;
-    playingField[x+2][y+1] = vChar;
-    playingField[x][y+2] = vChar;
-    playingField[x+2][y+2] = vChar;
-    playingField[x][y+3] = dlcChar;
-    playingField[x+1][y+3] = hChar;
-    playingField[x+2][y+3] = drcChar;
-}
 
 void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_t y2, uint8_t playingField[128][32], uint8_t *bricks, uint8_t *lives, uint8_t *score, struct powerUp_t *p, uint8_t *balls, uint8_t *menuSettings){
     int32_t cx, cy, len;
@@ -346,96 +320,8 @@ void updatePosition(struct ball_t *b, int32_t x1, int32_t y1, int32_t x2, int32_
     }
 }
 
-void removeBrick(uint8_t x, uint8_t y, uint8_t playingField[128][32], uint8_t *bricks, struct powerUp_t *p, int8_t powerUpLeftOrRight, uint8_t *score) {
-    uint8_t i, j, random ;
-    random = rand() % 5 + 1;
-    if(random == 1){
-        initPowerUp(p, x+1, y+1, powerUpLeftOrRight);
-    }
-    for(i = x; i < x+3; i++){
-        for(j = y; j < y+4; j++){
-            playingField[i][j] = 0;
-        }
-    }
-    (*bricks)--;
-    (*score)++;
-}
 
-void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, struct ball_t *c, struct ball_t *d, struct ball_t *e, struct ball_t *f, uint8_t playingField[128][32], uint8_t *balls){
-    uint8_t q, strikerRight, strikerLeft;
-    // If p velocity is not 0 it is alive and should be updated
-    if(p->vel != 0){
-        if(p->x > x1+1 && p->x < x2+1){
-            if((p->vel)>0){
-                (p->x)++;
-            }else{
-                (p->x)--;
-            }
-        }else{
-            if((p->vel)>0){
-                for(q=1; q<32; q++){
-                    if (playingField[100][q] == 179){
-                        strikerRight = q;
-                        break;
-                    }
-                }
-                // If within striker
-                if(p->y > strikerRight && p->y < strikerRight+10){
-                    // if less than 5 balls add 1
-                    if(*balls<5){
-                        (*balls)++;
-                    }
-                    // Find first "available" and init it
-                    if(b->state == 3){
-                        initBall(b, x2+1, 5+strikerRight, 0, 0, 1);
-                    }else if(c->state == 3){
-                        initBall(c, x2+1, 5+strikerRight, 0, 0, 1);
-                    }else if(d->state == 3){
-                        initBall(d, x2+1, 5+strikerRight, 0, 0, 1);
-                    }else if(e->state == 3){
-                        initBall(e, x2+1, 5+strikerRight, 0, 0, 1);
-                    }else if(f->state == 3){
-                        initBall(f, x2+1, 5+strikerRight, 0, 0, 1);
-                    }
-                }
-                initPowerUp(p, 5, 5, 0);
-                playingField[p->x-1][p->y-1] = 0;
-                playingField[p->x][p->y] = 0;
-                playingField[p->x-1][p->y+1] = 0;
-            }else{
-                for(q=1; q<32; q++){
-                    if (playingField[0][q] == 179){
-                        strikerLeft = q;
-                        break;
-                    }
-                }
-                // If within striker
-                if(p->y > strikerLeft && p->y < strikerLeft+10){
-                    // if less than 5 balls add 1
-                    if(*balls<5){
-                        (*balls)++;
-                    }
-                    // Find first "available" and init it
-                    if(b->state == 3){
-                        initBall(b, x1+1, 5+strikerLeft, 0, 0, 0);
-                    }else if(c->state == 3){
-                        initBall(c, x1+1, 5+strikerLeft, 0, 0, 0);
-                    }else if(d->state == 3){
-                        initBall(d, x1+1, 5+strikerLeft, 0, 0, 0);
-                    }else if(e->state == 3){
-                        initBall(e, x1+1, 5+strikerLeft, 0, 0, 0);
-                    }else if(f->state == 3){
-                        initBall(f, x1+1, 5+strikerLeft, 0, 0, 0);
-                    }
-                }
-                initPowerUp(p, 5, 5, 0);
-                playingField[p->x+1][p->y-1] = 0;
-                playingField[p->x][p->y] = 0;
-                playingField[p->x+1][p->y+1] = 0;
-            }
-        }
-    }
-}
+
 
 void ballToArray(struct ball_t *b, uint8_t playingField[128][32]){
     if(b->state != 3){ //If the ball isnt perma-dead
@@ -445,64 +331,13 @@ void ballToArray(struct ball_t *b, uint8_t playingField[128][32]){
     }
 }
 
-void powerToArray(struct powerUp_t *p, uint8_t playingField[128][32]){
-    // Draw the powerup if its alive (vel over 0)
-    // only draw it where nothing else is, to prevent problems
-    if(p->vel != 0){
-        if((p->vel)>0){
-            if(playingField[p->x-1][p->y-1] == 0){
-                playingField[p->x-1][p->y-1] = 92;
-            }
-            if(playingField[p->x][p->y] == 0){
-                playingField[p->x][p->y] = 62;
-            }
-            if(playingField[p->x-1][p->y+1] == 0){
-                playingField[p->x-1][p->y+1] = 47;
-            }
-        }else{
-            if(playingField[p->x+1][p->y-1] == 0){
-                playingField[p->x+1][p->y-1] = 47;
-            }
-            if(playingField[p->x][p->y] == 0){
-                playingField[p->x][p->y] = 60;
-            }
-            if(playingField[p->x+1][p->y+1] == 0){
-                playingField[p->x+1][p->y+1] = 92;
-            }
-        }
-    }
-}
+
 
 void removeBallFromArray(struct ball_t *b, uint8_t playingField[128][32]) {
     // Remove ball, but make sure you dont remove it if something else is there
     // since it will remove that "something"
     if(playingField[(b->pos).x >> FIX14_SHIFT][(b->pos).y >> FIX14_SHIFT] == 111){
         playingField[(b->pos).x >> FIX14_SHIFT][(b->pos).y >> FIX14_SHIFT] = 0;
-    }
-}
-
-void removePowerUpFromArray(struct powerUp_t *p, uint8_t playingField[128][32]) {
-    // Remove if it is alive
-    if((p->vel)>0){
-        if(playingField[p->x-1][p->y-1] == 92){
-            playingField[p->x-1][p->y-1] = 0;
-        }
-        if(playingField[p->x][p->y] == 62){
-            playingField[p->x][p->y] = 0;
-        }
-        if(playingField[p->x-1][p->y+1] == 47){
-            playingField[p->x-1][p->y+1] = 0;
-        }
-    } else {
-        if(playingField[p->x+1][p->y-1] == 47){
-            playingField[p->x+1][p->y-1] = 0;
-        }
-        if(playingField[p->x][p->y] == 60){
-            playingField[p->x][p->y] = 0;
-        }
-        if(playingField[p->x+1][p->y+1] == 92){
-            playingField[p->x+1][p->y+1] = 0;
-        }
     }
 }
 
