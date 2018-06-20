@@ -37,7 +37,7 @@ void powerUpdate(struct powerUp_t *p, uint8_t x1, uint8_t x2, struct ball_t *b, 
 void powerToArray(struct powerUp_t *p, uint8_t playingField[128][32]);
 void ballToArray(struct ball_t *b, uint8_t playingField[128][32]);
 void removeBallFromArray(struct ball_t *b, uint8_t playingField[128][32]);
-void updatePlayer(uint8_t a[128][32]);
+void updatePlayer(uint8_t a[128][32],uint16_t adc1,uint16_t adc2);
 void removePowerUpFromArray(struct powerUp_t *p, uint8_t playingField[128][32]);
 
 #endif /* _BALL_H_ */

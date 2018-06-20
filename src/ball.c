@@ -506,11 +506,10 @@ void removePowerUpFromArray(struct powerUp_t *p, uint8_t playingField[128][32]) 
     }
 }
 
-void updatePlayer(uint8_t a[128][32]){
+void updatePlayer(uint8_t a[128][32],uint16_t adc1,uint16_t adc2){
     uint8_t i;
-    uint16_t adc1, adc2;
-    adc1 = FIX14_MULT(FIX14_DIV(readADC1(),4096),(PLAYERMAX));
-    adc2 = FIX14_MULT(FIX14_DIV(readADC2(),4096),(PLAYERMAX));
+
+
 
     // Remove everything in the player line.
     for (i = 1; i < 31; i++) {

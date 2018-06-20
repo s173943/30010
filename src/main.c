@@ -33,7 +33,7 @@ int main(void){
         uint8_t playingField[128][32], oldPlayingField[128][32], soundMode;
         uint16_t testCount = 0;
         uint8_t menuSettings = 0x04, menuSettingsCheck = 0, workorPlay = 0;
-
+        uint16_t adc1,adc2;
         init_usb_uart( 460800 ); // Initialize USB serial at 115200 baud
         init_spi_lcd(); // Init spi lcd
         setupLCD();
@@ -63,13 +63,16 @@ int main(void){
 
         while(1){
             if (updateLCD == 1){
+
+                adc1 = FIX14_MULT(FIX14_DIV(readADC1(),4096),(PLAYERMAX));
+                adc2 = FIX14_MULT(FIX14_DIV(readADC2(),4096),(PLAYERMAX));
                 // Will hang in menu till play is pressed, then draw map and stuff
                 menuTree(playingField,oldPlayingField, &menuSettings, &menuSettingsCheck, &testCount, &lives, &score, &oldJoy);
                 interpretMenuSettings(playingField, oldPlayingField, menuSettings, &menuSettingsCheck, &bricks);
                 bossKeyEN(&workorPlay,playingField,oldPlayingField, &oldJoy);
 
                 // Update player
-                updatePlayer(playingField);
+                updatePlayer(playingField,adc1,adc2);
 
                 // Remove balls and powerup
                 removeBallFromArray(&b, playingField); // Could be made smaller with a function + loop
